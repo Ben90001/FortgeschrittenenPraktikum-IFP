@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.bovinelabs.analyzers": {
+      "version": "https://github.com/tertle/com.bovinelabs.analyzers.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "708fb1939a2f0e510354eb3faec76d936915da6f"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.3",
       "depth": 1,
