@@ -73,3 +73,6 @@ crashlytics-build.properties
 
 # Package DLLs
 /RoslynAnalyzers/*.dll
+
+# added by ben 
+/Assets/TextMesh*
