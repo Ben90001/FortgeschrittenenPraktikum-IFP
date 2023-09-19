@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LevelInfo : MonoBehaviour
 {
+    public Wave[] Waves;
+
     [HideInInspector]
     public Transform[] Waypoints;
 
