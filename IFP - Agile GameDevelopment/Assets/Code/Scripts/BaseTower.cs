@@ -10,7 +10,8 @@ public abstract class BaseTower : MonoBehaviour
     private float secondsBetweenActions;
     private float damage;
     private float nextActionTime;
-    private Bullet bullet;
+
+    // private Bullet bullet;
     private Color bulletColor;
     private Transform bulletSpawnPosition;
     private Transform target;
