@@ -3,7 +3,9 @@
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1028" Action="None" />
     <Rule Id="SA1101" Action="None" />
+    <Rule Id="SA1133" Action="None" />
     <Rule Id="SA1401" Action="None" />
+    <Rule Id="SA1512" Action="None" />
     <Rule Id="SA1600" Action="None" />
     <Rule Id="SA1633" Action="None" />
   </Rules>
