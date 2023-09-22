@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
 {
@@ -13,6 +14,13 @@ public class LevelManager : MonoBehaviour
 
     public float TimeBetweenSpawns = 10.0f;
 
+    // TODO: Move to BuildManager
+    // TOOD: Support handling tiles differently
+
+    public TileBase Grass;
+    public TileBase Mountain;
+    public TileBase Path;
+
     private LevelInfo levelInfo;
     
     private Transform[] path;
@@ -20,6 +28,8 @@ public class LevelManager : MonoBehaviour
     private Transform spawnPoint;
 
     private float spawnTimer = 0.0f;
+
+    private Tilemap tilemap;
 
     public void Awake()
     {
@@ -32,6 +42,24 @@ public class LevelManager : MonoBehaviour
         path = ExtractPathFromLevel(Level);
 
         spawnPoint = path[0];
+
+        tilemap = Level.GetComponentInChildren<Tilemap>();
+    }
+
+    public void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int mouseTilePosition = tilemap.WorldToCell(mouseWorldPosition);
+
+            TileBase tile = tilemap.GetTile(mouseTilePosition);
+
+            if (tile == Grass)
+            {
+                Debug.Log(tilemap.origin);
+            }
+        }
     }
 
     public void FixedUpdate()
