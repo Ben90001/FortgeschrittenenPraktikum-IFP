@@ -152,7 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 924883d1b87e6c44fb0ed0215eec2b9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadedLevel: {fileID: 0}
+  Level: {fileID: 6549152391584487370, guid: 58c9797efb55ad9458f58511c6979710, type: 3}
+  Enemy: {fileID: 5164373463897866233, guid: ea6bbb906a16358448e8603f08f90fe4, type: 3}
+  TimeBetweenSpawns: 10
 --- !u!4 &966348541
 Transform:
   m_ObjectHideFlags: 0
