@@ -43,8 +43,12 @@ public class LevelManager : MonoBehaviour
         if (spawnTimer < 0)
         {
             spawnTimer += TimeBetweenSpawns;
+            
+            GameObject enemyObject = Instantiate(Enemy, spawnPoint.position, Quaternion.identity);
 
-            Instantiate(Enemy, spawnPoint.position, Quaternion.identity);
+            Enemy enemy = enemyObject.GetComponent<Enemy>();
+
+            enemy.Path = path;
         }
     }
 
