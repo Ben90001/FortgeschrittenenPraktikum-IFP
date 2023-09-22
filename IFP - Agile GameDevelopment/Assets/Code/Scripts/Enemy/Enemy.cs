@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
 
     public void FixedUpdate()
     {
-        bool reachedEnd = followPath();
+        bool reachedEnd = FollowPath();
 
         if (reachedEnd)
         {
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private bool followPath()
+    private bool FollowPath()
     {
         bool reachedEnd = false;
 
