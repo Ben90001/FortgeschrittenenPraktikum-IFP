@@ -9,14 +9,17 @@ public class LevelManager : MonoBehaviour
 
     public GameObject Level;
 
+    public GameObject Enemy;
+
+    public float TimeBetweenSpawns = 10.0f;
+
     private LevelInfo levelInfo;
     
     private Transform[] path;
 
     private Transform spawnPoint;
 
-    private float timeBetweenSpawns;
-    private float spawnTimer;
+    private float spawnTimer = 0.0f;
 
     public void Awake()
     {
@@ -39,11 +42,9 @@ public class LevelManager : MonoBehaviour
 
         if (spawnTimer < 0)
         {
-            spawnTimer += timeBetweenSpawns;
+            spawnTimer += TimeBetweenSpawns;
 
-            // TODO: Spawn enemy
-
-            Debug.Log("Spawn Enemy!");
+            Instantiate(Enemy, spawnPoint.position, Quaternion.identity);
         }
     }
 
