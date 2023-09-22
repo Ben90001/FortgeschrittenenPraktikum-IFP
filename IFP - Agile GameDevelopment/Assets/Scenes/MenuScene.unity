@@ -3560,8 +3560,28 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1016330351}
+    - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelSelection, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: GameScene
       objectReference: {fileID: 0}
     - target: {fileID: 5896060469440766279, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_Name
