@@ -13,6 +13,11 @@ public class LevelManager : MonoBehaviour
     
     private Transform[] path;
 
+    private Transform spawnPoint;
+
+    private float timeBetweenSpawns;
+    private float spawnTimer;
+
     public void Awake()
     {
         levelInfo = Level.GetComponent<LevelInfo>();
@@ -22,6 +27,24 @@ public class LevelManager : MonoBehaviour
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
 
         path = ExtractPathFromLevel(Level);
+
+        spawnPoint = path[0];
+    }
+
+    public void FixedUpdate()
+    {
+        // TODO: Move logic to EnemySpawner when implemented
+
+        spawnTimer -= Time.deltaTime;
+
+        if (spawnTimer < 0)
+        {
+            spawnTimer += timeBetweenSpawns;
+
+            // TODO: Spawn enemy
+
+            Debug.Log("Spawn Enemy!");
+        }
     }
 
     private static Transform[] ExtractPathFromLevel(GameObject level)
