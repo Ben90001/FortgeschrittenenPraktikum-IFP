@@ -55,7 +55,7 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets up the camera to to center on and show the entire gameplayArea of level.
+    /// Sets up the camera to center on and show the entire gameplayArea of level.
     /// </summary>
     private static void FocusCameraOnGameplayArea(Camera camera, Bounds gameplayArea)
     {
