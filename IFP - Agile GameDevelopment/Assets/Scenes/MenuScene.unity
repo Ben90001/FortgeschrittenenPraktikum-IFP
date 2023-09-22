@@ -2464,6 +2464,7 @@ GameObject:
   - component: {fileID: 1016330349}
   - component: {fileID: 1016330348}
   - component: {fileID: 1016330347}
+  - component: {fileID: 1016330351}
   m_Layer: 5
   m_Name: LevelSelectionCanvas
   m_TagString: Untagged
@@ -2556,6 +2557,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1016330351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016330346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa33f22b841626848b4a9cbaa46d2a5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1035363683
 GameObject:
   m_ObjectHideFlags: 0
@@ -3541,6 +3554,14 @@ PrefabInstance:
     - target: {fileID: 2353528176190258369, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5896060469440766279, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_Name
