@@ -38,7 +38,7 @@ public class LevelManager : MonoBehaviour
     {
         // TODO: Move logic to EnemySpawner when implemented
 
-        spawnTimer -= Time.deltaTime;
+        spawnTimer -= Time.fixedDeltaTime;
 
         if (spawnTimer < 0)
         {
