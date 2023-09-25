@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
 
     private Tilemap tilemap;
 
-    private Dictionary<Vector2Int, GameObject> towers;
+    private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
     public void Awake()
     {
@@ -52,8 +52,6 @@ public class LevelManager : MonoBehaviour
         spawnPoint = path[0];
 
         tilemap = loadedLevel.GetComponentInChildren<Tilemap>();
-
-        towers = new Dictionary<Vector2Int, GameObject>();
     }
 
     public void Update()
