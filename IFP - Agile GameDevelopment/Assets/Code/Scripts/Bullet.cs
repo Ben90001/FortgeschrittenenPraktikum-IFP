@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour
     {
         // TODO: How should bullets react when the target is destroyed before it could be reached?
 
-        if (Target != null && !Target.IsDestroyed())
+        if (Target != null && Target.gameObject != null)
         {
             Vector3 targetPosition = Target.transform.position;
             Vector3 currentPosition = transform.position;
