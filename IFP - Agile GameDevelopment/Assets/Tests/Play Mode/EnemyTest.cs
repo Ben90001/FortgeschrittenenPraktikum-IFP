@@ -13,16 +13,26 @@ public class EnemyTests
         Enemy enemy = enemyObject.AddComponent<Enemy>();
 
         Transform waypoint1 = new GameObject("Waypoint1").transform;
+        waypoint1.position = new Vector3(0f, 0f, 0f);
         Transform waypoint2 = new GameObject("Waypoint2").transform;
+        waypoint2.position = new Vector3(1f, 0f, 0f);
 
         enemy.Path = new Transform[] { waypoint1, waypoint2 };
 
-        enemy.FixedUpdate(); // Simulate Fixed Update to trigger the movement
+        int maxIterations = 10000;
+        int iterations = 0;
 
-        // Check if the enemy has moved to the first waypoint
-        Assert.AreEqual(waypoint1.position, enemyObject.transform.position);
+        while (iterations < maxIterations)
+        {
+            enemy.FixedUpdate();
+            iterations++;
 
-        enemy.FixedUpdate();
+            // Check if the enemy has reached the waypoint and exit the loop
+            if (enemyObject.transform.position == waypoint2.position)
+            {
+                break;
+            }
+        }
 
         // Check if the enemy has moved to the second waypoint
         Assert.AreEqual(waypoint2.position, enemyObject.transform.position);
