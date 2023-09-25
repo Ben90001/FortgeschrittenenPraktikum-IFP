@@ -4,18 +4,31 @@ using UnityEngine;
 
 public class BasicTower : BaseTower
 {
-    private Transform firingPoint;
-    private float attackRate;
+    public GameObject BulletPrefab;
 
-    public override void TowerUpgrade()
+    private Enemy target;
+
+    protected override void TowerUpgrade()
     {
     }
 
-    public override void FixedUpdate()
+    protected override bool PerformAction()
     {
-    }
+        bool success = false;
 
-    protected override void PerformAction()
-    {
+        Enemy target = FindBestTarget(2.0f);
+
+        if (target != null)
+        {
+            GameObject bulletObject = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
+
+            Bullet bullet = bulletObject.GetComponent<Bullet>();
+
+            bullet.Target = target;
+
+            success = true;
+        }
+
+        return success;
     }
 }

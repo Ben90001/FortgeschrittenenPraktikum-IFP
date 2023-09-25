@@ -25,6 +25,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void ApplyDamage(float amount)
+    {
+        Health -= amount;
+
+        if (Health <= 0.0f)
+        {
+            // TODO: Handle destroyed enemy
+
+            Destroy(gameObject);
+        }
+    }
+
     private bool followPath()
     {
         bool reachedEnd = false;

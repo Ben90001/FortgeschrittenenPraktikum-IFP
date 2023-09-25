@@ -778,6 +778,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee82e5ef9958f4f4fb2ee09bfab0a590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SecondsBetweenActions: 0.5
+  BulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
 --- !u!61 &8191110929723841431
 BoxCollider2D:
   m_ObjectHideFlags: 0

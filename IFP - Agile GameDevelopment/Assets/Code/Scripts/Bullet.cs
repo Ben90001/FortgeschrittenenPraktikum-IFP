@@ -30,9 +30,10 @@ public class Bullet : MonoBehaviour
             }
             else
             {
-                // TOOD: Hit the enemy
+                // TODO: Add damage stats
 
-                Debug.Log("Hit Enemy");
+                Target.ApplyDamage(1.0f);
+
                 Destroy(gameObject);
             }
         }
