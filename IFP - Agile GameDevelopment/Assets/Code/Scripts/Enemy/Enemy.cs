@@ -9,9 +9,11 @@ public class Enemy : MonoBehaviour
 
     public float MovementSpeed = 2.0f;
 
+
     public float Health = 10.0f;
 
     private int nextTargetIndex;
+
 
     public void FixedUpdate()
     {
