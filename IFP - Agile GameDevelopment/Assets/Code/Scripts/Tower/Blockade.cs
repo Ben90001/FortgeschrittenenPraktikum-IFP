@@ -8,13 +8,10 @@ public class Blockade : BaseTower
 
     public override void TowerUpgrade()
     {
-        // Upgrade-Logik für die Blockade.
     }
 
     public override void FixedUpdate()
     {
-        // periodische Aktualisierungen der Blockade
-        // Überprüfung des Blockadezustands
     }
 
     public void TakeDamage(int damage)
@@ -32,19 +29,16 @@ public class Blockade : BaseTower
 
     public void ActivateBlockade()
     {
-        // Aktiviere die Blockade, z. B. ändere den Zustand und setze die Gesundheit zurück.
         this.isBlockadeActive = true;
         this.blockadeHealth = this.maxBlockadeHealth;
     }
 
     public void DeactivateBlockade()
     {
-        // Deaktiviere die Blockade, z. B. ändere den Zustand.
         this.isBlockadeActive = false;
     }
 
     protected override void PerformAction()
     {
-        // Blockade hat keine spezielle Aktion, da sie nicht angreift.
     }
 }

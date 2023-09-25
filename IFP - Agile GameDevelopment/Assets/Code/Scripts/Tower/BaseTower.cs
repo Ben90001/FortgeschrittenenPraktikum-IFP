@@ -12,6 +12,7 @@ public abstract class BaseTower : MonoBehaviour
     private float nextActionTime;
 
     // private Bullet bullet;
+
     private Color bulletColor;
     private Transform bulletSpawnPosition;
     private Transform target;
@@ -22,14 +23,13 @@ public abstract class BaseTower : MonoBehaviour
 
     protected virtual void FindBestTarget()
     {
-        // Logik zum Finden des besten Ziels.
-        // Auswahl des nächsten Feindes im Zielbereich sein.
+        // find best target
     }
 
     protected abstract void PerformAction();
 
     private void OnDrawGizmosSelected()
     {
-        // Zeige visuelle range in der Unity-Szene an, wenn der Turm ausgewählt ist.
+        // visualize range in unity editor
     }
 }
