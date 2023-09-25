@@ -12,14 +12,20 @@ public class LevelManager : MonoBehaviour
 
     public GameObject Enemy;
 
-    public float TimeBetweenSpawns = 10.0f;
-
     // TODO: Move to BuildManager
     // TOOD: Support handling tiles differently
 
     public TileBase Grass;
     public TileBase Mountain;
     public TileBase Path;
+
+    // TODO: Handle tower references differently
+
+    public GameObject Tower;
+
+    public float TimeBetweenSpawns = 10.0f;
+
+    private GameObject loadedLevel;
 
     private LevelInfo levelInfo;
     
@@ -31,19 +37,23 @@ public class LevelManager : MonoBehaviour
 
     private Tilemap tilemap;
 
+    private Dictionary<Vector2Int, GameObject> towers;
+
     public void Awake()
     {
-        levelInfo = Level.GetComponent<LevelInfo>();
+        loadedLevel = LoadLevel(Level);
 
-        LoadLevel(Level);
+        levelInfo = loadedLevel.GetComponent<LevelInfo>();
 
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
 
-        path = ExtractPathFromLevel(Level);
+        path = ExtractPathFromLevel(loadedLevel);
 
         spawnPoint = path[0];
 
-        tilemap = Level.GetComponentInChildren<Tilemap>();
+        tilemap = loadedLevel.GetComponentInChildren<Tilemap>();
+
+        towers = new Dictionary<Vector2Int, GameObject>();
     }
 
     public void Update()
@@ -57,7 +67,18 @@ public class LevelManager : MonoBehaviour
 
             if (tile == Grass)
             {
-                Debug.Log(tilemap.origin);
+                Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
+
+                GameObject tower = towers.GetValueOrDefault(tileKey);
+
+                if (tower == null)
+                {
+                    Vector3 towerPosition = new Vector3(tileKey.x + 0.5f, tileKey.y + 0.5f, 0);
+
+                    GameObject towerObject = Instantiate(Tower, towerPosition, Quaternion.identity);
+
+                    towers.Add(tileKey, towerObject);
+                }
             }
         }
     }
@@ -103,11 +124,13 @@ public class LevelManager : MonoBehaviour
         return result;
     }
 
-    private static void LoadLevel(GameObject level)
+    private static GameObject LoadLevel(GameObject level)
     {
         Assert.IsNotNull(level);
 
-        Instantiate(level);
+        GameObject result = Instantiate(level);
+
+        return result;
     }
 
     /// <summary>
