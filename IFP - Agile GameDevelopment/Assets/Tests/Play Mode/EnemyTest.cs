@@ -4,7 +4,6 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-
 public class EnemyTests
 {
     [Test]
@@ -20,7 +19,7 @@ public class EnemyTests
 
         enemy.FixedUpdate(); // Simulate Fixed Update to trigger the movement
 
-        //Check if the enemy has moved to the first waypoint
+        // Check if the enemy has moved to the first waypoint
         Assert.AreEqual(waypoint1.position, enemyObject.transform.position);
 
         enemy.FixedUpdate();
@@ -28,6 +27,7 @@ public class EnemyTests
         // Check if the enemy has moved to the second waypoint
         Assert.AreEqual(waypoint2.position, enemyObject.transform.position);
     }
+
     [UnityTest]
     public IEnumerator Enemy_DestroyedWhenReachedEnd()
     {
@@ -45,7 +45,4 @@ public class EnemyTests
         // Check if the enemy has been destroyed
         Assert.IsTrue(enemyObject == null, "Der Feind wurde nicht zerstört.");
     }
-
-
-
 }
