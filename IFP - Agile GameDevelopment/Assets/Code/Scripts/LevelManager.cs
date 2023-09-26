@@ -97,7 +97,7 @@ public class LevelManager : MonoBehaviour
 
             Enemy enemy = enemyObject.GetComponent<Enemy>();
 
-            enemy.Path = path;
+            enemy.Initialize(this, path);
         }
     }
 

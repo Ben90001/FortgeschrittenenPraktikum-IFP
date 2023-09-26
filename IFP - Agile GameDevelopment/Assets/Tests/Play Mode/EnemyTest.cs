@@ -9,6 +9,8 @@ public class EnemyTests
     [Test]
     public void Enemy_FollowPath()
     {
+        LevelManager levelManger = new LevelManager();
+
         GameObject enemyObject = new GameObject();
         Enemy enemy = enemyObject.AddComponent<Enemy>();
 
@@ -17,7 +19,7 @@ public class EnemyTests
         Transform waypoint2 = new GameObject("Waypoint2").transform;
         waypoint2.position = new Vector3(1f, 0f, 0f);
 
-        enemy.Path = new Transform[] { waypoint1, waypoint2 };
+        enemy.Initialize(levelManger, new Transform[] { waypoint1, waypoint2 });
 
         int maxIterations = 10000;
         int iterations = 0;
@@ -63,17 +65,17 @@ public class EnemyTests
         Assert.IsTrue(enemyObject == null, "Der Feind wurde nicht nach 10 Treffern zerstört.");
     }
 
-
-
-
     [UnityTest]
     public IEnumerator Enemy_DestroyedWhenReachedEnd()
     {
+        LevelManager levelManger = new LevelManager();
+
         GameObject enemyObject = new GameObject();
         Enemy enemy = enemyObject.AddComponent<Enemy>();
 
         Transform waypoint1 = new GameObject("Waypoint1").transform;
-        enemy.Path = new Transform[] { waypoint1 };
+
+        enemy.Initialize(levelManger, new Transform[] { waypoint1 });
 
         enemy.FixedUpdate();
 
