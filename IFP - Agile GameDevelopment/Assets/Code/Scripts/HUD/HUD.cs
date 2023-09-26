@@ -22,6 +22,6 @@ public class HUD : MonoBehaviour
     {
         //TODO: update bestTry in PlayerInfo
 
-        GameObject.Find("DefeatScreen").SetActive(true);
+        DefeatScreen.SetActive(true);
     }
 }

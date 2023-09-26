@@ -58,6 +58,7 @@ public class LevelManager : MonoBehaviour
         spawnPoint = path[0];
 
         tilemap = loadedLevel.GetComponentInChildren<Tilemap>();
+
     }
 
     public void Update()
@@ -111,7 +112,7 @@ public class LevelManager : MonoBehaviour
 
         if (PlayerLives <= 0)
         {
-            HUD.ShowGameOverScreen(this.PlayerLives,this.bestTry);
+            this.HUD.ShowGameOverScreen(this.PlayerLives,this.bestTry);
         }
     }
 
