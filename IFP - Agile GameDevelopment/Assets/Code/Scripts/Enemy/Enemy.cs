@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     [HideInInspector]
     public Transform[] Path;
-
+    
     public float MovementSpeed = 2.0f;
 
 

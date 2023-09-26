@@ -37,6 +37,34 @@ public class EnemyTests
         // Check if the enemy has moved to the second waypoint
         Assert.AreEqual(waypoint2.position, enemyObject.transform.position);
     }
+    [UnityTest]
+    public IEnumerator Enemy_DestroyedAfterTenHits()
+    {
+       
+        GameObject enemyObject = new GameObject();
+        Enemy enemy = enemyObject.AddComponent<Enemy>();
+        enemy.Health = 10.0f; 
+
+       
+        GameObject bulletObject = new GameObject();
+        Bullet bullet = bulletObject.AddComponent<Bullet>();
+        bullet.Target = enemy;
+
+        for (int i = 0; i < 10; i++)
+        {
+            
+            bullet.FixedUpdate();
+        }
+
+        
+        yield return null;
+
+        
+        Assert.IsTrue(enemyObject == null, "Der Feind wurde nicht nach 10 Treffern zerstört.");
+    }
+
+
+
 
     [UnityTest]
     public IEnumerator Enemy_DestroyedWhenReachedEnd()

@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour
     public void FixedUpdate()
     {
         // TODO: How should bullets react when the target is destroyed before it could be reached?
-
+        
         if (Target != null && Target.gameObject != null)
         {
             Vector3 targetPosition = Target.transform.position;
