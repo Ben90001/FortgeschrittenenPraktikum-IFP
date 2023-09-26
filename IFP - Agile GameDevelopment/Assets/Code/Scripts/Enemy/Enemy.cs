@@ -8,12 +8,15 @@ public class Enemy : MonoBehaviour
 
     public float Health = 10.0f;
 
+    private LevelManager levelManager;
+
     private Transform[] path;
 
     private int nextTargetIndex;
 
-    public void Initialize(Transform[] path)
+    public void Initialize(LevelManager levelManager, Transform[] path)
     {
+        this.levelManager = levelManager;
         this.path = path;
     }
 
