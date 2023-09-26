@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
 
     public GameObject Tower;
 
-    public float TimeBetweenSpawns = 10.0f;
+    public float TimeBetweenSpawns = 1.0f;
 
     private GameObject loadedLevel;
 
@@ -39,7 +39,11 @@ public class LevelManager : MonoBehaviour
 
     private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
-    private int PlayerLives = 10;
+    public int PlayerLives = 10; //only public for game design changes during development
+
+    private int bestTry;
+
+    public HUD HUD;
 
     public void Awake()
     {
@@ -103,11 +107,11 @@ public class LevelManager : MonoBehaviour
 
     public void DecreasePlayerLives()
     {
-        PlayerLives -= PlayerLives;
+        PlayerLives --;
 
         if (PlayerLives <= 0)
         {
-            //TODO: call GameOverScreen in HUD
+            HUD.ShowGameOverScreen(this.PlayerLives,this.bestTry);
         }
     }
 

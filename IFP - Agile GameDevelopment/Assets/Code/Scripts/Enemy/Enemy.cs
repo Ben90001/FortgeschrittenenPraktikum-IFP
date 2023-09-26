@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float MovementSpeed = 1.0f;
+    public float MovementSpeed = 10.0f;
 
-    public float Health = 10.0f;
+    public float Health;
 
     private LevelManager levelManager;
 
@@ -26,8 +26,7 @@ public class Enemy : MonoBehaviour
 
         if (reachedEnd)
         {
-            //LevelManager.DecreasePlayerLives();
-            //fix by instanciating enemies with LevelManager Reference
+            levelManager.DecreasePlayerLives();
 
             Destroy(gameObject);
         }

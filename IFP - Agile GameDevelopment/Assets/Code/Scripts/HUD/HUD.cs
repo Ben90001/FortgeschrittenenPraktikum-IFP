@@ -5,7 +5,7 @@ using UnityEngine;
 public class HUD : MonoBehaviour
 {
 
-    private GameObject DefeatScreen;
+    public GameObject DefeatScreen;
 
     void Start()
     {
@@ -22,6 +22,6 @@ public class HUD : MonoBehaviour
     {
         //TODO: update bestTry in PlayerInfo
 
-        DefeatScreen.SetActive(true);
+        GameObject.Find("DefeatScreen").SetActive(true);
     }
 }
