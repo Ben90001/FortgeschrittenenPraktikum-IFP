@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [HideInInspector]
-    public Transform[] Path;
-    
-    public float MovementSpeed = 2.0f;
-
+    public float MovementSpeed = 1.0f;
 
     public float Health = 10.0f;
 
+    private Transform[] path;
+
     private int nextTargetIndex;
 
+    public void Initialize(Transform[] path)
+    {
+        this.path = path;
+    }
 
     public void FixedUpdate()
     {
@@ -49,9 +51,9 @@ public class Enemy : MonoBehaviour
 
         while (distanceToTravel > 0)
         {
-            if (nextTargetIndex < Path.Length)
+            if (nextTargetIndex < path.Length)
             {
-                Vector3 targetPosition = Path[nextTargetIndex].position;
+                Vector3 targetPosition = path[nextTargetIndex].position;
 
                 Vector3 delta = targetPosition - currentPosition;
 
