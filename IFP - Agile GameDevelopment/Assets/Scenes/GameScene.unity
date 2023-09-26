@@ -154,6 +154,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Level: {fileID: 6549152391584487370, guid: 58c9797efb55ad9458f58511c6979710, type: 3}
   Enemy: {fileID: 5164373463897866233, guid: ea6bbb906a16358448e8603f08f90fe4, type: 3}
+  Grass: {fileID: 11400000, guid: 59b0d7e782b852547b80233c2af21947, type: 2}
+  Mountain: {fileID: 11400000, guid: f16e47e594cf7494ca0cb290d203b891, type: 2}
+  Path: {fileID: 11400000, guid: f485cf78a2fdd464496cf7f99b2c4ab2, type: 2}
+  Tower: {fileID: 7596997370653839420, guid: cee633a70f02018419f108a6730fabc0, type: 3}
   TimeBetweenSpawns: 10
 --- !u!4 &966348541
 Transform:
