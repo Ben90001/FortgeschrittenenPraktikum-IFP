@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     public GameObject Enemy;
 
     // TODO: Move to BuildManager
-    // TOOD: Support handling tiles differently
+    // TODO: Support handling tiles differently
 
     public TileBase Grass;
     public TileBase Mountain;
@@ -38,6 +38,8 @@ public class LevelManager : MonoBehaviour
     private Tilemap tilemap;
 
     private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
+
+    private int PlayerLives = 10;
 
     public void Awake()
     {
@@ -96,6 +98,16 @@ public class LevelManager : MonoBehaviour
             Enemy enemy = enemyObject.GetComponent<Enemy>();
 
             enemy.Path = path;
+        }
+    }
+
+    public void DecreasePlayerLives()
+    {
+        PlayerLives -= PlayerLives;
+
+        if (PlayerLives <= 0)
+        {
+            //TODO: call GameOverScreen in HUD
         }
     }
 

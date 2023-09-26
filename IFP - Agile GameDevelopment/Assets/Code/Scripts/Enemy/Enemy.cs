@@ -17,11 +17,12 @@ public class Enemy : MonoBehaviour
 
     public void FixedUpdate()
     {
-        bool reachedEnd = followPath();
+        bool reachedEnd = FollowPath();
 
         if (reachedEnd)
         {
-            // TODO: Handle life points etc.
+            //LevelManager.DecreasePlayerLives();
+            //fix by instanciating enemies with LevelManager Reference
 
             Destroy(gameObject);
         }
@@ -34,12 +35,13 @@ public class Enemy : MonoBehaviour
         if (Health <= 0.0f)
         {
             // TODO: Handle destroyed enemy
+                // TODO: Handel Currency for Kill.
 
             Destroy(gameObject);
         }
     }
 
-    private bool followPath()
+    private bool FollowPath()
     {
         bool reachedEnd = false;
 
