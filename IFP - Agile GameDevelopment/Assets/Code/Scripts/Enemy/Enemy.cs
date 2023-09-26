@@ -14,10 +14,18 @@ public class Enemy : MonoBehaviour
 
     private int nextTargetIndex;
 
+    private Vector3 lastTargetPosition;
+    private Vector3 nextTargetPosition;
+
     public void Initialize(LevelManager levelManager, Transform[] path)
     {
         this.levelManager = levelManager;
         this.path = path;
+
+        this.transform.position = path[0].position;
+        this.nextTargetPosition = this.transform.position;
+        this.lastTargetPosition = this.nextTargetPosition;
+        this.nextTargetIndex = 0;
     }
 
     public void FixedUpdate()
@@ -54,35 +62,33 @@ public class Enemy : MonoBehaviour
 
         while (distanceToTravel > 0)
         {
-            if (nextTargetIndex < path.Length)
+            Vector3 delta = nextTargetPosition - currentPosition;
+
+            float distance = delta.magnitude;
+
+            if (distance > distanceToTravel)
             {
-                Vector3 targetPosition = path[nextTargetIndex].position;
+                delta *= distanceToTravel / distance;
 
-                Vector3 delta = targetPosition - currentPosition;
-
-                float distance = delta.magnitude;
-
-                if (distance > distanceToTravel)
-                {
-                    delta *= distanceToTravel / distance;
-
-                    distance = distanceToTravel;
-                }
-                else
-                {
-                    ++nextTargetIndex;
-                }
-
-                distanceToTravel -= distance;
-
-                currentPosition += delta;
+                distance = distanceToTravel;
             }
             else
             {
-                reachedEnd = true;
+                ++nextTargetIndex;
 
-                break;
+                lastTargetPosition = nextTargetPosition;
+                nextTargetPosition = path[nextTargetIndex].position;
+
+                Vector3 targetDelta = nextTargetPosition - lastTargetPosition;
+
+                Vector3 targetShift = targetDelta.normalized * Random.Range(-0.2f, 0.2f);
+
+                nextTargetPosition += targetShift;
             }
+
+            distanceToTravel -= distance;
+
+            currentPosition += delta;
         }
 
         transform.position = currentPosition;
