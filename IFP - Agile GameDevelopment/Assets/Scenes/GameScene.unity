@@ -158,7 +158,7 @@ MonoBehaviour:
   Mountain: {fileID: 11400000, guid: f16e47e594cf7494ca0cb290d203b891, type: 2}
   Path: {fileID: 11400000, guid: f485cf78a2fdd464496cf7f99b2c4ab2, type: 2}
   Tower: {fileID: 7596997370653839420, guid: cee633a70f02018419f108a6730fabc0, type: 3}
-  TimeBetweenSpawns: 10
+  TimeBetweenSpawns: 0.5
 --- !u!4 &966348541
 Transform:
   m_ObjectHideFlags: 0

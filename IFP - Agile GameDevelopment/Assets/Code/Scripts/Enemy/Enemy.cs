@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Properties;
+using UnityEditor;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -10,22 +13,30 @@ public class Enemy : MonoBehaviour
 
     private LevelManager levelManager;
 
-    private Transform[] path;
+    private Vector2[] path;
+
+    private Vector2 nextTargetPosition;
+
+    private float pathOffset;
 
     private int nextTargetIndex;
-
-    private Vector3 lastTargetPosition;
-    private Vector3 nextTargetPosition;
 
     public void Initialize(LevelManager levelManager, Transform[] path)
     {
         this.levelManager = levelManager;
-        this.path = path;
+        this.path = new Vector2[path.Length];
 
-        this.transform.position = path[0].position;
-        this.nextTargetPosition = this.transform.position;
-        this.lastTargetPosition = this.nextTargetPosition;
-        this.nextTargetIndex = 0;
+        for (int index = 0; index < path.Length; ++index)
+        {
+            this.path[index] = path[index].position;
+        }
+
+        pathOffset = UnityEngine.Random.Range(-0.3f, 0.3f);
+        nextTargetPosition = GetNextTargetPosition(this.path, nextTargetIndex, pathOffset);
+
+        ++nextTargetIndex;
+
+        transform.position = this.path[0] + Vector2.Perpendicular((this.path[1] - this.path[0]).normalized) * pathOffset;
     }
 
     public void FixedUpdate()
@@ -56,43 +67,84 @@ public class Enemy : MonoBehaviour
     {
         bool reachedEnd = false;
 
-        Vector3 currentPosition = transform.position;
+        Vector2 currentPosition = transform.position;
 
         float distanceToTravel = MovementSpeed * Time.fixedDeltaTime;
 
-        while (distanceToTravel > 0)
+        for (int iteration = 0; iteration < 3; ++iteration)
         {
-            Vector3 delta = nextTargetPosition - currentPosition;
-
-            float distance = delta.magnitude;
-
-            if (distance > distanceToTravel)
+            if (distanceToTravel >= 0.0f)
             {
-                delta *= distanceToTravel / distance;
+                Vector2 delta = nextTargetPosition - currentPosition;
 
-                distance = distanceToTravel;
+                float distance = delta.magnitude;
+
+                if (distance > distanceToTravel)
+                {
+                    delta *= distanceToTravel / distance;
+
+                    distance = distanceToTravel;
+                }
+                else
+                {
+                    if (nextTargetIndex + 1 < path.Length)
+                    {
+                        nextTargetPosition = GetNextTargetPosition(path, nextTargetIndex, pathOffset);
+
+                        ++nextTargetIndex;
+                    }
+                    else
+                    {
+                        reachedEnd = true;
+                    }
+                }
+
+                distanceToTravel -= distance;
+
+                currentPosition += delta;
             }
             else
             {
-                ++nextTargetIndex;
-
-                lastTargetPosition = nextTargetPosition;
-                nextTargetPosition = path[nextTargetIndex].position;
-
-                Vector3 targetDelta = nextTargetPosition - lastTargetPosition;
-
-                Vector3 targetShift = targetDelta.normalized * Random.Range(-0.2f, 0.2f);
-
-                nextTargetPosition += targetShift;
+                break;
             }
-
-            distanceToTravel -= distance;
-
-            currentPosition += delta;
         }
 
         transform.position = currentPosition;
 
         return reachedEnd;
+    }
+
+    private static int GetSignFromLastBit(int value)
+    {
+        int result = ((value << 31) >> 31) + (~value & 1);
+
+        return result;
+    }
+
+    private static Vector2 GetNextTargetPosition(Vector2[] path, int lastTargetIndex, float pathOffset)
+    {
+        Vector2 result = default(Vector2);
+
+        Vector2 waypoint0 = path[lastTargetIndex];
+
+        float directedPathOffset = GetSignFromLastBit(lastTargetIndex) * pathOffset;
+
+        if (lastTargetIndex + 1 < path.Length)
+        {
+            Vector2 waypoint1 = path[lastTargetIndex + 1];
+            Vector2 oldOffset = Vector2.Perpendicular((waypoint1 - waypoint0).normalized);
+
+            result = waypoint1 + directedPathOffset * oldOffset;
+
+            if (lastTargetIndex + 2 < path.Length)
+            {
+                Vector2 waypoint2 = path[lastTargetIndex + 2];
+                Vector2 newOffset = Vector2.Perpendicular((waypoint2 - waypoint1).normalized);
+
+                result -= directedPathOffset * newOffset;
+            }
+        }
+
+        return result;
     }
 }
