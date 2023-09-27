@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     public GameObject Enemy;
 
     // TODO: Move to BuildManager
-    // TOOD: Support handling tiles differently
+    // TODO: Support handling tiles differently
 
     public TileBase Grass;
     public TileBase Mountain;
@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
 
     public GameObject Tower;
 
-    public float TimeBetweenSpawns = 10.0f;
+    public float TimeBetweenSpawns = 1.0f;
 
     private GameObject loadedLevel;
 
@@ -39,6 +39,12 @@ public class LevelManager : MonoBehaviour
 
     private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
+    public int PlayerLives = 10; //only public for game design changes during development
+
+    private int bestTry;
+
+    public HUD HUD;
+
     public void Awake()
     {
         loadedLevel = LoadLevel(Level);
@@ -52,6 +58,7 @@ public class LevelManager : MonoBehaviour
         spawnPoint = path[0];
 
         tilemap = loadedLevel.GetComponentInChildren<Tilemap>();
+
     }
 
     public void Update()
@@ -96,6 +103,16 @@ public class LevelManager : MonoBehaviour
             Enemy enemy = enemyObject.GetComponent<Enemy>();
 
             enemy.Initialize(this, path);
+        }
+    }
+
+    public void DecreasePlayerLives()
+    {
+        PlayerLives --;
+
+        if (PlayerLives <= 0)
+        {
+            this.HUD.ShowGameOverScreen(this.PlayerLives,this.bestTry);
         }
     }
 

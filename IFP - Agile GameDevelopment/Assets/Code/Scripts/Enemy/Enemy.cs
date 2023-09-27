@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float MovementSpeed = 1.0f;
+    public float MovementSpeed = 10.0f;
 
-    public float Health = 10.0f;
+    public float Health;
 
     private LevelManager levelManager;
 
@@ -41,11 +41,11 @@ public class Enemy : MonoBehaviour
 
     public void FixedUpdate()
     {
-        bool reachedEnd = followPath();
+        bool reachedEnd = FollowPath();
 
         if (reachedEnd)
         {
-            // TODO: Handle life points etc.
+            levelManager.DecreasePlayerLives();
 
             Destroy(gameObject);
         }
@@ -58,12 +58,13 @@ public class Enemy : MonoBehaviour
         if (Health <= 0.0f)
         {
             // TODO: Handle destroyed enemy
+                // TODO: Handel Currency for Kill.
 
             Destroy(gameObject);
         }
     }
 
-    private bool followPath()
+    private bool FollowPath()
     {
         bool reachedEnd = false;
 
