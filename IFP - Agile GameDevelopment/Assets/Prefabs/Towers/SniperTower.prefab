@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 5153271822359421960}
   - component: {fileID: 2143187611214571444}
   - component: {fileID: 1900086044883460695}
-  - component: {fileID: 4586944801096438392}
+  - component: {fileID: -5509523887574184620}
   m_Layer: 0
   m_Name: SniperTower
   m_TagString: Untagged
@@ -217,7 +217,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.028702, y: 3.0879989}
   m_EdgeRadius: 0
---- !u!114 &4586944801096438392
+--- !u!114 &-5509523887574184620
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,6 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd0da46e41bc1e4f9f0253cd362199f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SecondsBetweenActions: 0.5
+  BulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
 --- !u!1 &8322334507060332078
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,8 +257,8 @@ Transform:
   m_GameObject: {fileID: 8322334507060332078}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.01, y: 0.02, z: 0}
-  m_LocalScale: {x: 0.49808747, y: 0.47572133, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1271133311338583837}
@@ -301,7 +303,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 100
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.09433961, g: 0.08870296, b: 0.08870296, a: 1}
   m_FlipX: 0
