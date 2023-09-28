@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
+using UnityEngine.EventSystems;
 
 public class LevelManager : MonoBehaviour
 {
@@ -23,6 +25,8 @@ public class LevelManager : MonoBehaviour
 
     public GameObject Tower;
 
+    public GameObject TowerOptionsBar;
+
     public float TimeBetweenSpawns = 1.0f;
 
     private GameObject loadedLevel;
@@ -36,6 +40,12 @@ public class LevelManager : MonoBehaviour
     private float spawnTimer = 0.0f;
 
     private Tilemap tilemap;
+
+    private Vector2Int tileKey;
+
+    private TileBase selectedTile;
+
+    private Vector3 clickPosition;
 
     private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
@@ -65,27 +75,61 @@ public class LevelManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int mouseTilePosition = tilemap.WorldToCell(mouseWorldPosition);
-
-            TileBase tile = tilemap.GetTile(mouseTilePosition);
-
-            if (tile == Grass)
+            if (!EventSystem.current.IsPointerOverGameObject())
             {
-                Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
+                Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3Int mouseTilePosition = tilemap.WorldToCell(mouseWorldPosition);
 
-                GameObject tower = towers.GetValueOrDefault(tileKey);
+                selectedTile = tilemap.GetTile(mouseTilePosition);
 
-                if (tower == null)
+                if (TowerOptionsBar.activeSelf)
                 {
-                    Vector3 towerPosition = new Vector3(tileKey.x + 0.5f, tileKey.y + 0.5f, 0);
+                    Time.timeScale = 1;
+                    TowerOptionsBar.SetActive(false);
+                }
 
-                    GameObject towerObject = Instantiate(Tower, towerPosition, Quaternion.identity);
+                if (selectedTile == Grass)
+                {
+                    Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
 
-                    towers.Add(tileKey, towerObject);
+                    GameObject tower = towers.GetValueOrDefault(tileKey);
+
+                    if (tower == null)
+                    {
+                        clickPosition = new Vector3(mouseTilePosition.x + 0.5f, mouseTilePosition.y + 0.5f, 0);
+
+                        TowerOptionsBar.SetActive(true);
+                        Time.timeScale = 0;
+                    }
+                    else
+                    {
+                        // Wenn ein Turm bereits auf dem Tile steht, könnten Sie hier andere Aktionen ausführen.
+                    }
                 }
             }
         }
+    }
+
+    public void PlaceTowerAndResetOptionsBar()
+    {
+        if (selectedTile == null)
+        {
+            Debug.LogWarning("Kein Tile ausgewählt, Turm kann nicht platziert werden.");
+            return;
+        }
+
+        if (selectedTile == Grass)
+        {
+            GameObject towerObject = Instantiate(Tower, clickPosition, Quaternion.identity);
+            towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
+        }
+
+        if (TowerOptionsBar.activeSelf)
+        {
+            TowerOptionsBar.SetActive(false);
+        }
+
+        Time.timeScale = 1;
     }
 
     public void FixedUpdate()
