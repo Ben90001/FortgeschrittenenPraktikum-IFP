@@ -23,7 +23,8 @@ public class LevelManager : MonoBehaviour
 
     // TODO: Handle tower references differently
 
-    public GameObject Tower;
+    public GameObject BasicTower;
+    public GameObject SniperTower;
 
     public GameObject TowerOptionsBar;
 
@@ -110,7 +111,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void PlaceTowerAndResetOptionsBar()
+    public void PlaceBasicTower()
     {
         if (selectedTile == null)
         {
@@ -120,7 +121,7 @@ public class LevelManager : MonoBehaviour
 
         if (selectedTile == Grass)
         {
-            GameObject towerObject = Instantiate(Tower, clickPosition, Quaternion.identity);
+            GameObject towerObject = Instantiate(BasicTower, clickPosition, Quaternion.identity);
             towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
         }
 
@@ -131,7 +132,27 @@ public class LevelManager : MonoBehaviour
 
         Time.timeScale = 1;
     }
+    public void PlaceSniperTower()
+    {
+        if (selectedTile == null)
+        {
+            Debug.LogWarning("Kein Tile ausgewählt, Turm kann nicht platziert werden.");
+            return;
+        }
 
+        if (selectedTile == Grass)
+        {
+            GameObject towerObject = Instantiate(SniperTower, clickPosition, Quaternion.identity);
+            towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
+        }
+
+        if (TowerOptionsBar.activeSelf)
+        {
+            TowerOptionsBar.SetActive(false);
+        }
+
+        Time.timeScale = 1;
+    }
     public void FixedUpdate()
     {
         // TODO: Move logic to EnemySpawner when implemented

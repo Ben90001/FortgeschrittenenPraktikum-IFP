@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 5153271822359421960}
   - component: {fileID: 2143187611214571444}
   - component: {fileID: 1900086044883460695}
+  - component: {fileID: -5509523887574184620}
   m_Layer: 0
   m_Name: SniperTower
   m_TagString: Untagged
@@ -216,6 +217,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.028702, y: 3.0879989}
   m_EdgeRadius: 0
+--- !u!114 &-5509523887574184620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2746393042390166952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bd0da46e41bc1e4f9f0253cd362199f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondsBetweenActions: 0.5
+  BulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
 --- !u!1 &8322334507060332078
 GameObject:
   m_ObjectHideFlags: 0
