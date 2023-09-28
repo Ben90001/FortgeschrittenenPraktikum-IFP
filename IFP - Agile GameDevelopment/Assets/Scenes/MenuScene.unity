@@ -962,7 +962,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5896060469440766279, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_Name
-      value: MenuButton (2)
+      value: MenuButton 03
       objectReference: {fileID: 0}
     - target: {fileID: 8551502579669493847, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_text
@@ -1195,9 +1195,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1016330346}
+    - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5896060469440766279, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_Name
-      value: MenuButton (1)
+      value: MenuButton 02
       objectReference: {fileID: 0}
     - target: {fileID: 8551502579669493847, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_text
@@ -1298,7 +1306,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5896060469440766279, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_Name
-      value: MenuButton (6)
+      value: MenuButton 07
       objectReference: {fileID: 0}
     - target: {fileID: 8551502579669493847, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_text
@@ -2098,7 +2106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5896060469440766279, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_Name
-      value: MenuButton (5)
+      value: MenuButton 06
       objectReference: {fileID: 0}
     - target: {fileID: 8551502579669493847, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_text
@@ -2878,7 +2886,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5896060469440766279, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_Name
-      value: MenuButton (4)
+      value: MenuButton 05
       objectReference: {fileID: 0}
     - target: {fileID: 8551502579669493847, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_text
@@ -2984,7 +2992,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5896060469440766279, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_Name
-      value: MenuButton (7)
+      value: MenuButton 08
       objectReference: {fileID: 0}
     - target: {fileID: 8551502579669493847, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_text
@@ -3319,7 +3327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5896060469440766279, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_Name
-      value: MenuButton (3)
+      value: MenuButton 04
       objectReference: {fileID: 0}
     - target: {fileID: 8551502579669493847, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_text
@@ -3561,7 +3569,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3573,7 +3581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LevelSelection, Assembly-CSharp
+      value: LevelSelection, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
@@ -3581,11 +3589,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: GameScene
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2881179352814743343, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5896060469440766279, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_Name
-      value: MenuButton
+      value: MenuButton 01
       objectReference: {fileID: 0}
     - target: {fileID: 8551502579669493847, guid: 1db72fcdc96384a978b7813b4c558f1c, type: 3}
       propertyPath: m_text
