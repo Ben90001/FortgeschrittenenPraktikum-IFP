@@ -1,8 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
+using UnityEngine.EventSystems;
+using static PlasticPipe.PlasticProtocol.Messages.Serialization.ItemHandlerMessagesSerialization;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.WSA;
 
 public class LevelManager : MonoBehaviour
 {
@@ -21,7 +26,10 @@ public class LevelManager : MonoBehaviour
 
     // TODO: Handle tower references differently
 
-    public GameObject Tower;
+    public GameObject BasicTower;
+    public GameObject SniperTower;
+
+    public GameObject TowerOptionsBar;
 
     public float TimeBetweenSpawns = 1.0f;
 
@@ -37,6 +45,12 @@ public class LevelManager : MonoBehaviour
 
     private Tilemap tilemap;
 
+    private Vector2Int tileKey;
+
+    private TileBase selectedTile;
+
+    private Vector3 clickPosition;
+
     private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
     public int PlayerLives = 10; //only public for game design changes during development
@@ -44,6 +58,8 @@ public class LevelManager : MonoBehaviour
     private int bestTry;
 
     public HUD HUD;
+    
+    private bool towerPlacementCanceled = false;
 
     public void Awake()
     {
@@ -61,33 +77,103 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    public void Update()
+    private Vector2Int lastClickedTile = Vector2Int.one * int.MinValue; 
+
+public void Update()
+{
+    if (Input.GetMouseButtonDown(0))
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int mouseTilePosition = tilemap.WorldToCell(mouseWorldPosition);
 
-            TileBase tile = tilemap.GetTile(mouseTilePosition);
+            selectedTile = tilemap.GetTile(mouseTilePosition);
 
-            if (tile == Grass)
-            {
-                Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
+            Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
 
-                GameObject tower = towers.GetValueOrDefault(tileKey);
+            
 
-                if (tower == null)
+            if (selectedTile == Grass)
+                {   
+                    if (tileKey == lastClickedTile && !towerPlacementCanceled)
+                    {
+                        Debug.LogWarning("Es is bereits ein Turm platziert.");
+                        return; 
+                    }
+                    if (TowerOptionsBar.activeSelf)
                 {
-                    Vector3 towerPosition = new Vector3(tileKey.x + 0.5f, tileKey.y + 0.5f, 0);
-
-                    GameObject towerObject = Instantiate(Tower, towerPosition, Quaternion.identity);
-
-                    towers.Add(tileKey, towerObject);
+                    
+                    Time.timeScale = 1;
+                    TowerOptionsBar.SetActive(false);
                 }
+                else
+                {
+                    
+                    clickPosition = new Vector3(mouseTilePosition.x + 0.5f, mouseTilePosition.y + 0.5f, 0);
+                    TowerOptionsBar.SetActive(true);
+                    Time.timeScale = 0;
+                }
+
+                lastClickedTile = tileKey;
+                towerPlacementCanceled = false;
+            }
+            else if (selectedTile != null && !towerPlacementCanceled)
+            {
+                
+                Time.timeScale = 1;
+                TowerOptionsBar.SetActive(false);
             }
         }
     }
+}
 
+
+
+
+
+    public void PlaceBasicTower()
+    {
+        if (selectedTile == null)
+        {
+            Debug.LogWarning("Kein Tile ausgewählt, Turm kann nicht platziert werden.");
+            return;
+        }
+
+        if (selectedTile == Grass)
+        {
+            GameObject towerObject = Instantiate(BasicTower, clickPosition, Quaternion.identity);
+            towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
+        }
+
+        if (TowerOptionsBar.activeSelf)
+        {
+            TowerOptionsBar.SetActive(false);
+        }
+
+        Time.timeScale = 1;
+    }
+    public void PlaceSniperTower()
+    {
+        if (selectedTile == null)
+        {
+            Debug.LogWarning("Kein Tile ausgewählt, Turm kann nicht platziert werden.");
+            return;
+        }
+
+        if (selectedTile == Grass)
+        {
+            GameObject towerObject = Instantiate(SniperTower, clickPosition, Quaternion.identity);
+            towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
+        }
+
+        if (TowerOptionsBar.activeSelf)
+        {
+            TowerOptionsBar.SetActive(false);
+        }
+
+        Time.timeScale = 1;
+    }
     public void FixedUpdate()
     {
         // TODO: Move logic to EnemySpawner when implemented

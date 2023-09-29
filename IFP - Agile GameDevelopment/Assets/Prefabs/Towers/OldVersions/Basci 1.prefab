@@ -685,7 +685,7 @@ GameObject:
   - component: {fileID: 1756950638490244254}
   - component: {fileID: 8191110929723841431}
   m_Layer: 0
-  m_Name: BasicTower
+  m_Name: Basci 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
