@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Level: {fileID: 6549152391584487370, guid: 58c9797efb55ad9458f58511c6979710, type: 3}
-  Enemy: {fileID: 5164373463897866233, guid: ea6bbb906a16358448e8603f08f90fe4, type: 3}
+  Enemy: {fileID: 2760105573253401979, guid: 8ff8d2058aa184ed9a39bd97c6dfcf74, type: 3}
   Grass: {fileID: 11400000, guid: 523f3b49036c246049611dd66da2f818, type: 2}
   Mountain: {fileID: 11400000, guid: f16e47e594cf7494ca0cb290d203b891, type: 2}
   Path: {fileID: 11400000, guid: f485cf78a2fdd464496cf7f99b2c4ab2, type: 2}
