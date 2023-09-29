@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
+using static PlasticPipe.PlasticProtocol.Messages.Serialization.ItemHandlerMessagesSerialization;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine.WSA;
 
 public class LevelManager : MonoBehaviour
 {
@@ -95,19 +98,14 @@ public class LevelManager : MonoBehaviour
 
                 Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
 
-                // Überprüfe, ob bereits ein Turm auf diesem Tile steht
-                GameObject tower = null;
-                if (towers.TryGetValue(tileKey, out tower))
-                {
-                    Debug.LogWarning("Ein Turm steht bereits auf diesem Tile.");
-                    return; // Zeige die TowerOptionsBar nicht an
-                }
+                
 
-                // Überprüfe, ob auf das gleiche Tile geklickt wurde wie zuvor und keine Turmplatzierung abgebrochen wurde
+
+                //Check that the same tile was clicked as before and that no tower placement was canceled
                 if (tileKey == lastClickedTile && !towerPlacementCanceled)
                 {
-                    Debug.LogWarning("Bereits auf dieses Tile geklickt.");
-                    return; // Zeige die TowerOptionsBar nicht an
+                    Debug.LogWarning("Ein Turm steht bereits auf diesem Tile.");
+                    return; 
                 }
 
                 if (selectedTile == Grass)
@@ -116,7 +114,7 @@ public class LevelManager : MonoBehaviour
                     TowerOptionsBar.SetActive(true);
                     Time.timeScale = 0;
 
-                    // Aktualisiere lastClickedTile auf das aktuelle Tile
+                   
                     lastClickedTile = tileKey;
                     towerPlacementCanceled = false;
                 }
