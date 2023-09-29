@@ -55,6 +55,8 @@ public class LevelManager : MonoBehaviour
     private int bestTry;
 
     public HUD HUD;
+    
+    private bool towerPlacementCanceled = false;
 
     public void Awake()
     {
@@ -71,6 +73,8 @@ public class LevelManager : MonoBehaviour
         tilemap = loadedLevel.GetComponentInChildren<Tilemap>();
 
     }
+
+    private Vector2Int lastClickedTile = Vector2Int.one * int.MinValue; // Initialisieren Sie mit einem ungültigen Wert
 
     public void Update()
     {
@@ -89,27 +93,41 @@ public class LevelManager : MonoBehaviour
                     TowerOptionsBar.SetActive(false);
                 }
 
+                Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
+
+                // Überprüfe, ob bereits ein Turm auf diesem Tile steht
+                GameObject tower = null;
+                if (towers.TryGetValue(tileKey, out tower))
+                {
+                    Debug.LogWarning("Ein Turm steht bereits auf diesem Tile.");
+                    return; // Zeige die TowerOptionsBar nicht an
+                }
+
+                // Überprüfe, ob auf das gleiche Tile geklickt wurde wie zuvor und keine Turmplatzierung abgebrochen wurde
+                if (tileKey == lastClickedTile && !towerPlacementCanceled)
+                {
+                    Debug.LogWarning("Bereits auf dieses Tile geklickt.");
+                    return; // Zeige die TowerOptionsBar nicht an
+                }
+
                 if (selectedTile == Grass)
                 {
-                    Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
+                    clickPosition = new Vector3(mouseTilePosition.x + 0.5f, mouseTilePosition.y + 0.5f, 0);
+                    TowerOptionsBar.SetActive(true);
+                    Time.timeScale = 0;
 
-                    GameObject tower = towers.GetValueOrDefault(tileKey);
-
-                    if (tower == null)
-                    {
-                        clickPosition = new Vector3(mouseTilePosition.x + 0.5f, mouseTilePosition.y + 0.5f, 0);
-
-                        TowerOptionsBar.SetActive(true);
-                        Time.timeScale = 0;
-                    }
-                    else
-                    {
-                        // Wenn ein Turm bereits auf dem Tile steht, könnten Sie hier andere Aktionen ausführen.
-                    }
+                    // Aktualisiere lastClickedTile auf das aktuelle Tile
+                    lastClickedTile = tileKey;
+                    towerPlacementCanceled = false;
+                }
+                else
+                {
+                    towerPlacementCanceled = true;
                 }
             }
         }
     }
+
 
     public void PlaceBasicTower()
     {
