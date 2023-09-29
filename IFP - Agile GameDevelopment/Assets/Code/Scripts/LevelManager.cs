@@ -77,7 +77,7 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    private Vector2Int lastClickedTile = Vector2Int.one * int.MinValue; // Initialisieren Sie mit einem ungültigen Wert
+    private Vector2Int lastClickedTile = Vector2Int.one * int.MinValue; 
 
 public void Update()
 {
@@ -95,33 +95,32 @@ public void Update()
             
 
             if (selectedTile == Grass)
-                {   // Überprüfe, ob auf das gleiche Tile geklickt wurde wie zuvor und keine Turmplatzierung abgebrochen wurde
+                {   
                     if (tileKey == lastClickedTile && !towerPlacementCanceled)
                     {
                         Debug.LogWarning("Es is bereits ein Turm platziert.");
-                        return; // Zeige die TowerOptionsBar nicht an
+                        return; 
                     }
                     if (TowerOptionsBar.activeSelf)
                 {
-                    // Wenn die TowerOptionsBar bereits aktiv ist, schließe sie
+                    
                     Time.timeScale = 1;
                     TowerOptionsBar.SetActive(false);
                 }
                 else
                 {
-                    // Ansonsten zeige die TowerOptionsBar an
+                    
                     clickPosition = new Vector3(mouseTilePosition.x + 0.5f, mouseTilePosition.y + 0.5f, 0);
                     TowerOptionsBar.SetActive(true);
                     Time.timeScale = 0;
                 }
 
-                // Aktualisiere lastClickedTile auf das aktuelle Tile
                 lastClickedTile = tileKey;
                 towerPlacementCanceled = false;
             }
             else if (selectedTile != null && !towerPlacementCanceled)
             {
-                // Schließe die TowerOptionsBar, wenn auf ein Tile geklickt wird, das nicht Grass ist und keine Turmplatzierung abgebrochen wurde
+                
                 Time.timeScale = 1;
                 TowerOptionsBar.SetActive(false);
             }
