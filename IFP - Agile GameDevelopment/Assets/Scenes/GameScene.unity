@@ -342,6 +342,7 @@ MonoBehaviour:
   Path: {fileID: 11400000, guid: f485cf78a2fdd464496cf7f99b2c4ab2, type: 2}
   BasicTower: {fileID: 7596997370653839420, guid: b31ef3fdd378a417d80bfecef18b0932, type: 3}
   SniperTower: {fileID: 2746393042390166952, guid: 4c27ce3febc9be24ab31fb0252d540d4, type: 3}
+  IceTower: {fileID: 7093835851391559277, guid: 3d9d82f010d43184c97b6332364f9abd, type: 3}
   TowerOptionsBar: {fileID: 1887307316}
   TimeBetweenSpawns: 1.5
   PlayerLives: 10
@@ -369,6 +370,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2951543161306283541, guid: d679322a1f63ad148be810ade351a042, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951543161306283541, guid: d679322a1f63ad148be810ade351a042, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951543161306283541, guid: d679322a1f63ad148be810ade351a042, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 966348540}
+    - target: {fileID: 2951543161306283541, guid: d679322a1f63ad148be810ade351a042, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951543161306283541, guid: d679322a1f63ad148be810ade351a042, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlaceIceTower
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951543161306283541, guid: d679322a1f63ad148be810ade351a042, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelManager, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951543161306283541, guid: d679322a1f63ad148be810ade351a042, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6643873070133183991, guid: d679322a1f63ad148be810ade351a042, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
