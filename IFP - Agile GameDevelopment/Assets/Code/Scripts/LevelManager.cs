@@ -99,6 +99,7 @@ public void Update()
                 {   
                     if (tileKey == lastClickedTile && !towerPlacementCanceled)
                     {
+                        TowerOptionsBar.SetActive(false);
                         Debug.LogWarning("Es is bereits ein Turm platziert.");
                         return; 
                     }
