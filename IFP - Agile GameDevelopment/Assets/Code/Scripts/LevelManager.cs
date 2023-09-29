@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Assertions;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
@@ -47,7 +49,14 @@ public class LevelManager : MonoBehaviour
 
     public void Awake()
     {
-        loadedLevel = LoadLevel(Level);
+        if (LevelSelection.LoadedLevel != null)
+        {
+            loadedLevel = LoadLevel(LevelSelection.LoadedLevel);
+        }
+        else
+        {
+            loadedLevel = LoadDefaultLevel();
+        }
 
         levelInfo = loadedLevel.GetComponent<LevelInfo>();
 
@@ -58,7 +67,6 @@ public class LevelManager : MonoBehaviour
         spawnPoint = path[0];
 
         tilemap = loadedLevel.GetComponentInChildren<Tilemap>();
-
     }
 
     public void Update()
@@ -135,6 +143,19 @@ public class LevelManager : MonoBehaviour
                 result[childIndex] = waypoint;
             }
         }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Load the first level by default. This is for starting from the GameScene in the editor.
+    /// </summary>
+    /// <returns></returns>
+    private static GameObject LoadDefaultLevel()
+    {
+        GameObject level = LevelSelection.LoadLevel(1);
+
+        GameObject result = LoadLevel(level);
 
         return result;
     }

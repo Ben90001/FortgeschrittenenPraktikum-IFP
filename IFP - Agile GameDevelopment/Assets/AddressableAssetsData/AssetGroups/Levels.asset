@@ -18,12 +18,12 @@ MonoBehaviour:
   m_GUID: aea90375241d10d4fa1a0c3896e0aa81
   m_SerializeEntries:
   - m_GUID: 5da20e3da30adcb479147ecf32e148df
-    m_Address: Assets/Prefabs/Levels/Level 001.prefab
+    m_Address: Assets/Prefabs/Levels/Level1.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ec70eb724927de44a8778d8d7f996bb9
-    m_Address: Assets/Prefabs/Levels/Level 002.prefab
+    m_Address: Assets/Prefabs/Levels/Level2.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
