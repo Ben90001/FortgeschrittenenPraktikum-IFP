@@ -515,6 +515,7 @@ GameObject:
   - component: {fileID: 1698093011820515405}
   - component: {fileID: 2148403183909738505}
   - component: {fileID: 3672455626445709316}
+  - component: {fileID: -5193903107038947917}
   m_Layer: 0
   m_Name: IceTower
   m_TagString: Untagged
@@ -643,6 +644,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.0061684, y: 3.0061681}
   m_EdgeRadius: 0
+--- !u!114 &-5193903107038947917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7093835851391559277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e26a1efcd7b6f40888a605c687a075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackRange: 10
+  BulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
+  SlowDuration: 3
+  SlowFactor: 0.5
 --- !u!1 &7315645691262933713
 GameObject:
   m_ObjectHideFlags: 0

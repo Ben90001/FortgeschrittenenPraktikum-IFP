@@ -30,6 +30,7 @@ public class LevelManager : MonoBehaviour
 
     public GameObject BasicTower;
     public GameObject SniperTower;
+    public GameObject IceTower;
 
     public GameObject TowerOptionsBar;
 
@@ -101,21 +102,20 @@ public class LevelManager : MonoBehaviour
                 Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
 
                 if (selectedTile == Grass)
-                    {   
-                        if (tileKey == lastClickedTile && !towerPlacementCanceled)
-                        {
-                            Debug.LogWarning("Es is bereits ein Turm platziert.");
-                            return; 
-                        }
-                        if (TowerOptionsBar.activeSelf)
+                {
+                    if (tileKey == lastClickedTile && !towerPlacementCanceled)
                     {
-                    
+                        Debug.LogWarning("Es is bereits ein Turm platziert.");
+                        return;
+                    }
+
+                    if (TowerOptionsBar.activeSelf)
+                    {
                         Time.timeScale = 1;
                         TowerOptionsBar.SetActive(false);
                     }
                     else
                     {
-                    
                         clickPosition = new Vector3(mouseTilePosition.x + 0.5f, mouseTilePosition.y + 0.5f, 0);
                         TowerOptionsBar.SetActive(true);
                         Time.timeScale = 0;
@@ -126,7 +126,6 @@ public class LevelManager : MonoBehaviour
                 }
                 else if (selectedTile != null && !towerPlacementCanceled)
                 {
-                
                     Time.timeScale = 1;
                     TowerOptionsBar.SetActive(false);
                 }
@@ -167,6 +166,28 @@ public class LevelManager : MonoBehaviour
         if (selectedTile == Grass)
         {
             GameObject towerObject = Instantiate(SniperTower, clickPosition, Quaternion.identity);
+            towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
+        }
+
+        if (TowerOptionsBar.activeSelf)
+        {
+            TowerOptionsBar.SetActive(false);
+        }
+
+        Time.timeScale = 1;
+    }
+
+    public void PlaceIceTower()
+    {
+        if (selectedTile == null)
+        {
+            Debug.LogWarning("Kein Tile ausgewählt, Turm kann nicht platziert werden.");
+            return;
+        }
+
+        if (selectedTile == Grass)
+        {
+            GameObject towerObject = Instantiate(IceTower, clickPosition, Quaternion.identity);
             towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
         }
 
