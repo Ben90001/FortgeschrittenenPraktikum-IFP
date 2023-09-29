@@ -29,7 +29,7 @@ public class IceTower : BaseTower
 
     private void AttackIceTower(Enemy target)
     {
-        // Hier wenden Sie den Verlangsamungseffekt auf den Zielgegner an.
+        
         target.ApplySlow(SlowFactor);
     }
 }
