@@ -28,6 +28,7 @@ public class LevelManager : MonoBehaviour
 
     public GameObject BasicTower;
     public GameObject SniperTower;
+    public GameObject IceTower;
 
     public GameObject TowerOptionsBar;
 
@@ -164,6 +165,28 @@ public void Update()
         if (selectedTile == Grass)
         {
             GameObject towerObject = Instantiate(SniperTower, clickPosition, Quaternion.identity);
+            towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
+        }
+
+        if (TowerOptionsBar.activeSelf)
+        {
+            TowerOptionsBar.SetActive(false);
+        }
+
+        Time.timeScale = 1;
+    }
+
+    public void PlaceIceTower()
+    {
+        if (selectedTile == null)
+        {
+            Debug.LogWarning("Kein Tile ausgewählt, Turm kann nicht platziert werden.");
+            return;
+        }
+
+        if (selectedTile == Grass)
+        {
+            GameObject towerObject = Instantiate(IceTower, clickPosition, Quaternion.identity);
             towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
         }
 

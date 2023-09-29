@@ -1,39 +1,36 @@
-#if false
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class IceTower : BaseTower
 {
-    private float nextActionTime;
-    private float targetingRange;
-    private Transform firingPoint;
-    private float attackRate;
-    private int damage;
-    private float freezeTime;
+  
+    public float SlowFactor = 0.0001f;
 
-    public override void TowerUpgrade()
+    protected override void TowerUpgrade()
     {
     }
 
-    public override void FixedUpdate()
+    protected override bool PerformAction()
     {
-    }
+        bool success = false;
 
-    protected override void PerformAction()
-    {
-        if (Time.time >= this.nextActionTime)
+        Enemy target = FindBestTarget(2.0f);
+
+        if (target != null)
         {
-            this.FindBestTarget();
+            AttackIceTower(target);
 
-            this.FreezeEnemies();
-
-            this.nextActionTime = Time.time + this.attackRate;
         }
-    }
 
-    private void FreezeEnemies()
+        return success;
+    }
+        
+
+    private void AttackIceTower(Enemy target)
     {
+        // Hier wenden Sie den Verlangsamungseffekt auf den Zielgegner an.
+        target.ApplySlow(SlowFactor);
     }
 }
-#endif
+

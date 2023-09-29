@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
-{
+{ 
     public float MovementSpeed = 10.0f;
 
     public float Health;
@@ -20,6 +20,10 @@ public class Enemy : MonoBehaviour
     private float pathOffset;
 
     private int nextTargetIndex;
+
+    private bool isSlowed = false;
+    private float slowFactor = 1.0f;
+  
 
     public void Initialize(LevelManager levelManager, Transform[] path)
     {
@@ -64,6 +68,22 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
+
+ 
+
+    public void ApplySlow( float factor)
+    {
+        if (!isSlowed)
+        {
+            isSlowed = true;
+            slowFactor = factor;
+        
+
+           
+            MovementSpeed *= slowFactor;
+        }
+    }
     private bool FollowPath()
     {
         bool reachedEnd = false;
