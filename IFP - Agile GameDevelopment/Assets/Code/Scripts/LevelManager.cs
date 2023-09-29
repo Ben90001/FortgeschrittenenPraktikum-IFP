@@ -87,58 +87,52 @@ public class LevelManager : MonoBehaviour
 
     private Vector2Int lastClickedTile = Vector2Int.one * int.MinValue; 
 
-public void Update()
-{
-    if (Input.GetMouseButtonDown(0))
+    public void Update()
     {
-        if (!EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int mouseTilePosition = tilemap.WorldToCell(mouseWorldPosition);
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3Int mouseTilePosition = tilemap.WorldToCell(mouseWorldPosition);
 
-            selectedTile = tilemap.GetTile(mouseTilePosition);
+                selectedTile = tilemap.GetTile(mouseTilePosition);
 
-            Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
+                Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
 
-            
-
-            if (selectedTile == Grass)
-                {   
-                    if (tileKey == lastClickedTile && !towerPlacementCanceled)
+                if (selectedTile == Grass)
+                    {   
+                        if (tileKey == lastClickedTile && !towerPlacementCanceled)
+                        {
+                            Debug.LogWarning("Es is bereits ein Turm platziert.");
+                            return; 
+                        }
+                        if (TowerOptionsBar.activeSelf)
                     {
-                        Debug.LogWarning("Es is bereits ein Turm platziert.");
-                        return; 
-                    }
-                    if (TowerOptionsBar.activeSelf)
-                {
                     
+                        Time.timeScale = 1;
+                        TowerOptionsBar.SetActive(false);
+                    }
+                    else
+                    {
+                    
+                        clickPosition = new Vector3(mouseTilePosition.x + 0.5f, mouseTilePosition.y + 0.5f, 0);
+                        TowerOptionsBar.SetActive(true);
+                        Time.timeScale = 0;
+                    }
+
+                    lastClickedTile = tileKey;
+                    towerPlacementCanceled = false;
+                }
+                else if (selectedTile != null && !towerPlacementCanceled)
+                {
+                
                     Time.timeScale = 1;
                     TowerOptionsBar.SetActive(false);
                 }
-                else
-                {
-                    
-                    clickPosition = new Vector3(mouseTilePosition.x + 0.5f, mouseTilePosition.y + 0.5f, 0);
-                    TowerOptionsBar.SetActive(true);
-                    Time.timeScale = 0;
-                }
-
-                lastClickedTile = tileKey;
-                towerPlacementCanceled = false;
-            }
-            else if (selectedTile != null && !towerPlacementCanceled)
-            {
-                
-                Time.timeScale = 1;
-                TowerOptionsBar.SetActive(false);
             }
         }
     }
-}
-
-
-
-
 
     public void PlaceBasicTower()
     {
@@ -161,6 +155,7 @@ public void Update()
 
         Time.timeScale = 1;
     }
+
     public void PlaceSniperTower()
     {
         if (selectedTile == null)
@@ -182,6 +177,7 @@ public void Update()
 
         Time.timeScale = 1;
     }
+
     public void FixedUpdate()
     {
         // TODO: Move logic to EnemySpawner when implemented
