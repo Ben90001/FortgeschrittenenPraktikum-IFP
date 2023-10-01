@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Assertions;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
 using static PlasticPipe.PlasticProtocol.Messages.Serialization.ItemHandlerMessagesSerialization;
@@ -64,7 +66,14 @@ public class LevelManager : MonoBehaviour
 
     public void Awake()
     {
-        loadedLevel = LoadLevel(Level);
+        if (LevelSelection.LoadedLevel != null)
+        {
+            loadedLevel = LoadLevel(LevelSelection.LoadedLevel);
+        }
+        else
+        {
+            loadedLevel = LoadDefaultLevel();
+        }
 
         levelInfo = loadedLevel.GetComponent<LevelInfo>();
 
@@ -75,64 +84,58 @@ public class LevelManager : MonoBehaviour
         spawnPoint = path[0];
 
         tilemap = loadedLevel.GetComponentInChildren<Tilemap>();
-
     }
 
     private Vector2Int lastClickedTile = Vector2Int.one * int.MinValue; 
 
-public void Update()
-{
-    if (Input.GetMouseButtonDown(0))
+    public void Update()
     {
-        if (!EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0))
         {
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int mouseTilePosition = tilemap.WorldToCell(mouseWorldPosition);
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3Int mouseTilePosition = tilemap.WorldToCell(mouseWorldPosition);
 
-            selectedTile = tilemap.GetTile(mouseTilePosition);
+                selectedTile = tilemap.GetTile(mouseTilePosition);
 
-            Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
+                Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
 
-            
+                if (selectedTile == Grass)
+                    {   
+                        if (tileKey == lastClickedTile && !towerPlacementCanceled)
+                        {
+                            Debug.LogWarning("Es is bereits ein Turm platziert.");
+                            return; 
+                        }
 
-            if (selectedTile == Grass)
-                {   
-                    if (tileKey == lastClickedTile && !towerPlacementCanceled)
-                    {
-                        TowerOptionsBar.SetActive(false);
-                        Debug.LogWarning("Es is bereits ein Turm platziert.");
-                        return; 
-                    }
                     if (TowerOptionsBar.activeSelf)
                 {
+
                     
+                        Time.timeScale = 1;
+                        TowerOptionsBar.SetActive(false);
+                    }
+                    else
+                    {
+                    
+                        clickPosition = new Vector3(mouseTilePosition.x + 0.5f, mouseTilePosition.y + 0.5f, 0);
+                        TowerOptionsBar.SetActive(true);
+                        Time.timeScale = 0;
+                    }
+
+                    lastClickedTile = tileKey;
+                    towerPlacementCanceled = false;
+                }
+                else if (selectedTile != null && !towerPlacementCanceled)
+                {
+                
                     Time.timeScale = 1;
                     TowerOptionsBar.SetActive(false);
                 }
-                else
-                {
-                    
-                    clickPosition = new Vector3(mouseTilePosition.x + 0.5f, mouseTilePosition.y + 0.5f, 0);
-                    TowerOptionsBar.SetActive(true);
-                    Time.timeScale = 0;
-                }
-
-                lastClickedTile = tileKey;
-                towerPlacementCanceled = false;
-            }
-            else if (selectedTile != null && !towerPlacementCanceled)
-            {
-                
-                Time.timeScale = 1;
-                TowerOptionsBar.SetActive(false);
             }
         }
     }
-}
-
-
-
-
 
     public void PlaceBasicTower()
     {
@@ -155,6 +158,7 @@ public void Update()
 
         Time.timeScale = 1;
     }
+
     public void PlaceSniperTower()
     {
         if (selectedTile == null)
@@ -198,6 +202,7 @@ public void Update()
 
         Time.timeScale = 1;
     }
+
     public void FixedUpdate()
     {
         // TODO: Move logic to EnemySpawner when implemented
@@ -245,6 +250,19 @@ public void Update()
                 result[childIndex] = waypoint;
             }
         }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Load the first level by default. This is for starting from the GameScene in the editor.
+    /// </summary>
+    /// <returns></returns>
+    private static GameObject LoadDefaultLevel()
+    {
+        GameObject level = LevelSelection.LoadLevel(1);
+
+        GameObject result = LoadLevel(level);
 
         return result;
     }

@@ -1,11 +1,12 @@
 {
-    "name": "Scripts",
+    "name": "Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:9e24947de15b9834991c9d8411ea37cf",
-        "GUID:84651a3751eca9349aac36a66bba901b"
+        "GUID:efb91c6a3762fa140bde69d77c02e27f"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
