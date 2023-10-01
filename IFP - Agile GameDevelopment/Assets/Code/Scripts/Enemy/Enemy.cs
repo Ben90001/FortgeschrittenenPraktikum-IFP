@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
 
     private bool isSlowed = false;
     private float slowFactor = 1.0f;
+    private float originalMovementSpeed;
   
 
     public void Initialize(LevelManager levelManager, Transform[] path)
@@ -70,20 +71,33 @@ public class Enemy : MonoBehaviour
 
 
 
- 
 
-    public void ApplySlow( float factor)
+
+    public void ApplySlow(float factor)
     {
         if (!isSlowed)
         {
             isSlowed = true;
             slowFactor = factor;
-        
-
-           
+            originalMovementSpeed = MovementSpeed;
             MovementSpeed *= slowFactor;
+
+            Debug.Log("Enemy slowed down!");
         }
     }
+
+    public void RemoveSlow()
+    {
+        if (isSlowed)
+        {
+            isSlowed = false;
+            MovementSpeed = originalMovementSpeed;
+
+            Debug.Log("Slow removed from Enemy!");
+        }
+    }
+
+
     private bool FollowPath()
     {
         bool reachedEnd = false;
@@ -167,5 +181,9 @@ public class Enemy : MonoBehaviour
         }
 
         return result;
+    }
+    public void RestoreSpeed()
+    {
+        MovementSpeed = 10f;
     }
 }
