@@ -117,7 +117,9 @@ public class LevelManager : MonoBehaviour
     {
         if (!TilePositionHasTower(tilePosition))
         {
-            GameObject towerObject = Instantiate(towerPrefab, tilePosition, Quaternion.identity);
+            Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
+
+            GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
 
             Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
 
