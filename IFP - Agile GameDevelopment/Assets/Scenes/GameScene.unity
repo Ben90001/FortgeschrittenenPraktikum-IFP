@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &371638396 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7212504350103819157, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+  m_PrefabInstance: {fileID: 1119487231}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &744179450
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +348,7 @@ MonoBehaviour:
   BasicTower: {fileID: 7596997370653839420, guid: b31ef3fdd378a417d80bfecef18b0932, type: 3}
   SniperTower: {fileID: 2746393042390166952, guid: 4c27ce3febc9be24ab31fb0252d540d4, type: 3}
   IceTower: {fileID: 7093835851391559277, guid: 3d9d82f010d43184c97b6332364f9abd, type: 3}
-  TowerOptionsBar: {fileID: 0}
+  TowerOptionsBar: {fileID: 371638396}
   TimeBetweenSpawns: 1.5
   PlayerLives: 10
   HUD: {fileID: 744179455}
@@ -370,6 +375,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 603923157797832976, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 603923157797832976, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 603923157797832976, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 966348540}
+    - target: {fileID: 603923157797832976, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 603923157797832976, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlaceSniperTower
+      objectReference: {fileID: 0}
+    - target: {fileID: 603923157797832976, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelManager, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 603923157797832976, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1858185470893345713, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 966348540}
+    - target: {fileID: 1858185470893345713, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlaceBasicTower
+      objectReference: {fileID: 0}
     - target: {fileID: 2839411756315613853, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -394,6 +435,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -15
       objectReference: {fileID: 0}
+    - target: {fileID: 2953156192637216385, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953156192637216385, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953156192637216385, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 966348539}
+    - target: {fileID: 2953156192637216385, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4846906985406811777, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -417,6 +474,34 @@ PrefabInstance:
     - target: {fileID: 4846906985406811777, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872120195174209843, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872120195174209843, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872120195174209843, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 966348540}
+    - target: {fileID: 4872120195174209843, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872120195174209843, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlaceIceTower
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872120195174209843, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelManager, Scripts
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872120195174209843, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6304478001996522911, guid: 9f8d87fef706e4570970b8906fba899b, type: 3}
       propertyPath: m_AnchorMax.y
@@ -828,8 +913,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1766047867}
-  - {fileID: 966348541}
   - {fileID: 744179454}
+  - {fileID: 966348541}
   - {fileID: 4405378234514934807}
   - {fileID: 759901971}
   - {fileID: 1119487231}
