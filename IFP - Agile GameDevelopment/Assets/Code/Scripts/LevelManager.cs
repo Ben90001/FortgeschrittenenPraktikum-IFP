@@ -13,59 +13,48 @@ using UnityEngine.WSA;
 
 public class LevelManager : MonoBehaviour
 {
-    // TODO: Support loading a level prefab based on selected level
-
-    public GameObject Level;
-
     public GameObject Enemy;
-
-    // TODO: Move to BuildManager
-    // TODO: Support handling tiles differently
 
     public TileBase Grass;
     public TileBase Mountain;
     public TileBase Path;
 
-    // TODO: Handle tower references differently
-
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
 
-    public GameObject TowerOptionsBar;
+    public TowerOptionsBar TowerOptionsBar;
 
     public float TimeBetweenSpawns = 1.0f;
 
-    private GameObject loadedLevel;
+    public HUD HUD;
+
+    // NOTE: Level specific private data
+
+    private GameObject level;
 
     private LevelInfo levelInfo;
-    
+
+    private Tilemap tilemap;
+
     private Transform[] path;
 
     private Transform spawnPoint;
 
-    private float spawnTimer = 0.0f;
-
-    private Tilemap tilemap;
-
-    private Vector2Int tileKey;
-
-    private TileBase selectedTile;
-
-    private Vector3 clickPosition;
+    // NOTE: Gameplay logic specific data
 
     private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
+
+    private float spawnTimer = 0.0f;
 
     public int PlayerLives = 10; //only public for game design changes during development
 
     private int bestTry;
 
-    public HUD HUD;
-    
-    private bool towerPlacementCanceled = false;
-
     public void Awake()
     {
+        GameObject loadedLevel = null;
+
         if (LevelSelection.LoadedLevel != null)
         {
             loadedLevel = LoadLevel(LevelSelection.LoadedLevel);
@@ -75,138 +64,31 @@ public class LevelManager : MonoBehaviour
             loadedLevel = LoadDefaultLevel();
         }
 
-        levelInfo = loadedLevel.GetComponent<LevelInfo>();
-
-        FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
-
-        path = ExtractPathFromLevel(loadedLevel);
-
-        spawnPoint = path[0];
-
-        tilemap = loadedLevel.GetComponentInChildren<Tilemap>();
+        InitializeLoadedLevel(loadedLevel);
     }
-
-    private Vector2Int lastClickedTile = Vector2Int.one * int.MinValue; 
 
     public void Update()
     {
+        FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
+
         if (Input.GetMouseButtonDown(0))
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector3Int mouseTilePosition = tilemap.WorldToCell(mouseWorldPosition);
-
-                selectedTile = tilemap.GetTile(mouseTilePosition);
-
-                Vector2Int tileKey = new Vector2Int(mouseTilePosition.x, mouseTilePosition.y);
-
-                if (selectedTile == Grass)
-                    {   
-                        if (tileKey == lastClickedTile && !towerPlacementCanceled)
-                        {
-                            Debug.LogWarning("Es is bereits ein Turm platziert.");
-                            return; 
-                        }
-
-                    if (TowerOptionsBar.activeSelf)
+                if (!TowerOptionsBar.gameObject.activeSelf)
                 {
-
-                    
-                        Time.timeScale = 1;
-                        TowerOptionsBar.SetActive(false);
-                    }
-                    else
-                    {
-                    
-                        clickPosition = new Vector3(mouseTilePosition.x + 0.5f, mouseTilePosition.y + 0.5f, 0);
-                        TowerOptionsBar.SetActive(true);
-                        Time.timeScale = 0;
-                    }
-
-                    lastClickedTile = tileKey;
-                    towerPlacementCanceled = false;
+                    HandleClickOnTile();
                 }
-                else if (selectedTile != null && !towerPlacementCanceled)
+                else
                 {
-                
-                    Time.timeScale = 1;
-                    TowerOptionsBar.SetActive(false);
+                    HideTowerOptionsBar();
                 }
             }
         }
     }
 
-    public void PlaceBasicTower()
-    {
-        if (selectedTile == null)
-        {
-            Debug.LogWarning("Kein Tile ausgewählt, Turm kann nicht platziert werden.");
-            return;
-        }
-
-        if (selectedTile == Grass)
-        {
-            GameObject towerObject = Instantiate(BasicTower, clickPosition, Quaternion.identity);
-            towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
-        }
-
-        if (TowerOptionsBar.activeSelf)
-        {
-            TowerOptionsBar.SetActive(false);
-        }
-
-        Time.timeScale = 1;
-    }
-
-    public void PlaceSniperTower()
-    {
-        if (selectedTile == null)
-        {
-            Debug.LogWarning("Kein Tile ausgewählt, Turm kann nicht platziert werden.");
-            return;
-        }
-
-        if (selectedTile == Grass)
-        {
-            GameObject towerObject = Instantiate(SniperTower, clickPosition, Quaternion.identity);
-            towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
-        }
-
-        if (TowerOptionsBar.activeSelf)
-        {
-            TowerOptionsBar.SetActive(false);
-        }
-
-        Time.timeScale = 1;
-    }
-
-    public void PlaceIceTower()
-    {
-        if (selectedTile == null)
-        {
-            Debug.LogWarning("Kein Tile ausgewählt, Turm kann nicht platziert werden.");
-            return;
-        }
-
-        if (selectedTile == Grass)
-        {
-            GameObject towerObject = Instantiate(IceTower, clickPosition, Quaternion.identity);
-            towers.Add(new Vector2Int((int)clickPosition.x, (int)clickPosition.y), towerObject);
-        }
-
-        if (TowerOptionsBar.activeSelf)
-        {
-            TowerOptionsBar.SetActive(false);
-        }
-
-        Time.timeScale = 1;
-    }
-
     public void FixedUpdate()
     {
-        // TODO: Move logic to EnemySpawner when implemented
-
         spawnTimer -= Time.fixedDeltaTime;
 
         if (spawnTimer < 0)
@@ -223,14 +105,101 @@ public class LevelManager : MonoBehaviour
 
     public void DecreasePlayerLives()
     {
-        PlayerLives --;
+        PlayerLives--;
 
         if (PlayerLives <= 0)
         {
-            this.HUD.ShowGameOverScreen(this.PlayerLives,this.bestTry);
+            this.HUD.ShowGameOverScreen(this.PlayerLives, this.bestTry);
         }
     }
 
+    public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
+    {
+        if (!TilePositionHasTower(tilePosition))
+        {
+            GameObject towerObject = Instantiate(towerPrefab, tilePosition, Quaternion.identity);
+
+            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+
+            towers.Add(tileKey, towerObject);
+        }
+        else
+        {
+            // TODO: What todo
+        }
+    }
+
+    /// <summary>
+    /// Extract all relevant data from the instantiated level object.
+    /// </summary>
+    private void InitializeLoadedLevel(GameObject level)
+    {
+        this.level = level;
+        this.levelInfo = level.GetComponent<LevelInfo>();
+        this.tilemap = level.GetComponentInChildren<Tilemap>();
+        this.path = ExtractPathFromLevel(level);
+        this.spawnPoint = path[0];
+
+        FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
+    }
+
+    private void HandleClickOnTile()
+    {
+        Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.tilemap, Input.mousePosition);
+
+        TileBase tile = tilemap.GetTile(tilePosition);
+
+        if (!TilePositionHasTower(tilePosition))
+        {
+            if (tile == this.Grass)
+            {
+                ShowTowerOptionsBarForSelectedTile(tilePosition);
+            }
+        }
+        else
+        {
+            // TODO: Tile already has a tower
+        }
+    }
+
+    private bool TilePositionHasTower(Vector3Int tilePosition)
+    {
+        Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+
+        bool result = towers.ContainsKey(tileKey);
+
+        return result;
+    }
+
+    private void ShowTowerOptionsBarForSelectedTile(Vector3Int tilePosition)
+    {
+        TowerOptionsBar.ShowForTile(tilePosition);
+    }
+
+    private void HideTowerOptionsBar()
+    {
+        TowerOptionsBar.Hide();
+    }
+
+    private static Vector3Int GetTilePositionFromScreenPosition(Camera camera, Tilemap tilemap, Vector2 screenPosition)
+    {
+        Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
+        Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
+
+        return result;
+    }
+
+    private static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
+    {
+        Vector2Int result = ((Vector2Int)tilePosition);
+
+        return result;
+    }
+
+    /// <summary>
+    /// Extracts the path from the provided level GameObject.
+    /// </summary>
+    /// <returns>Array of transforms. One transform for each waypoint.</returns>
     private static Transform[] ExtractPathFromLevel(GameObject level)
     {
         Transform[] result = null;
@@ -238,7 +207,7 @@ public class LevelManager : MonoBehaviour
         Transform pathObject = level.transform.Find("Path");
 
         if (pathObject != null) 
-        { 
+        {
             int waypointCount = pathObject.childCount;
 
             result = new Transform[waypointCount];
@@ -281,8 +250,6 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private static void FocusCameraOnGameplayArea(Camera camera, Bounds gameplayArea)
     {
-        // TODO: This might need to be called every frame in case we want to support changing aspect ratio during gameplay.
-
         Assert.IsNotNull(camera);
 
         Vector3 oldCameraPosition = camera.transform.position;
