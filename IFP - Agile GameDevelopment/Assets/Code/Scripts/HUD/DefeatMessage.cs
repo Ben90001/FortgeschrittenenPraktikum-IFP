@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DefeatMessage : MonoBehaviour
 {
@@ -10,9 +11,23 @@ public class DefeatMessage : MonoBehaviour
         Debug.Log("DefeatMessage Started");
     }
 
-    // Update is called once per frame
-    void Update()
+
+
+    // Methode für den "Quit"-Button    
+    public void QuitGame()
     {
-        
+        // Beende das Spiel (nur im Build-Modus)
+        Application.Quit();
+        SceneManager.LoadScene("MenuScene");
+    }
+    public void TryAgain()
+    {
+
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+
+        SceneManager.LoadScene(currentSceneName);
+
+
     }
 }

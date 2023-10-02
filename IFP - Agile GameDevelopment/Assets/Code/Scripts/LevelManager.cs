@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 using static PlasticPipe.PlasticProtocol.Messages.Serialization.ItemHandlerMessagesSerialization;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.WSA;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -84,7 +85,9 @@ public class LevelManager : MonoBehaviour
         spawnPoint = path[0];
 
         tilemap = loadedLevel.GetComponentInChildren<Tilemap>();
+        
     }
+   
 
     private Vector2Int lastClickedTile = Vector2Int.one * int.MinValue; 
 
@@ -136,7 +139,7 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
-
+  
     public void PlaceBasicTower()
     {
         if (selectedTile == null)
