@@ -121,13 +121,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LevelManager, Scripts
-        m_MethodName: PlaceBasicTower
-        m_Mode: 1
+      - m_Target: {fileID: 6682796177732709591}
+        m_TargetAssemblyTypeName: TowerOptionsBar, Scripts
+        m_MethodName: PlaceTower
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 7596997370653839420, guid: b31ef3fdd378a417d80bfecef18b0932, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -642,7 +642,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4669574487552386554}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6682796177732709591}
+        m_TargetAssemblyTypeName: TowerOptionsBar, Scripts
+        m_MethodName: PlaceTower
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2746393042390166952, guid: 4c27ce3febc9be24ab31fb0252d540d4, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7136186704133481140
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,6 +803,7 @@ GameObject:
   - component: {fileID: 9101627090916631738}
   - component: {fileID: 5727529572553310503}
   - component: {fileID: 7607651492916198021}
+  - component: {fileID: 6682796177732709591}
   m_Layer: 5
   m_Name: EmptyGrassTileMenu
   m_TagString: Untagged
@@ -881,6 +894,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6682796177732709591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7212504350103819157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f27ebd792ce6559408769307d169243c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelManager: {fileID: 0}
+  tilePosition: {x: 0, y: 0, z: 0}
 --- !u!1 &7594782424322600908
 GameObject:
   m_ObjectHideFlags: 0
@@ -1239,4 +1266,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2291781350828577377}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6682796177732709591}
+        m_TargetAssemblyTypeName: TowerOptionsBar, Scripts
+        m_MethodName: PlaceTower
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 7093835851391559277, guid: 3d9d82f010d43184c97b6332364f9abd, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
