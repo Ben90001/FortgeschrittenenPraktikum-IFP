@@ -155,7 +155,9 @@ public class LevelManager : MonoBehaviour
         {
             if (tile == this.Grass)
             {
-                ShowTowerOptionsBarForSelectedTile(tilePosition);
+                Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+
+                TowerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
             }
         }
         else
@@ -175,7 +177,7 @@ public class LevelManager : MonoBehaviour
 
     private void ShowTowerOptionsBarForSelectedTile(Vector3Int tilePosition)
     {
-        TowerOptionsBar.ShowForTile(tilePosition);
+        
     }
 
     private void HideTowerOptionsBar()

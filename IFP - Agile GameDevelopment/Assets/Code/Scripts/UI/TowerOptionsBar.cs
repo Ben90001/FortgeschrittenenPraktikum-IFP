@@ -8,10 +8,11 @@ public class TowerOptionsBar : MonoBehaviour
 
     public Vector3Int tilePosition;
 
-    public void ShowForTile(Vector3Int tilePosition)
+    public void ShowForTile(Vector3Int tilePosition, Vector3 tileWorldPosition)
     {
         this.tilePosition = tilePosition;
 
+        gameObject.transform.position = tileWorldPosition;
         gameObject.SetActive(true);
 
         Time.timeScale = 0.0f;
