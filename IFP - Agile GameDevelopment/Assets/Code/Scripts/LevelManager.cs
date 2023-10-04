@@ -31,19 +31,18 @@ public class LevelManager : MonoBehaviour
 
     // NOTE: Level specific private data
 
-    private GameObject level;
+    [SerializeField] private GameObject level;
+    [SerializeField] private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
     private LevelInfo levelInfo;
 
-    private Tilemap tilemap;
+    public Tilemap tilemap;
 
     private Transform[] path;
 
     private Transform spawnPoint;
 
     // NOTE: Gameplay logic specific data
-
-    private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
     private float spawnTimer = 0.0f;
 
@@ -129,6 +128,22 @@ public class LevelManager : MonoBehaviour
         {
             // TODO: What todo
         }
+    }
+
+    public GameObject GetLevel() => level;
+  
+    public void SetLoadedLevel(GameObject loadedLevel)
+    {
+        level = loadedLevel;
+    }
+
+    public Dictionary<Vector2Int, GameObject> GetTowers()
+    {
+        return towers;
+    }
+    public void HandleClickOnTileForTesting()
+    {
+        HandleClickOnTile();
     }
 
     /// <summary>
