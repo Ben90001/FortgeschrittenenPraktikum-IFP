@@ -10,6 +10,7 @@ public class BasicTower : BaseTower
 
     protected override void TowerUpgrade()
     {
+        //TODO: add funtionality
     }
 
     protected override bool PerformAction()
