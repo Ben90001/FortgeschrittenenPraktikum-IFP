@@ -48,8 +48,20 @@ public class LevelManagerTests
         Assert.IsTrue(towerAdded, "Der Turm wurde nicht zum 'towers'-Dictionary hinzugefügt.");
     }
 
+    [Test]
+    public void DecreasePlayerLives_UpdatesPlayerLivesCorrectly()
+    {
+        
+        LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
 
+     
+        levelManager.PlayerLives = 5;
 
+     
+        levelManager.DecreasePlayerLives();
+
+        Assert.AreEqual(4, levelManager.PlayerLives, "Die Spielerleben wurden nicht korrekt verringert.");
+    }
 
 
 
