@@ -181,7 +181,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private bool TilePositionHasTower(Vector3Int tilePosition)
+    public bool TilePositionHasTower(Vector3Int tilePosition)
     {
         Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
 
