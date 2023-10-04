@@ -1,3 +1,4 @@
+using Codice.CM.Client.Differences;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,40 +14,38 @@ public class Enemy : MonoBehaviour
 
     private LevelManager levelManager;
 
-    private Vector2[] path;
-
-    private Vector2 nextTargetPosition;
-
-    private float pathOffset;
-
-    private int nextTargetIndex;
+    private EnemyPosition position;
 
     private bool isSlowed = false;
     private float slowFactor = 1.0f;
     private float originalMovementSpeed;
-  
 
     public void Initialize(LevelManager levelManager, Transform[] path)
     {
         this.levelManager = levelManager;
-        this.path = new Vector2[path.Length];
+        
+        // TODO: Clean this code up
+
+        Vector2[] waypoints = new Vector2[path.Length];
 
         for (int index = 0; index < path.Length; ++index)
         {
-            this.path[index] = path[index].position;
+            waypoints[index] = path[index].position;
         }
 
-        pathOffset = UnityEngine.Random.Range(-0.3f, 0.3f);
-        nextTargetPosition = GetNextTargetPosition(this.path, nextTargetIndex, pathOffset);
+        position = new EnemyPosition(waypoints, waypoints[0]);
 
-        ++nextTargetIndex;
+        transform.position = waypoints[0];
 
-        transform.position = this.path[0] + Vector2.Perpendicular((this.path[1] - this.path[0]).normalized) * pathOffset;
+        // pathOffset = UnityEngine.Random.Range(-0.3f, 0.3f);
+        // nextTargetPosition = GetNextTargetPosition(this.path, nextTargetIndex, pathOffset);
+        // ++nextTargetIndex;
+        // transform.position = this.path[0] + Vector2.Perpendicular((this.path[1] - this.path[0]).normalized) * pathOffset;
     }
 
     public void FixedUpdate()
     {
-        bool reachedEnd = FollowPath();
+        bool reachedEnd = FollowPathAndUpdateTransform();
 
         if (reachedEnd)
         {
@@ -54,6 +53,15 @@ public class Enemy : MonoBehaviour
 
             Destroy(gameObject);
         }
+    }
+
+    private bool FollowPathAndUpdateTransform()
+    {
+        bool reachedEnd = position.FollowPath(Time.fixedDeltaTime * MovementSpeed);
+
+        transform.position = position.Position;
+
+        return reachedEnd;
     }
 
     public void ApplyDamage(float amount)
@@ -68,10 +76,6 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-
-
-
 
     public void ApplySlow(float factor)
     {
@@ -97,58 +101,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
-    private bool FollowPath()
+    public void RestoreSpeed()
     {
-        bool reachedEnd = false;
-
-        Vector2 currentPosition = transform.position;
-
-        float distanceToTravel = MovementSpeed * Time.fixedDeltaTime;
-
-        for (int iteration = 0; iteration < 3; ++iteration)
-        {
-            if (distanceToTravel >= 0.0f)
-            {
-                Vector2 delta = nextTargetPosition - currentPosition;
-
-                float distance = delta.magnitude;
-
-                if (distance > distanceToTravel)
-                {
-                    delta *= distanceToTravel / distance;
-
-                    distance = distanceToTravel;
-                }
-                else
-                {
-                    if (nextTargetIndex + 1 < path.Length)
-                    {
-                        nextTargetPosition = GetNextTargetPosition(path, nextTargetIndex, pathOffset);
-
-                        ++nextTargetIndex;
-                    }
-                    else
-                    {
-                        reachedEnd = true;
-                    }
-                }
-
-                distanceToTravel -= distance;
-
-                currentPosition += delta;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        transform.position = currentPosition;
-
-        return reachedEnd;
+        MovementSpeed = 10f;
     }
 
+    /* 
     private static int GetSignFromLastBit(int value)
     {
         int result = ((value << 31) >> 31) + (~value & 1);
@@ -182,8 +140,5 @@ public class Enemy : MonoBehaviour
 
         return result;
     }
-    public void RestoreSpeed()
-    {
-        MovementSpeed = 10f;
-    }
+    */
 }
