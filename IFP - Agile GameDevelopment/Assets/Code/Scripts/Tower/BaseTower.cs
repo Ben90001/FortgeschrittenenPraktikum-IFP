@@ -28,7 +28,7 @@ public abstract class BaseTower : MonoBehaviour
         {
             if (PerformAction())
             {
-                actionTimer += SecondsBetweenActions;
+                actionTimer = SecondsBetweenActions;
             }
             else
             {
@@ -36,6 +36,7 @@ public abstract class BaseTower : MonoBehaviour
             }
         }
     }
+
 
     protected abstract void TowerUpgrade();
 
@@ -59,5 +60,11 @@ public abstract class BaseTower : MonoBehaviour
         }
 
         return result;
+    }
+
+    //Methods used only for testing
+    public float GetActionTimer() 
+    {
+        return actionTimer;
     }
 }
