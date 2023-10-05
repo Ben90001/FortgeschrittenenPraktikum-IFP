@@ -89,5 +89,19 @@ public class LevelManagerTests
         Assert.AreEqual(1, towerCount, "Es wurde ein Turm zur 'towers'-Dictionary hinzugefügt, obwohl bereits einer vorhanden war.");
     }
 
-    
+    [Test]
+    public void GetTileKeyFromTilePosition_ReturnsCorrectTileKey()
+    {
+        
+        LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
+
+        Vector3Int tilePosition = new Vector3Int(2, 3, 0);
+
+
+        Vector2Int tileKey = levelManager.GetTileKeyFromTilePosition(tilePosition);
+
+        
+        Assert.AreEqual(new Vector2Int(2, 3), tileKey, "GetTileKeyFromTilePosition gibt einen falschen Tile-Key zurück.");
+    }
+
 }
