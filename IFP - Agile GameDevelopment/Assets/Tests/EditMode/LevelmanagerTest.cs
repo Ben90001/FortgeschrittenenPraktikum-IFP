@@ -103,5 +103,17 @@ public class LevelManagerTests
         
         Assert.AreEqual(new Vector2Int(2, 3), tileKey, "GetTileKeyFromTilePosition gibt einen falschen Tile-Key zurück.");
     }
+    [Test]
+    public void TilePositionHasTower_ReturnsFalse_WhenNoTowerIsPresent()
+    {
+        
+        LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
+        
+        Vector3Int tilePosition = new Vector3Int(1, 1, 0);
+
+        bool hasTower = levelManager.TilePositionHasTower(tilePosition);
+
+        Assert.IsFalse(hasTower, "TilePositionHasTower sollte false zurückgeben, wenn kein Turm vorhanden ist.");
+    }
 
 }
