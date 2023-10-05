@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -18,6 +19,7 @@ public class LevelManagerTests
         
         Assert.IsNull(loadedLevel);
     }
+
     [Test]
 
 
@@ -63,6 +65,29 @@ public class LevelManagerTests
         Assert.AreEqual(4, levelManager.PlayerLives, "Die Spielerleben wurden nicht korrekt verringert.");
     }
 
+    [Test]
+    public void PlaceTowerAtTile_DoesNotAddTowerToTowersDictionary_WhenTilePositionHasTower()
+    {
+        LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
 
+     
+        GameObject towerPrefab = new GameObject("TowerPrefab");
 
+       
+        Vector3Int tilePosition = new Vector3Int(1, 1, 0);
+
+      
+        levelManager.GetTowers().Add(new Vector2Int(1, 1), new GameObject("Tower"));
+
+        levelManager.PlaceTowerAtTile(towerPrefab, tilePosition);
+
+        
+        Dictionary<Vector2Int, GameObject> towersAfter = levelManager.GetTowers();
+        int towerCount = towersAfter.Count;
+
+       
+        Assert.AreEqual(1, towerCount, "Es wurde ein Turm zur 'towers'-Dictionary hinzugefügt, obwohl bereits einer vorhanden war.");
+    }
+
+    
 }

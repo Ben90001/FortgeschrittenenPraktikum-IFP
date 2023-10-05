@@ -64,6 +64,7 @@ public class LevelManager : MonoBehaviour
         }
 
         InitializeLoadedLevel(loadedLevel);
+        
     }
 
     public void Update()
@@ -204,17 +205,18 @@ public class LevelManager : MonoBehaviour
     {
         Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
         Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
-
+        
         return result;
     }
 
-    private static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
+    public Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
         Vector2Int result = ((Vector2Int)tilePosition);
 
         return result;
     }
 
+    
     /// <summary>
     /// Extracts the path from the provided level GameObject.
     /// </summary>

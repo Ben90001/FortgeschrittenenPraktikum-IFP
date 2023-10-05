@@ -345,6 +345,8 @@ MonoBehaviour:
   TowerOptionsBar: {fileID: 6682796177558364796}
   TimeBetweenSpawns: 1.5
   HUD: {fileID: 744179455}
+  level: {fileID: 0}
+  tilemap: {fileID: 0}
   PlayerLives: 10
 --- !u!4 &966348541
 Transform:
