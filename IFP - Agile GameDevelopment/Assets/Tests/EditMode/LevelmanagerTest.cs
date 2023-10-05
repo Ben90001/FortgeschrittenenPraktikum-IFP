@@ -115,5 +115,19 @@ public class LevelManagerTests
 
         Assert.IsFalse(hasTower, "TilePositionHasTower sollte false zurückgeben, wenn kein Turm vorhanden ist.");
     }
+    [Test]
+    public void TilePositionHasTower_ReturnsTrue_WhenTowerIsPresent()
+    {
+       
+        LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
+
+        Vector3Int tilePosition = new Vector3Int(1, 1, 0);
+
+        levelManager.GetTowers().Add(new Vector2Int(1, 1), new GameObject("Tower"));
+
+        bool hasTower = levelManager.TilePositionHasTower(tilePosition);
+
+        Assert.IsTrue(hasTower, "TilePositionHasTower sollte true zurückgeben, wenn ein Turm vorhanden ist.");
+    }
 
 }
