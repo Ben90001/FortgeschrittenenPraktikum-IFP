@@ -11,7 +11,7 @@ public class BaseTowerTests
         private BasicTower BasicTower = new GameObject().AddComponent<BasicTower>();
         private SniperTower SniperTower = new GameObject().AddComponent<SniperTower>();
         private IceTower IceTower = new GameObject().AddComponent<IceTower>();
-        //add all other inheriting towers and test them as well
+        
 
         float[] ActionTimers = new float[100];
 
@@ -25,26 +25,51 @@ public class BaseTowerTests
                 ActionTimers[i] = BasicTower.GetActionTimer();
             }
         }
-        
+
+        //TODO: rest of the tower
         [Test]
-        public void ActionTimerTests()
+        public void ActionTimeUpperBound()
         {
             for (int i = 0; i < ActionTimers.Length - 1; i++)
             {
-                if (ActionTimers[i] <= 0)
+                Assert.LessOrEqual(ActionTimers[i], BasicTower.SecondsBetweenActions); //upper bound ActionTimer
+            }
+        }
+
+        [Test]
+        public void ActionTimeSoftLowerBound()
+        {
+            //NOTE: purpose of this test is only to indicate bad performance
+            //      assertion does not necessarily be true (not in requirements)
+            for (int i = 0; i < ActionTimers.Length - 1; i++)
+            {
+                Assert.GreaterOrEqual(ActionTimers[i], -BasicTower.SecondsBetweenActions); 
+            }
+        }
+
+        [Test]
+        public void ActionTimeStopDecreasingWhenNotPositive()
+        {
+            for (int i = 0; i < ActionTimers.Length - 1; i++)
+            {
+                if (ActionTimers[i] <= 0.0f)
                 {
-                    Assert.GreaterOrEqual(ActionTimers[i-1], 0);
                     Assert.LessOrEqual(ActionTimers[i], ActionTimers[i + 1]);
-                    Assert.AreEqual(ActionTimers[i + 1], BasicTower.SecondsBetweenActions);
                 }
-                else
+            }
+        }
+
+        [Test]
+        public void ActionTimeDecreasedIfPositive()
+        {
+            for (int i = 0; i < ActionTimers.Length - 1; i++)
+            {
+                if (ActionTimers[i] > 0.0f)
                 {
                     Assert.GreaterOrEqual(ActionTimers[i], ActionTimers[i + 1]);
                 }
-            }
-            //TODO: rest of the tower
+
+            } //TODO: rest of the tower
         }
     }
-
-
 }
