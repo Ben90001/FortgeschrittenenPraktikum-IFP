@@ -21,9 +21,6 @@ public class LevelManagerTests
     }
 
     [Test]
-
-
- 
     public void PlaceTowerAtTile_AddsTowerToTowersDictionary_WhenTilePositionHasNoTower()
     {
         
@@ -37,7 +34,7 @@ public class LevelManagerTests
 
         
         bool noTowerOnTileBefore = !levelManager.TilePositionHasTower(tilePosition);
-        Assert.IsTrue(noTowerOnTileBefore, "Vor dem Hinzufügen des Turms war bereits ein Turm auf dem Tile.");
+        Assert.IsTrue(noTowerOnTileBefore, "Vor dem Hinzufï¿½gen des Turms war bereits ein Turm auf dem Tile.");
 
         levelManager.PlaceTowerAtTile(towerPrefab, tilePosition);
 
@@ -46,8 +43,8 @@ public class LevelManagerTests
         bool towerAdded = towers.ContainsKey(new Vector2Int(1, 1));
 
         
-        Assert.IsTrue(noTowerOnTileBefore, "Vor dem Hinzufügen des Turms war bereits ein Turm auf dem Tile.");
-        Assert.IsTrue(towerAdded, "Der Turm wurde nicht zum 'towers'-Dictionary hinzugefügt.");
+        Assert.IsTrue(noTowerOnTileBefore, "Vor dem Hinzufï¿½gen des Turms war bereits ein Turm auf dem Tile.");
+        Assert.IsTrue(towerAdded, "Der Turm wurde nicht zum 'towers'-Dictionary hinzugefï¿½gt.");
     }
 
     [Test]
@@ -86,7 +83,7 @@ public class LevelManagerTests
         int towerCount = towersAfter.Count;
 
        
-        Assert.AreEqual(1, towerCount, "Es wurde ein Turm zur 'towers'-Dictionary hinzugefügt, obwohl bereits einer vorhanden war.");
+        Assert.AreEqual(1, towerCount, "Es wurde ein Turm zur 'towers'-Dictionary hinzugefï¿½gt, obwohl bereits einer vorhanden war.");
     }
 
     [Test]
@@ -101,7 +98,7 @@ public class LevelManagerTests
         Vector2Int tileKey = levelManager.GetTileKeyFromTilePosition(tilePosition);
 
         
-        Assert.AreEqual(new Vector2Int(2, 3), tileKey, "GetTileKeyFromTilePosition gibt einen falschen Tile-Key zurück.");
+        Assert.AreEqual(new Vector2Int(2, 3), tileKey, "GetTileKeyFromTilePosition gibt einen falschen Tile-Key zurï¿½ck.");
     }
     [Test]
     public void TilePositionHasTower_ReturnsFalse_WhenNoTowerIsPresent()
@@ -113,7 +110,7 @@ public class LevelManagerTests
 
         bool hasTower = levelManager.TilePositionHasTower(tilePosition);
 
-        Assert.IsFalse(hasTower, "TilePositionHasTower sollte false zurückgeben, wenn kein Turm vorhanden ist.");
+        Assert.IsFalse(hasTower, "TilePositionHasTower sollte false zurï¿½ckgeben, wenn kein Turm vorhanden ist.");
     }
     [Test]
     public void TilePositionHasTower_ReturnsTrue_WhenTowerIsPresent()
@@ -127,7 +124,7 @@ public class LevelManagerTests
 
         bool hasTower = levelManager.TilePositionHasTower(tilePosition);
 
-        Assert.IsTrue(hasTower, "TilePositionHasTower sollte true zurückgeben, wenn ein Turm vorhanden ist.");
+        Assert.IsTrue(hasTower, "TilePositionHasTower sollte true zurï¿½ckgeben, wenn ein Turm vorhanden ist.");
     }
 
 }
