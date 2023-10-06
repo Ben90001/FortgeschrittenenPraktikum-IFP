@@ -4,14 +4,21 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class LevelManagerTests
+public class ClassToBeTestedTests
 {
     public class AwakeMethodTests
     {
+        [SetUp]
+        public void BeforeEveryTest()
+        {
+            //make basic setup here
+            //function gets called before every test
+        }
+
         [Test]
         public void NameOfTest()
         {
-            //nothing really to assert here
+            //make Assertions here
         }
     }
     
