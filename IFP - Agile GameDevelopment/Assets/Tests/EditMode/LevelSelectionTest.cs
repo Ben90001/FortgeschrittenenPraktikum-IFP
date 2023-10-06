@@ -20,7 +20,17 @@ public class LevelSelectionTests
         }
     }
 
- 
+    [Test]
+    public void LoadLevel_LoadsLevelGameObjectSuccessfully()
+    {
+        int levelID = 1;
 
- 
+        GameObject loadedLevel = LevelSelection.LoadLevel(levelID);
+
+        Assert.IsNotNull(loadedLevel);
+    }
+
+
+
+
 }
