@@ -8,6 +8,8 @@ public class BaseTowerTests
 {
     public class FixedUpdateMethodTests
     {
+        //TODO: Add Tests for MineTower
+
         private BasicTower BasicTower = new GameObject().AddComponent<BasicTower>();
         private SniperTower SniperTower = new GameObject().AddComponent<SniperTower>();
         private IceTower IceTower = new GameObject().AddComponent<IceTower>();
@@ -145,6 +147,17 @@ public class BaseTowerTests
                     Assert.GreaterOrEqual(ActionTimersBasciTower[i], ActionTimersBasciTower[i + 1]);
                 }
             }
+        }
+
+        [Test]
+        public void SecondsBetweenActionsNotNegative()
+        {
+            //BasicTower
+            Assert.GreaterOrEqual(BasicTower.SecondsBetweenActions, 0);
+            //SniperTower
+            Assert.GreaterOrEqual(SniperTower.SecondsBetweenActions, 0);
+            //IceTower
+            Assert.GreaterOrEqual(IceTower.SecondsBetweenActions, 0);
         }
     }
 }
