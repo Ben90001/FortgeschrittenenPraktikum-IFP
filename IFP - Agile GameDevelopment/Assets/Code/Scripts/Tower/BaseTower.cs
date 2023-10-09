@@ -7,6 +7,8 @@ public abstract class BaseTower : MonoBehaviour
 {
     public float SecondsBetweenActions;
 
+    protected float actionRadius = 2.0f;
+
     private float actionTimer;
 
     // private int level;
@@ -46,6 +48,7 @@ public abstract class BaseTower : MonoBehaviour
     {
         Enemy result = null;
 
+        //creates new collider every time? might be better to add collider to tower and call that one, less room for errors
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
 
         foreach (Collider2D collider in colliders)

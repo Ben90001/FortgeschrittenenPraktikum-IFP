@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BasicTower : BaseTower
@@ -17,7 +15,7 @@ public class BasicTower : BaseTower
     {
         bool success = false;
 
-        Enemy target = FindBestTarget(2.0f);
+        Enemy target = FindBestTarget(actionRadius);
 
         if (target != null)
         {

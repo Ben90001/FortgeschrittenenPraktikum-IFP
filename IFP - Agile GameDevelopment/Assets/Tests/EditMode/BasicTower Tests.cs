@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 
 public class BasicTowerTests
 {
-    public class FixedUpdateMethodTests
+    public class PerformActionMethodTests
     {
         private BasicTower BasicTower = new GameObject().AddComponent<BasicTower>();
         
@@ -16,14 +16,12 @@ public class BasicTowerTests
         [SetUp]
         public void BeforeEveryTest()
         {
-            
-
         }
 
-        //TODO: rest of the tower
         [Test]
-        public void ActionTimeUpperBound()
+        public void PerformActionTrueIfEnemieNotNull()
         {
+            Enemy Enemy = null;
 
         }
     }
