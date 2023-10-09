@@ -108,7 +108,7 @@ public struct EnemyPosition
 
     public Vector2 GetCurrentTarget()
     {
-        Vector2 result = default(Vector2);
+        Vector2 result = default;
 
         if (waypoints != null && waypoints.Length > 0)
         {

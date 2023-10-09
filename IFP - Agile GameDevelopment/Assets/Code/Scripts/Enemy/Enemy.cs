@@ -9,7 +9,6 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 { 
     public float MovementSpeed = 10.0f;
-
     public float Health;
 
     private LevelManager levelManager;
@@ -17,6 +16,7 @@ public class Enemy : MonoBehaviour
     private EnemyPosition position;
 
     private bool isSlowed = false;
+
     private float slowFactor = 1.0f;
     private float originalMovementSpeed;
 
@@ -53,15 +53,6 @@ public class Enemy : MonoBehaviour
 
             Destroy(gameObject);
         }
-    }
-
-    private bool FollowPathAndUpdateTransform()
-    {
-        bool reachedEnd = position.FollowPath(Time.fixedDeltaTime * MovementSpeed);
-
-        transform.position = position.Position;
-
-        return reachedEnd;
     }
 
     public void ApplyDamage(float amount)
@@ -104,6 +95,15 @@ public class Enemy : MonoBehaviour
     public void RestoreSpeed()
     {
         MovementSpeed = 10f;
+    }
+
+    private bool FollowPathAndUpdateTransform()
+    {
+        bool reachedEnd = position.FollowPath(Time.fixedDeltaTime * MovementSpeed);
+
+        transform.position = position.Position;
+
+        return reachedEnd;
     }
 
     /* 
