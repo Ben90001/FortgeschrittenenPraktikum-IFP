@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
 
         InitializePathWithRandomOffset(waypoints);
 
-        InitializePositionFromPath(this.path);
+        transform.position = this.path.GetStartingPosition();
     }
 
     public void Initialize(LevelManager levelManager, Vector2[] waypoints, Vector2 startingPosition)
@@ -46,16 +46,9 @@ public class Enemy : MonoBehaviour
 
     private void InitializePathWithRandomOffset(Vector2[] waypoints)
     {
-        // TODO: Random from LevelManager
-
         float offset = UnityEngine.Random.Range(-0.3f, 0.3f);
 
         this.path = new EnemyPath(waypoints, offset);
-    }
-
-    private void InitializePositionFromPath(EnemyPath path)
-    {
-        transform.position = path.GetStartingPosition();
     }
 
     private bool FollowPath()

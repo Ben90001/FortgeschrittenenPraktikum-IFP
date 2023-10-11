@@ -31,21 +31,22 @@ public class LevelManager : MonoBehaviour
 
     // NOTE: Level specific private data
 
-    private GameObject level;
+    [SerializeField] private GameObject level;
+    [SerializeField] private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
     private LevelInfo levelInfo;
 
-    private Tilemap tilemap;
+    public Tilemap tilemap;
 
-    private Vector2[] path;
+    private Transform[] path;
+
+    private Transform spawnPoint;
 
     // NOTE: Gameplay logic specific data
 
-    private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
-
     private float spawnTimer = 0.0f;
 
-    public int PlayerLives = 10; //only public for game design changes during development
+    public int PlayerLives = 10; 
 
     private int bestTry;
 
@@ -63,6 +64,7 @@ public class LevelManager : MonoBehaviour
         }
 
         InitializeLoadedLevel(loadedLevel);
+        
     }
 
     public void Update()
@@ -92,8 +94,12 @@ public class LevelManager : MonoBehaviour
         if (spawnTimer < 0)
         {
             spawnTimer += TimeBetweenSpawns;
+            
+            GameObject enemyObject = Instantiate(Enemy, spawnPoint.position, Quaternion.identity);
 
-            SpawnEnemy();
+            Enemy enemy = enemyObject.GetComponent<Enemy>();
+
+            enemy.Initialize(this, path);
         }
     }
 
@@ -125,13 +131,20 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy()
+    public GameObject GetLevel() => level;
+  
+    public void SetLoadedLevel(GameObject loadedLevel)
     {
-        GameObject enemyObject = Instantiate(Enemy);
+        level = loadedLevel;
+    }
 
-        Enemy enemy = enemyObject.GetComponent<Enemy>();
-
-        enemy.Initialize(this, path);
+    public Dictionary<Vector2Int, GameObject> GetTowers()
+    {
+        return towers;
+    }
+    public void HandleClickOnTileForTesting()
+    {
+        HandleClickOnTile();
     }
 
     /// <summary>
@@ -143,6 +156,7 @@ public class LevelManager : MonoBehaviour
         this.levelInfo = level.GetComponent<LevelInfo>();
         this.tilemap = level.GetComponentInChildren<Tilemap>();
         this.path = ExtractPathFromLevel(level);
+        this.spawnPoint = path[0];
 
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
     }
@@ -168,7 +182,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private bool TilePositionHasTower(Vector3Int tilePosition)
+    public bool TilePositionHasTower(Vector3Int tilePosition)
     {
         Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
 
@@ -191,24 +205,25 @@ public class LevelManager : MonoBehaviour
     {
         Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
         Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
-
+        
         return result;
     }
 
-    private static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
+    public Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
         Vector2Int result = ((Vector2Int)tilePosition);
 
         return result;
     }
 
+    
     /// <summary>
     /// Extracts the path from the provided level GameObject.
     /// </summary>
     /// <returns>Array of transforms. One transform for each waypoint.</returns>
-    private static Vector2[] ExtractPathFromLevel(GameObject level)
+    private static Transform[] ExtractPathFromLevel(GameObject level)
     {
-        Vector2[] result = null;
+        Transform[] result = null;
 
         Transform pathObject = level.transform.Find("Path");
 
@@ -216,13 +231,13 @@ public class LevelManager : MonoBehaviour
         {
             int waypointCount = pathObject.childCount;
 
-            result = new Vector2[waypointCount];
+            result = new Transform[waypointCount];
 
             for (int childIndex = 0; childIndex < waypointCount; ++childIndex)
             {
                 Transform waypoint = pathObject.GetChild(childIndex);
 
-                result[childIndex] = waypoint.position;
+                result[childIndex] = waypoint;
             }
         }
 
@@ -274,5 +289,19 @@ public class LevelManager : MonoBehaviour
 
         camera.transform.position = newCameraPosition;
         camera.orthographicSize = minCameraSize;
+    }
+
+
+    //NOTE:Use Methodes below for testing only
+
+    
+    public GameObject GetEnemy()
+    {
+        return Enemy;
+    }
+    
+    public GameObject GetBasicTowerPrefab()
+    {
+        return BasicTower;
     }
 }
