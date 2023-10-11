@@ -1,9 +1,3 @@
-using Codice.CM.Client.Differences;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Properties;
-using UnityEditor;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -11,49 +5,127 @@ public class Enemy : MonoBehaviour
     public float MovementSpeed = 10.0f;
     public float Health;
 
-    private LevelManager levelManager;
-
-    private EnemyPosition position;
-
     private bool isSlowed = false;
 
     private float slowFactor = 1.0f;
     private float originalMovementSpeed;
 
-    public void Initialize(LevelManager levelManager, Transform[] path)
+    //
+
+    private LevelManager levelManager;
+
+    private EnemyPath path;
+
+    public void Initialize(LevelManager levelManager, Vector2[] waypoints)
     {
         this.levelManager = levelManager;
-        
-        // TODO: Clean this code up
 
-        Vector2[] waypoints = new Vector2[path.Length];
+        InitializePathWithRandomOffset(waypoints);
 
-        for (int index = 0; index < path.Length; ++index)
-        {
-            waypoints[index] = path[index].position;
-        }
+        transform.position = this.path.GetStartingPosition();
+    }
 
-        position = new EnemyPosition(waypoints, waypoints[0]);
+    public void Initialize(LevelManager levelManager, Vector2[] waypoints, Vector2 startingPosition)
+    {
+        Initialize(levelManager, waypoints);
 
-        transform.position = waypoints[0];
-
-        // pathOffset = UnityEngine.Random.Range(-0.3f, 0.3f);
-        // nextTargetPosition = GetNextTargetPosition(this.path, nextTargetIndex, pathOffset);
-        // ++nextTargetIndex;
-        // transform.position = this.path[0] + Vector2.Perpendicular((this.path[1] - this.path[0]).normalized) * pathOffset;
+        transform.position = startingPosition;
     }
 
     public void FixedUpdate()
     {
-        bool reachedEnd = FollowPathAndUpdateTransform();
+        bool reachedPathEnd = FollowPath();
 
-        if (reachedEnd)
+        if (reachedPathEnd)
         {
             levelManager.DecreasePlayerLives();
 
             Destroy(gameObject);
         }
     }
+
+    private void InitializePathWithRandomOffset(Vector2[] waypoints)
+    {
+        float offset = UnityEngine.Random.Range(-0.3f, 0.3f);
+
+        this.path = new EnemyPath(waypoints, offset);
+    }
+
+    private bool FollowPath()
+    {
+        float distanceToTravel = Time.fixedDeltaTime * this.MovementSpeed;
+
+        bool hasReachedEnd = MoveDistanceAlongPath(distanceToTravel);
+
+        return hasReachedEnd;
+    }
+
+    private bool MoveDistanceAlongPath(float distanceToTravel)
+    {
+        bool hasReachedEnd = path.HasReachedEndOfPath();
+
+        Vector2 position = transform.position;
+
+        Vector2 target = path.GetCurrentTarget();
+
+        while (!hasReachedEnd && !Mathf.Approximately(distanceToTravel, 0.0f))
+        {
+            bool hasReachedTarget = MovePositionTowardsTarget(target, ref position, ref distanceToTravel);
+
+            if (hasReachedTarget)
+            {
+                target = path.TargetNextWaypoint();
+            }
+
+            hasReachedEnd = path.HasReachedEndOfPath();
+        }
+
+        transform.position = position;
+
+        return hasReachedEnd;
+    }
+
+    private static bool MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
+    {
+        bool reachedTarget = false;
+
+        if (!Mathf.Approximately(distanceToTravel, 0.0f))
+        {
+            Vector2 delta = target - position;
+
+            float distance = delta.magnitude;
+
+            if (!float.IsNaN(distance) && !float.IsInfinity(distance))
+            {
+                if (distance > distanceToTravel)
+                {
+                    Vector2 movementDelta = delta.normalized * distanceToTravel;
+
+                    position = position + movementDelta;
+                    distanceToTravel = 0.0f;
+                }
+                else
+                {
+                    position = target;
+                    distanceToTravel = distanceToTravel - distance;
+
+                    reachedTarget = true;
+                }
+            }
+            else
+            {
+                reachedTarget = true;
+            }
+        }
+        else
+        {
+            distanceToTravel = 0.0f;
+        }
+
+        return reachedTarget;
+    }
+
+    // TODO: Refactor
 
     public void ApplyDamage(float amount)
     {
@@ -62,7 +134,7 @@ public class Enemy : MonoBehaviour
         if (Health <= 0.0f)
         {
             // TODO: Handle destroyed enemy
-                // TODO: Handel Currency for Kill.
+            // TODO: Handel Currency for Kill.
 
             Destroy(gameObject);
         }
@@ -96,49 +168,4 @@ public class Enemy : MonoBehaviour
     {
         MovementSpeed = 10f;
     }
-
-    private bool FollowPathAndUpdateTransform()
-    {
-        bool reachedEnd = position.FollowPath(Time.fixedDeltaTime * MovementSpeed);
-
-        transform.position = position.Position;
-
-        return reachedEnd;
-    }
-
-    /* 
-    private static int GetSignFromLastBit(int value)
-    {
-        int result = ((value << 31) >> 31) + (~value & 1);
-
-        return result;
-    }
-
-    private static Vector2 GetNextTargetPosition(Vector2[] path, int lastTargetIndex, float pathOffset)
-    {
-        Vector2 result = default(Vector2);
-
-        Vector2 waypoint0 = path[lastTargetIndex];
-
-        float directedPathOffset = GetSignFromLastBit(lastTargetIndex) * pathOffset;
-
-        if (lastTargetIndex + 1 < path.Length)
-        {
-            Vector2 waypoint1 = path[lastTargetIndex + 1];
-            Vector2 oldOffset = Vector2.Perpendicular((waypoint1 - waypoint0).normalized);
-
-            result = waypoint1 + directedPathOffset * oldOffset;
-
-            if (lastTargetIndex + 2 < path.Length)
-            {
-                Vector2 waypoint2 = path[lastTargetIndex + 2];
-                Vector2 newOffset = Vector2.Perpendicular((waypoint2 - waypoint1).normalized);
-
-                result -= directedPathOffset * newOffset;
-            }
-        }
-
-        return result;
-    }
-    */
 }
