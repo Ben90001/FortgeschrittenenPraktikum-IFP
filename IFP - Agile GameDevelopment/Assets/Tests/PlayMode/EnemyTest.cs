@@ -2,10 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
 public class EnemyTests
 {
+    [UnityTest]
+    public IEnumerator Enemy_Test()
+    {
+        SceneManager.LoadScene("GameScene");
+
+        return null;
+    }
+
     /*
     [Test]
     public void Enemy_FollowPath()
