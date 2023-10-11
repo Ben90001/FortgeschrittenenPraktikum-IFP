@@ -1,60 +1,131 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Properties;
-using UnityEditor;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 { 
     public float MovementSpeed = 10.0f;
-
     public float Health;
+
+    private bool isSlowed = false;
+
+    private float slowFactor = 1.0f;
+    private float originalMovementSpeed;
+
+    //
 
     private LevelManager levelManager;
 
-    private Vector2[] path;
+    private EnemyPath path;
 
-    private Vector2 nextTargetPosition;
-
-    private float pathOffset;
-
-    private int nextTargetIndex;
-
-    private bool isSlowed = false;
-    private float slowFactor = 1.0f;
-    private float originalMovementSpeed;
-  
-
-    public void Initialize(LevelManager levelManager, Transform[] path)
+    public void Initialize(LevelManager levelManager, Vector2[] waypoints)
     {
         this.levelManager = levelManager;
-        this.path = new Vector2[path.Length];
 
-        for (int index = 0; index < path.Length; ++index)
-        {
-            this.path[index] = path[index].position;
-        }
+        InitializePathWithRandomOffset(waypoints);
 
-        pathOffset = UnityEngine.Random.Range(-0.3f, 0.3f);
-        nextTargetPosition = GetNextTargetPosition(this.path, nextTargetIndex, pathOffset);
-
-        ++nextTargetIndex;
-
-        transform.position = this.path[0] + Vector2.Perpendicular((this.path[1] - this.path[0]).normalized) * pathOffset;
+        InitializePositionFromPath(this.path);
     }
 
-    public void FixedUpdate()
+    public void Initialize(LevelManager levelManager, Vector2[] waypoints, Vector2 startingPosition)
     {
-        bool reachedEnd = FollowPath();
+        Initialize(levelManager, waypoints);
 
-        if (reachedEnd)
+        transform.position = startingPosition;
+    }
+
+    private void FixedUpdate()
+    {
+        bool reachedPathEnd = FollowPath();
+
+        if (reachedPathEnd)
         {
             levelManager.DecreasePlayerLives();
 
             Destroy(gameObject);
         }
     }
+
+    private void InitializePathWithRandomOffset(Vector2[] waypoints)
+    {
+        // TODO: Random from LevelManager
+
+        float offset = UnityEngine.Random.Range(-0.3f, 0.3f);
+
+        this.path = new EnemyPath(waypoints, offset);
+    }
+
+    private void InitializePositionFromPath(EnemyPath path)
+    {
+        transform.position = path.GetStartingPosition();
+    }
+
+    private bool FollowPath()
+    {
+        float distanceToTravel = Time.fixedDeltaTime * this.MovementSpeed;
+
+        bool hasReachedEnd = MoveDistanceAlongPath(distanceToTravel);
+
+        return hasReachedEnd;
+    }
+
+    private bool MoveDistanceAlongPath(float distanceToTravel)
+    {
+        bool hasReachedEnd = path.HasReachedEndOfPath();
+
+        Vector2 position = transform.position;
+
+        Vector2 target = path.GetCurrentTarget();
+
+        while (!hasReachedEnd && !Mathf.Approximately(distanceToTravel, 0.0f))
+        {
+            bool hasReachedTarget = MovePositionTowardsTarget(target, ref position, ref distanceToTravel);
+
+            if (hasReachedTarget)
+            {
+                target = path.TargetNextWaypoint();
+            }
+
+            hasReachedEnd = path.HasReachedEndOfPath();
+        }
+
+        transform.position = position;
+
+        return hasReachedEnd;
+    }
+
+    private static bool MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
+    {
+        bool reachedTarget = false;
+
+        Vector2 delta = target - position;
+
+        float distance = delta.magnitude;
+
+        if (!float.IsNaN(distance) && !float.IsInfinity(distance))
+        {
+            if (distance > distanceToTravel)
+            {
+                Vector2 movementDelta = delta.normalized * distanceToTravel;
+
+                position = position + movementDelta;
+                distanceToTravel = 0.0f;
+            }
+            else
+            {
+                position = target;
+                distanceToTravel = distanceToTravel - distance;
+
+                reachedTarget = true;
+            }
+        }
+        else
+        {
+            reachedTarget = true;
+        }
+
+        return reachedTarget;
+    }
+
+    // TODO: Refactor
 
     public void ApplyDamage(float amount)
     {
@@ -63,15 +134,11 @@ public class Enemy : MonoBehaviour
         if (Health <= 0.0f)
         {
             // TODO: Handle destroyed enemy
-                // TODO: Handel Currency for Kill.
+            // TODO: Handel Currency for Kill.
 
             Destroy(gameObject);
         }
     }
-
-
-
-
 
     public void ApplySlow(float factor)
     {
@@ -97,93 +164,22 @@ public class Enemy : MonoBehaviour
         }
     }
 
-
-    private bool FollowPath()
-    {
-        bool reachedEnd = false;
-
-        Vector2 currentPosition = transform.position;
-
-        float distanceToTravel = MovementSpeed * Time.fixedDeltaTime;
-
-        for (int iteration = 0; iteration < 3; ++iteration)
-        {
-            if (distanceToTravel >= 0.0f)
-            {
-                Vector2 delta = nextTargetPosition - currentPosition;
-
-                float distance = delta.magnitude;
-
-                if (distance > distanceToTravel)
-                {
-                    delta *= distanceToTravel / distance;
-
-                    distance = distanceToTravel;
-                }
-                else
-                {
-                    if (nextTargetIndex + 1 < path.Length)
-                    {
-                        nextTargetPosition = GetNextTargetPosition(path, nextTargetIndex, pathOffset);
-
-                        ++nextTargetIndex;
-                    }
-                    else
-                    {
-                        reachedEnd = true;
-                    }
-                }
-
-                distanceToTravel -= distance;
-
-                currentPosition += delta;
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        transform.position = currentPosition;
-
-        return reachedEnd;
-    }
-
-    private static int GetSignFromLastBit(int value)
-    {
-        int result = ((value << 31) >> 31) + (~value & 1);
-
-        return result;
-    }
-
-    private static Vector2 GetNextTargetPosition(Vector2[] path, int lastTargetIndex, float pathOffset)
-    {
-        Vector2 result = default(Vector2);
-
-        Vector2 waypoint0 = path[lastTargetIndex];
-
-        float directedPathOffset = GetSignFromLastBit(lastTargetIndex) * pathOffset;
-
-        if (lastTargetIndex + 1 < path.Length)
-        {
-            Vector2 waypoint1 = path[lastTargetIndex + 1];
-            Vector2 oldOffset = Vector2.Perpendicular((waypoint1 - waypoint0).normalized);
-
-            result = waypoint1 + directedPathOffset * oldOffset;
-
-            if (lastTargetIndex + 2 < path.Length)
-            {
-                Vector2 waypoint2 = path[lastTargetIndex + 2];
-                Vector2 newOffset = Vector2.Perpendicular((waypoint2 - waypoint1).normalized);
-
-                result -= directedPathOffset * newOffset;
-            }
-        }
-
-        return result;
-    }
     public void RestoreSpeed()
     {
         MovementSpeed = 10f;
     }
+
+#if UNITY_EDITOR
+
+    public static bool Test_MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
+    {
+        return MovePositionTowardsTarget(target, ref position, ref distanceToTravel);
+    }
+
+    public void Test_MoveDistanceAlongPath(float distanceToTravel)
+    {
+        MoveDistanceAlongPath(distanceToTravel);
+    }
+
+#endif
 }

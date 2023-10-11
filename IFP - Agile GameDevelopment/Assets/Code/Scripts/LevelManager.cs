@@ -38,9 +38,7 @@ public class LevelManager : MonoBehaviour
 
     public Tilemap tilemap;
 
-    private Transform[] path;
-
-    private Transform spawnPoint;
+    private Vector2[] path;
 
     // NOTE: Gameplay logic specific data
 
@@ -94,12 +92,8 @@ public class LevelManager : MonoBehaviour
         if (spawnTimer < 0)
         {
             spawnTimer += TimeBetweenSpawns;
-            
-            GameObject enemyObject = Instantiate(Enemy, spawnPoint.position, Quaternion.identity);
 
-            Enemy enemy = enemyObject.GetComponent<Enemy>();
-
-            enemy.Initialize(this, path);
+            SpawnEnemy();
         }
     }
 
@@ -147,6 +141,15 @@ public class LevelManager : MonoBehaviour
         HandleClickOnTile();
     }
 
+    private void SpawnEnemy()
+    {
+        GameObject enemyObject = Instantiate(Enemy);
+
+        Enemy enemy = enemyObject.GetComponent<Enemy>();
+
+        enemy.Initialize(this, path);
+    }
+
     /// <summary>
     /// Extract all relevant data from the instantiated level object.
     /// </summary>
@@ -156,7 +159,6 @@ public class LevelManager : MonoBehaviour
         this.levelInfo = level.GetComponent<LevelInfo>();
         this.tilemap = level.GetComponentInChildren<Tilemap>();
         this.path = ExtractPathFromLevel(level);
-        this.spawnPoint = path[0];
 
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
     }
@@ -221,9 +223,9 @@ public class LevelManager : MonoBehaviour
     /// Extracts the path from the provided level GameObject.
     /// </summary>
     /// <returns>Array of transforms. One transform for each waypoint.</returns>
-    private static Transform[] ExtractPathFromLevel(GameObject level)
+    private static Vector2[] ExtractPathFromLevel(GameObject level)
     {
-        Transform[] result = null;
+        Vector2[] result = null;
 
         Transform pathObject = level.transform.Find("Path");
 
@@ -231,13 +233,13 @@ public class LevelManager : MonoBehaviour
         {
             int waypointCount = pathObject.childCount;
 
-            result = new Transform[waypointCount];
+            result = new Vector2[waypointCount];
 
             for (int childIndex = 0; childIndex < waypointCount; ++childIndex)
             {
                 Transform waypoint = pathObject.GetChild(childIndex);
 
-                result[childIndex] = waypoint;
+                result[childIndex] = waypoint.position;
             }
         }
 
