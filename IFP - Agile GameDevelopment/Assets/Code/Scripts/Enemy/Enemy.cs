@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
         transform.position = startingPosition;
     }
 
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
         bool reachedPathEnd = FollowPath();
 
@@ -96,37 +96,30 @@ public class Enemy : MonoBehaviour
     {
         bool reachedTarget = false;
 
-        if (!Mathf.Approximately(distanceToTravel, 0.0f))
+        Vector2 delta = target - position;
+
+        float distance = delta.magnitude;
+
+        if (!float.IsNaN(distance) && !float.IsInfinity(distance))
         {
-            Vector2 delta = target - position;
-
-            float distance = delta.magnitude;
-
-            if (!float.IsNaN(distance) && !float.IsInfinity(distance))
+            if (distance > distanceToTravel)
             {
-                if (distance > distanceToTravel)
-                {
-                    Vector2 movementDelta = delta.normalized * distanceToTravel;
+                Vector2 movementDelta = delta.normalized * distanceToTravel;
 
-                    position = position + movementDelta;
-                    distanceToTravel = 0.0f;
-                }
-                else
-                {
-                    position = target;
-                    distanceToTravel = distanceToTravel - distance;
-
-                    reachedTarget = true;
-                }
+                position = position + movementDelta;
+                distanceToTravel = 0.0f;
             }
             else
             {
+                position = target;
+                distanceToTravel = distanceToTravel - distance;
+
                 reachedTarget = true;
             }
         }
         else
         {
-            distanceToTravel = 0.0f;
+            reachedTarget = true;
         }
 
         return reachedTarget;
@@ -175,4 +168,18 @@ public class Enemy : MonoBehaviour
     {
         MovementSpeed = 10f;
     }
+
+#if UNITY_EDITOR
+
+    public static bool Test_MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
+    {
+        return MovePositionTowardsTarget(target, ref position, ref distanceToTravel);
+    }
+
+    public void Test_MoveDistanceAlongPath(float distanceToTravel)
+    {
+        MoveDistanceAlongPath(distanceToTravel);
+    }
+
+#endif
 }
