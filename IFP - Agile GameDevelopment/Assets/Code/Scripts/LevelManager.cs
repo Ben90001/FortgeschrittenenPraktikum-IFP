@@ -46,7 +46,7 @@ public class LevelManager : MonoBehaviour
 
     private float spawnTimer = 0.0f;
 
-    public int PlayerLives = 10; //only public for game design changes during development
+    public int PlayerLives = 10; 
 
     private int bestTry;
 
@@ -289,5 +289,19 @@ public class LevelManager : MonoBehaviour
 
         camera.transform.position = newCameraPosition;
         camera.orthographicSize = minCameraSize;
+    }
+
+
+    //NOTE:Use Methodes below for testing only
+
+    
+    public GameObject GetEnemy()
+    {
+        return Enemy;
+    }
+    
+    public GameObject GetBasicTowerPrefab()
+    {
+        return BasicTower;
     }
 }

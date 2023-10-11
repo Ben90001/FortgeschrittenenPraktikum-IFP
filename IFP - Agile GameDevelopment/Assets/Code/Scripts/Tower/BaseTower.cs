@@ -44,7 +44,7 @@ public abstract class BaseTower : MonoBehaviour
 
     protected abstract bool PerformAction();
 
-    protected Enemy FindBestTarget(float radius)
+    public Enemy FindBestTarget(float radius)
     {
         Enemy result = null;
 
@@ -69,5 +69,9 @@ public abstract class BaseTower : MonoBehaviour
     public float GetActionTimer() 
     {
         return actionTimer;
+    }
+    public float GetActionRadius()
+    {
+        return actionRadius;
     }
 }

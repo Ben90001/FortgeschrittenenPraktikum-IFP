@@ -45,7 +45,6 @@ public class IceTower : BaseTower
     {
         target.ApplySlow(SlowFactor);
 
-        
         slowedEnemies.Add(target);
     }
 

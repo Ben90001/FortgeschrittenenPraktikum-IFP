@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 5797494728727911295}
   - component: {fileID: 2627846582275622869}
   m_Layer: 0
-  m_Name: Basic 3
+  m_Name: BasicTowerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

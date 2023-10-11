@@ -30,4 +30,10 @@ public class BasicTower : BaseTower
 
         return success;
     }
+
+    //Used for Tests only
+    public bool PerformActionForTesting()
+    {
+        return PerformAction();
+    }
 }
