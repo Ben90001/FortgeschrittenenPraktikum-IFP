@@ -101,6 +101,8 @@ public struct EnemyPath
                 {
                     waypoint0 += prevOffset;
                 }
+
+                waypoints[index] = waypoint0;
             }
         }
     }
