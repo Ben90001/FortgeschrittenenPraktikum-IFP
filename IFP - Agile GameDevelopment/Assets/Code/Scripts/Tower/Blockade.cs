@@ -1,46 +1,23 @@
-#if false
 using UnityEngine;
 
-public class Blockade : BaseTower
+public class Blockade: BaseTower
 {
-    private int blockadeHealth;
-    private int maxBlockadeHealth;
-    private bool isBlockadeActive;
-
-    public override void TowerUpgrade()
-    {
+    
+    public float GetHealth() {
+        return 0.0f; //Temporary placeholder value
     }
+    public void ApplyDamage(float damage) { }
 
-    public override void FixedUpdate()
+    public bool IsAlive()
     {
+        return true;
     }
-
-    public void TakeDamage(int damage)
-    {
-        if (this.isBlockadeActive)
-        {
-            this.blockadeHealth -= damage;
-
-            if (this.blockadeHealth <= 0)
-            {
-                this.DeactivateBlockade();
-            }
-        }
+    protected override bool PerformAction() {
+        return false;
     }
-
-    public void ActivateBlockade()
+    protected override void TowerUpgrade()
     {
-        this.isBlockadeActive = true;
-        this.blockadeHealth = this.maxBlockadeHealth;
-    }
-
-    public void DeactivateBlockade()
-    {
-        this.isBlockadeActive = false;
-    }
-
-    protected override void PerformAction()
-    {
+        //TODO: add funtionality
     }
 }
-#endif
+
