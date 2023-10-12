@@ -182,4 +182,12 @@ public class Enemy : MonoBehaviour
     }
 
 #endif
+
+
+    //Methodes for testing only
+    public void SetMovementSpeed(float newSpeed)
+    {
+        this.MovementSpeed = newSpeed;
+    }
 }
+

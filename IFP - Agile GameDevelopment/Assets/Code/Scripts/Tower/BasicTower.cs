@@ -8,6 +8,8 @@ public class BasicTower : BaseTower
 
     private Enemy target;
 
+    private float actionRadius = 2.0f;
+
     protected override void TowerUpgrade()
     {
         //TODO: add funtionality
@@ -17,7 +19,7 @@ public class BasicTower : BaseTower
     {
         bool success = false;
 
-        Enemy target = FindBestTarget(2.0f);
+        Enemy target = FindBestTarget(actionRadius);
 
         if (target != null)
         {
@@ -31,5 +33,19 @@ public class BasicTower : BaseTower
         }
 
         return success;
+    }
+
+    //Methods for tests only
+    public Enemy FindBestTargetForTests()
+    {
+        return FindBestTarget(actionRadius);
+    }
+    public float GetActionRadius()
+    {
+        return actionRadius;
+    }
+    public bool PerformActionForTests()
+    {
+        return PerformAction();
     }
 }
