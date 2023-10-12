@@ -16,22 +16,25 @@ public class Enemy : MonoBehaviour
 
     private EnemyPath path;
 
-    public void Initialize(LevelManager levelManager, Vector2[] waypoints)
+    /// <summary>
+    /// Initializes the enemy.
+    /// </summary>
+    /// <param name="levelManager">Reference to LevelManager in Scene.</param>
+    /// <param name="waypoints">List of waypoints the enemy should follow.</param>
+    /// <param name="offset">The perpendicular offset that should be applied to the waypoints.</param>
+    public void Initialize(LevelManager levelManager, Vector2[] waypoints, float offset)
     {
         this.levelManager = levelManager;
 
-        InitializePathWithRandomOffset(waypoints);
+        InitializePath(waypoints, offset);
 
         InitializePositionFromPath(this.path);
     }
 
-    public void Initialize(LevelManager levelManager, Vector2[] waypoints, Vector2 startingPosition)
-    {
-        Initialize(levelManager, waypoints);
-
-        transform.position = startingPosition;
-    }
-
+    /// <summary>
+    /// Calculates the distance the enemy has to move to reach the last waypoint.
+    /// </summary>
+    /// <returns>The calculated distance.</returns>
     public float GetRemainingDistanceAlongPath()
     {
         Vector2 position = transform.position;
@@ -58,20 +61,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void InitializePathWithRandomOffset(Vector2[] waypoints)
-    {
-        // TODO: Random from LevelManager
-
-        float offset = UnityEngine.Random.Range(-0.3f, 0.3f);
-
-        this.path = new EnemyPath(waypoints, offset);
-    }
-
-    private void InitializePositionFromPath(EnemyPath path)
-    {
-        transform.position = path.GetStartingPosition();
-    }
-
     private bool FollowPath()
     {
         float distanceToTravel = Time.fixedDeltaTime * this.MovementSpeed;
@@ -81,6 +70,21 @@ public class Enemy : MonoBehaviour
         return hasReachedEnd;
     }
 
+    private void InitializePath(Vector2[] waypoints, float offset)
+    {
+        this.path = new EnemyPath(waypoints, offset);
+    }
+
+    private void InitializePositionFromPath(EnemyPath path)
+    {
+        transform.position = path.GetStartingPosition();
+    }
+
+    /// <summary>
+    /// Moves the enemy transform along its path.
+    /// </summary>
+    /// <param name="distanceToTravel">The distance the enemy should move by.</param>
+    /// <returns></returns>
     private bool MoveDistanceAlongPath(float distanceToTravel)
     {
         bool hasReachedEnd = path.HasReachedEndOfPath();
@@ -106,6 +110,12 @@ public class Enemy : MonoBehaviour
         return hasReachedEnd;
     }
 
+    /// <summary>
+    /// Moves the provided position towards the target. Position is at most moved by amount distanceToTravel or until 
+    /// it reached the target. The position and distanceToTravel are modified to reflect the state after the position
+    /// was moved.
+    /// </summary>
+    /// <returns>True when the target was reached.</returns>
     private static bool MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
     {
         bool reachedTarget = false;
@@ -184,6 +194,16 @@ public class Enemy : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+
+    /// <summary>
+    /// Initializes the enemy with a specified starting position.
+    /// </summary>
+    public void Initialize(LevelManager levelManager, Vector2[] waypoints, Vector2 startingPosition)
+    {
+        Initialize(levelManager, waypoints, 0.0f);
+
+        transform.position = startingPosition;
+    }
 
     public static bool Test_MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
     {

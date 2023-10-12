@@ -115,7 +115,7 @@ public class EnemyTests
 
         Enemy enemy = new GameObject().AddComponent<Enemy>();
 
-        enemy.Initialize(levelManager, waypoints);
+        enemy.Initialize(levelManager, waypoints, 0.0f);
 
         float distance = enemy.GetRemainingDistanceAlongPath();
 
@@ -134,7 +134,7 @@ public class EnemyTests
 
         Enemy enemy = new GameObject().AddComponent<Enemy>();
 
-        enemy.Initialize(levelManager, waypoints);
+        enemy.Initialize(levelManager, waypoints, 0.0f);
 
         enemy.Test_MoveDistanceAlongPath(0.5f);
 

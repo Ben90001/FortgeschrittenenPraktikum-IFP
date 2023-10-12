@@ -1,18 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Assertions;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
-using static PlasticPipe.PlasticProtocol.Messages.Serialization.ItemHandlerMessagesSerialization;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine.WSA;
 
 public class LevelManager : MonoBehaviour
 {
+    private static readonly float SPAWN_OFFSET_RANGE = 0.3f;
+
     public GameObject Enemy;
 
     public TileBase Grass;
@@ -47,6 +42,10 @@ public class LevelManager : MonoBehaviour
     public int PlayerLives = 10; //only public for game design changes during development
 
     private int bestTry;
+
+    //
+
+    private PRNG spawnRandom;
 
     public void Awake()
     {
@@ -125,7 +124,7 @@ public class LevelManager : MonoBehaviour
     }
 
     public GameObject GetLevel() => level;
-  
+
     public void SetLoadedLevel(GameObject loadedLevel)
     {
         level = loadedLevel;
@@ -135,9 +134,17 @@ public class LevelManager : MonoBehaviour
     {
         return towers;
     }
+
     public void HandleClickOnTileForTesting()
     {
         HandleClickOnTile();
+    }
+
+    private float GetEnemySpawnOffset()
+    {
+        float result = (float)spawnRandom.NextRange(-SPAWN_OFFSET_RANGE, SPAWN_OFFSET_RANGE);
+
+        return result;
     }
 
     private void SpawnEnemy()
@@ -146,7 +153,9 @@ public class LevelManager : MonoBehaviour
 
         Enemy enemy = enemyObject.GetComponent<Enemy>();
 
-        enemy.Initialize(this, path);
+        float offset = GetEnemySpawnOffset();
+
+        enemy.Initialize(this, path, offset);
     }
 
     /// <summary>
@@ -160,6 +169,8 @@ public class LevelManager : MonoBehaviour
         this.path = ExtractPathFromLevel(level);
 
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
+
+        this.spawnRandom = new PRNG(0);
     }
 
     private void HandleClickOnTile()
@@ -194,7 +205,7 @@ public class LevelManager : MonoBehaviour
 
     private void ShowTowerOptionsBarForSelectedTile(Vector3Int tilePosition)
     {
-        
+
     }
 
     private void HideTowerOptionsBar()
@@ -206,7 +217,7 @@ public class LevelManager : MonoBehaviour
     {
         Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
         Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
-        
+
         return result;
     }
 
@@ -217,7 +228,6 @@ public class LevelManager : MonoBehaviour
         return result;
     }
 
-    
     /// <summary>
     /// Extracts the path from the provided level GameObject.
     /// </summary>
@@ -228,7 +238,7 @@ public class LevelManager : MonoBehaviour
 
         Transform pathObject = level.transform.Find("Path");
 
-        if (pathObject != null) 
+        if (pathObject != null)
         {
             int waypointCount = pathObject.childCount;
 
