@@ -8,6 +8,11 @@ public struct EnemyPath
 
     private int targetWaypoint;
 
+    private float pathLength;
+    private float remainingPathLength;
+
+    public float RemainingPathLength { get { return remainingPathLength; } }
+
     public EnemyPath(Vector2[] path, float perpendicularOffset)
     {
         if (path != null && path.Length > 0)
@@ -23,6 +28,9 @@ public struct EnemyPath
             this.waypoints = new Vector2[1];
         }
 
+        this.pathLength = CalculateTotalPathLength(this.waypoints);
+        this.remainingPathLength = this.pathLength;
+
         this.targetWaypoint = 0;
     }
 
@@ -30,6 +38,16 @@ public struct EnemyPath
     {
         if (targetWaypoint < waypoints.Length)
         {
+            if (targetWaypoint < waypoints.Length - 1)
+            {
+                Vector2 waypoint0 = waypoints[targetWaypoint];
+                Vector2 waypoint1 = waypoints[targetWaypoint + 1];
+
+                float distance = Vector2.Distance(waypoint0, waypoint1);
+
+                this.remainingPathLength -= distance;
+            }
+
             ++targetWaypoint;
         }
 
@@ -105,5 +123,30 @@ public struct EnemyPath
                 waypoints[index] = waypoint0;
             }
         }
+    }
+
+    public static float CalculateTotalPathLength(Vector2[] waypoints)
+    {
+        float result = 0.0f;
+
+        if (waypoints != null && waypoints.Length > 1)
+        {
+            Vector2 waypoint0 = waypoints[0];
+
+            for (int index = 0; index < waypoints.Length; ++index)
+            {
+                Vector2 waypoint1 = waypoints[index];
+
+                Vector2 delta = waypoint1 - waypoint0;
+
+                float distance = delta.magnitude;
+
+                result += distance;
+
+                waypoint0 = waypoint1;
+            }
+        }
+
+        return result;
     }
 }

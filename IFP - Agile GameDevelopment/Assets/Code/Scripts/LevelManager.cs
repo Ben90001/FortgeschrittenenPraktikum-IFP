@@ -62,7 +62,6 @@ public class LevelManager : MonoBehaviour
         }
 
         InitializeLoadedLevel(loadedLevel);
-        
     }
 
     public void Update()
@@ -222,7 +221,7 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Extracts the path from the provided level GameObject.
     /// </summary>
-    /// <returns>Array of transforms. One transform for each waypoint.</returns>
+    /// <returns>Array of Positions. One for each waypoint.</returns>
     private static Vector2[] ExtractPathFromLevel(GameObject level)
     {
         Vector2[] result = null;
@@ -249,7 +248,6 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Load the first level by default. This is for starting from the GameScene in the editor.
     /// </summary>
-    /// <returns></returns>
     private static GameObject LoadDefaultLevel()
     {
         GameObject level = LevelSelection.LoadLevel(1);

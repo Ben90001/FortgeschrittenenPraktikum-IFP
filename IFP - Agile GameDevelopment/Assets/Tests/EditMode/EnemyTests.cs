@@ -66,4 +66,80 @@ public class EnemyTests
 
         Assert.IsTrue(Mathf.Approximately(distanceToTravel, 0.0f));
     }
+
+    [Test]
+    public void MovePositionTowardsTarget_UnreachableTargetDoesNotModifyPositionAndAreDeclaredAsReached()
+    {
+        Vector2 target = Vector2.zero;
+        Vector2 position = Vector2.zero;
+        Vector2 original = position;
+
+        target.x = float.PositiveInfinity;
+
+        float distanceToTravel = 1.0f;
+
+        bool reachedTarget = Enemy.Test_MovePositionTowardsTarget(target, ref position, ref distanceToTravel);
+
+        Assert.AreEqual(position, original);
+
+        Assert.IsTrue(reachedTarget);
+    }
+
+    [Test]
+    public void MovePositionTowardsTarget_NaNTargetDoesNotModifyPositionAndAreDeclaredAsReached()
+    {
+        Vector2 target = Vector2.zero;
+        Vector2 position = Vector2.zero;
+        Vector2 original = position;
+
+        target.x = float.NaN;
+
+        float distanceToTravel = 1.0f;
+
+        bool reachedTarget = Enemy.Test_MovePositionTowardsTarget(target, ref position, ref distanceToTravel);
+
+        Assert.AreEqual(position, original);
+
+        Assert.IsTrue(reachedTarget);
+    }
+
+    [Test]
+    public void GetRemainingDistanceAlongPath_ProducesExpectedResultOnSimplePath()
+    {
+        LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
+
+        Vector2 waypoint0 = new Vector2(0, 0);
+        Vector2 waypoint1 = new Vector2(0, 2);
+        
+        Vector2[] waypoints = new Vector2[] { waypoint0, waypoint1 };
+
+        Enemy enemy = new GameObject().AddComponent<Enemy>();
+
+        enemy.Initialize(levelManager, waypoints);
+
+        float distance = enemy.GetRemainingDistanceAlongPath();
+
+        Assert.IsTrue(Mathf.Approximately(distance, 2.0f));
+    }
+
+    [Test]
+    public void GetRemainingDistanceAlongPath_ProducesExpectedResultAfterMovement()
+    {
+        LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
+
+        Vector2 waypoint0 = new Vector2(0, 0);
+        Vector2 waypoint1 = new Vector2(0, 2);
+
+        Vector2[] waypoints = new Vector2[] { waypoint0, waypoint1 };
+
+        Enemy enemy = new GameObject().AddComponent<Enemy>();
+
+        enemy.Initialize(levelManager, waypoints);
+
+        enemy.Test_MoveDistanceAlongPath(0.5f);
+
+        float distance = enemy.GetRemainingDistanceAlongPath();
+
+        Assert.IsTrue(Mathf.Approximately(distance, 1.5f));
+    }
 }

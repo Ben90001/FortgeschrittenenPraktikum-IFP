@@ -32,6 +32,20 @@ public class Enemy : MonoBehaviour
         transform.position = startingPosition;
     }
 
+    public float GetRemainingDistanceAlongPath()
+    {
+        Vector2 position = transform.position;
+
+        Vector2 target = path.GetCurrentTarget();
+
+        float pathLength = path.RemainingPathLength;
+        float targetDistance = Vector2.Distance(position, target);
+
+        float result = pathLength + targetDistance;
+
+        return result;
+    }
+
     private void FixedUpdate()
     {
         bool reachedPathEnd = FollowPath();
