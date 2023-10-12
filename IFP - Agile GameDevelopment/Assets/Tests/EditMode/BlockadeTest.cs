@@ -3,16 +3,15 @@ using NUnit.Framework;
 
 public class BlockadeTowerTests
 {
-    //KOmmentar nur als Test, um zu schauen ob ich Änderung pushen kann
-
+   
      private Blockade blockade = new GameObject().AddComponent<Blockade>();
-  
+
 
     [Test]
-    public void InitialHealth_IsMaxHealth()
+    public void Blockade_InitialHealth_IsMaxHealth()
     {
-        float maxHealth = 100.0f;
-        Assert.AreEqual(maxHealth, blockade.GetHealth());
+        float currentHealth = blockade.GetHealth();
+        Assert.AreEqual(blockade.MaxHealth, currentHealth); // Überprüfen, ob currentHealth zu Beginn MaxHealth entspricht.
     }
 
     [Test]
