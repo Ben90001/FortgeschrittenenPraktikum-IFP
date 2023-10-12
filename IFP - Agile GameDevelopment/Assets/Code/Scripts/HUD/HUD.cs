@@ -20,8 +20,11 @@ public class HUD : MonoBehaviour
 
     public void ShowGameOverScreen(int playerLives, int bestTry)
     {
-        //TODO: update bestTry in PlayerInfo
-        Time.timeScale = 0;
-        DefeatScreen.SetActive(true);
+        if (DefeatScreen != null)
+        {
+            //TODO: update bestTry in PlayerInfo
+            Time.timeScale = 0;
+            DefeatScreen.SetActive(true);
+        }
     }
 }

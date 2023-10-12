@@ -46,7 +46,7 @@ public class LevelManager : MonoBehaviour
 
     private float spawnTimer = 0.0f;
 
-    public int PlayerLives = 10; 
+    public int PlayerLives = 10;
 
     private int bestTry;
 
@@ -64,7 +64,7 @@ public class LevelManager : MonoBehaviour
         }
 
         InitializeLoadedLevel(loadedLevel);
-        
+
     }
 
     public void Update()
@@ -94,7 +94,7 @@ public class LevelManager : MonoBehaviour
         if (spawnTimer < 0)
         {
             spawnTimer += TimeBetweenSpawns;
-            
+
             GameObject enemyObject = Instantiate(Enemy, spawnPoint.position, Quaternion.identity);
 
             Enemy enemy = enemyObject.GetComponent<Enemy>();
@@ -132,7 +132,7 @@ public class LevelManager : MonoBehaviour
     }
 
     public GameObject GetLevel() => level;
-  
+
     public void SetLoadedLevel(GameObject loadedLevel)
     {
         level = loadedLevel;
@@ -145,6 +145,15 @@ public class LevelManager : MonoBehaviour
     public void HandleClickOnTileForTesting()
     {
         HandleClickOnTile();
+    }
+
+    private void SpawnEnemy()
+    {
+        GameObject enemyObject = Instantiate(Enemy);
+
+        Enemy enemy = enemyObject.GetComponent<Enemy>();
+
+        enemy.Initialize(this, path);
     }
 
     /// <summary>
@@ -193,7 +202,7 @@ public class LevelManager : MonoBehaviour
 
     private void ShowTowerOptionsBarForSelectedTile(Vector3Int tilePosition)
     {
-        
+
     }
 
     private void HideTowerOptionsBar()
@@ -205,7 +214,7 @@ public class LevelManager : MonoBehaviour
     {
         Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
         Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
-        
+
         return result;
     }
 
@@ -216,7 +225,7 @@ public class LevelManager : MonoBehaviour
         return result;
     }
 
-    
+
     /// <summary>
     /// Extracts the path from the provided level GameObject.
     /// </summary>
@@ -227,7 +236,7 @@ public class LevelManager : MonoBehaviour
 
         Transform pathObject = level.transform.Find("Path");
 
-        if (pathObject != null) 
+        if (pathObject != null)
         {
             int waypointCount = pathObject.childCount;
 
@@ -294,12 +303,12 @@ public class LevelManager : MonoBehaviour
 
     //NOTE:Use Methodes below for testing only
 
-    
+
     public GameObject GetEnemy()
     {
         return Enemy;
     }
-    
+
     public GameObject GetBasicTowerPrefab()
     {
         return BasicTower;

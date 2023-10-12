@@ -73,7 +73,7 @@ public struct EnemyPath
 
     public static void ApplyPerpendicularOffsetToPath(Vector2[] waypoints, float perpendicularOffset)
     {
-        if (waypoints.Length >= 2)
+        if (waypoints != null && waypoints.Length >= 2)
         {
             Vector2 prevOffset = default;
 

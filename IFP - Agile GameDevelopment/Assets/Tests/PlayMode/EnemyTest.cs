@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
 public class EnemyTests
@@ -42,27 +43,27 @@ public class EnemyTests
     [UnityTest]
     public IEnumerator Enemy_DestroyedAfterTenHits()
     {
-       
+
         GameObject enemyObject = new GameObject();
         Enemy enemy = enemyObject.AddComponent<Enemy>();
-        enemy.Health = 10.0f; 
+        enemy.Health = 10.0f;
 
-       
+
         GameObject bulletObject = new GameObject();
         Bullet bullet = bulletObject.AddComponent<Bullet>();
         bullet.Target = enemy;
 
         for (int i = 0; i < 10; i++)
         {
-            
+
             bullet.FixedUpdate();
         }
 
-        
+
         yield return null;
 
-        
-        Assert.IsTrue(enemyObject == null, "Der Feind wurde nicht nach 10 Treffern zerstört.");
+
+        Assert.IsTrue(enemyObject == null, "Der Feind wurde nicht nach 10 Treffern zerstï¿½rt.");
     }
 
     [UnityTest]
@@ -83,6 +84,6 @@ public class EnemyTests
         yield return new WaitForSeconds(0.1f);
 
         // Check if the enemy has been destroyed
-        Assert.IsTrue(enemyObject == null, "Der Feind wurde nicht zerstört.");
+        Assert.IsTrue(enemyObject == null, "Der Feind wurde nicht zerstï¿½rt.");
     }
 }
