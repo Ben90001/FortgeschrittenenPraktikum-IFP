@@ -55,7 +55,10 @@ public class Enemy : MonoBehaviour
 
         if (reachedPathEnd)
         {
-            levelManager.DecreasePlayerLives();
+            if (levelManager != null)
+            {
+                levelManager.DecreasePlayerLives();
+            }
 
             Destroy(gameObject);
         }
@@ -63,9 +66,14 @@ public class Enemy : MonoBehaviour
 
     private bool FollowPath()
     {
+        bool hasReachedEnd = false;
+
         float distanceToTravel = Time.fixedDeltaTime * this.MovementSpeed;
 
-        bool hasReachedEnd = MoveDistanceAlongPath(distanceToTravel);
+        if (distanceToTravel > 0.0f)
+        {
+            hasReachedEnd = MoveDistanceAlongPath(distanceToTravel);
+        }
 
         return hasReachedEnd;
     }
