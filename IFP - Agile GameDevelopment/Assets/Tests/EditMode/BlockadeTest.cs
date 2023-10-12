@@ -3,7 +3,8 @@ using NUnit.Framework;
 
 public class BlockadeTowerTests
 {
-   
+    //KOmmentar nur als Test, um zu schauen ob ich Änderung pushen kann
+
      private Blockade blockade = new GameObject().AddComponent<Blockade>();
   
 
