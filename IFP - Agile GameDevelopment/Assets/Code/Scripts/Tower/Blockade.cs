@@ -21,7 +21,15 @@ public class Blockade : BaseTower
 
     private void Update()
     {
-       
+        /* The problem is that you are using FindBestTarget() to get the enemy you want to stop.
+         * What happens when this function returns an enemy that is already stopped?
+         * This would cause the new enemy to not be stopped until it is randomly selected by 
+         * FindBestTarget(). 
+         * I'd suggest using a trigger collider the size of the tower and OnTriggerEnter() to stop
+         * enemies. 
+         * Also it might then still be useful to set the stopped enemy position to exactly the border
+         * of this tower.
+         */
 
         if (currentHealth == 0)
         {
