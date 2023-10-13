@@ -20,88 +20,68 @@ public class LevelManager : MonoBehaviour
 
     public TowerOptionsBar TowerOptionsBar;
 
-    public float TimeBetweenSpawns = 1.0f;
-
     public HUD HUD;
 
-    // NOTE: Level specific private data
+    // NOTE: Level specific data
 
-    [SerializeField] private GameObject level;
-    [SerializeField] private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
+    private GameObject levelInstance;
+
+    private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
     private LevelInfo levelInfo;
 
-    public Tilemap tilemap;
+    private Tilemap tilemap;
 
     private Vector2[] path;
 
-    // NOTE: Gameplay logic specific data
+    private Wave[] waves;
 
-    private float spawnTimer = 0.0f;
+    private bool currentWaveIsSpawning;
 
-    public int PlayerLives = 10; //only public for game design changes during development
+    private int currentWave;
+
+    private int remainingEnemyCount;
 
     private int bestTry;
 
-    //
+    private int playerLives;
 
-    private PRNG spawnRandom;
+    private float secondsBetweenSpawns;
 
-    public void Awake()
+    private float enemySpawnTimer = 0.0f;
+
+    private bool waitingForNextWave = false;
+
+    private float waveTimer = 0.0f;
+
+    private float secondsBetweenWaves = 3.0f;
+
+    private PRNG spawnPRNG;
+
+    public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
-        GameObject loadedLevel = null;
+        Vector2Int result = (Vector2Int)tilePosition;
 
-        if (LevelSelection.LoadedLevel != null)
-        {
-            loadedLevel = InstantiateLevel(LevelSelection.LoadedLevel);
-        }
-        else
-        {
-            loadedLevel = LoadDefaultLevel();
-        }
-
-        InitializeLoadedLevel(loadedLevel);
+        return result;
     }
 
-    public void Update()
+    public void OnEnemyDestroyed()
     {
-        FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
-                if (!TowerOptionsBar.gameObject.activeSelf)
-                {
-                    HandleClickOnTile();
-                }
-                else
-                {
-                    HideTowerOptionsBar();
-                }
-            }
-        }
     }
 
-    public void FixedUpdate()
+    public void OnEnemyReachedEnd()
     {
-        spawnTimer -= Time.fixedDeltaTime;
 
-        if (spawnTimer < 0)
-        {
-            spawnTimer += TimeBetweenSpawns;
-
-            SpawnEnemy();
-        }
     }
 
     public void DecreasePlayerLives()
     {
-        PlayerLives--;
+        playerLives--;
 
-        if (PlayerLives <= 0)
+        if (playerLives <= 0)
         {
-            this.HUD.ShowGameOverScreen(this.PlayerLives, this.bestTry);
+            this.HUD.ShowGameOverScreen(playerLives, this.bestTry);
         }
     }
 
@@ -123,16 +103,9 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public GameObject GetLevel() => level;
-
     public void SetLoadedLevel(GameObject loadedLevel)
     {
-        level = loadedLevel;
-    }
-
-    public Dictionary<Vector2Int, GameObject> GetTowers()
-    {
-        return towers;
+        levelInstance = loadedLevel;
     }
 
     public void HandleClickOnTileForTesting()
@@ -140,11 +113,107 @@ public class LevelManager : MonoBehaviour
         HandleClickOnTile();
     }
 
-    private float GetEnemySpawnOffset()
+    public bool TilePositionHasTower(Vector3Int tilePosition)
     {
-        float result = (float)spawnRandom.NextRange(-SPAWN_OFFSET_RANGE, SPAWN_OFFSET_RANGE);
+        Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+
+        bool result = towers.ContainsKey(tileKey);
 
         return result;
+    }
+
+    private void Awake()
+    {
+        GameObject loadedLevel = null;
+
+        if (LevelSelection.LoadedLevel != null)
+        {
+            loadedLevel = InstantiateLevel(LevelSelection.LoadedLevel);
+        }
+        else
+        {
+            loadedLevel = LoadDefaultLevel();
+        }
+
+        InitializeLoadedLevel(loadedLevel);
+    }
+
+    private void Update()
+    {
+        FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                if (!TowerOptionsBar.gameObject.activeSelf)
+                {
+                    HandleClickOnTile();
+                }
+                else
+                {
+                    HideTowerOptionsBar();
+                }
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (currentWaveIsSpawning)
+        {
+            HandleWaveSpawns();
+        }
+        else
+        {
+            if (!waitingForNextWave)
+            {
+                waveTimer = secondsBetweenWaves;
+
+                waitingForNextWave = true;
+            }
+
+            waveTimer -= Time.fixedDeltaTime;
+
+            if (waveTimer <= 0.0f)
+            {
+                waveTimer = 0.0f;
+
+                waitingForNextWave = false;
+
+                currentWaveIsSpawning = true;
+
+                if (currentWave < waves.Length - 1)
+                {
+                    ++currentWave;
+                }
+
+                Wave wave = waves[currentWave];
+
+                secondsBetweenSpawns = wave.SecondsBetweenSpawns;
+                enemySpawnTimer = 0.0f;
+                remainingEnemyCount = wave.EnemyCount;
+            }
+        }
+    }
+
+    private void HandleWaveSpawns()
+    {
+        enemySpawnTimer -= Time.fixedDeltaTime;
+
+        if (enemySpawnTimer < 0)
+        {
+            enemySpawnTimer += secondsBetweenSpawns;
+
+            SpawnEnemy();
+
+            --remainingEnemyCount;
+
+            if (remainingEnemyCount <= 0)
+            {
+                currentWaveIsSpawning = false;
+            }
+        }
     }
 
     private void SpawnEnemy()
@@ -163,14 +232,27 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void InitializeLoadedLevel(GameObject level)
     {
-        this.level = level;
+        this.levelInstance = level;
         this.levelInfo = level.GetComponent<LevelInfo>();
         this.tilemap = level.GetComponentInChildren<Tilemap>();
         this.path = ExtractPathFromLevel(level);
+        this.waves = this.levelInfo.Waves;
+        this.currentWave = 0;
+        this.spawnPRNG = new PRNG(0);
 
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
 
-        this.spawnRandom = new PRNG(0);
+        this.playerLives = this.levelInfo.playerLives;
+        this.currentWaveIsSpawning = true;
+        this.remainingEnemyCount = this.waves[0].EnemyCount;
+        this.secondsBetweenSpawns = this.waves[0].SecondsBetweenSpawns;
+    }
+
+    private float GetEnemySpawnOffset()
+    {
+        float result = (float)spawnPRNG.NextRange(-SPAWN_OFFSET_RANGE, SPAWN_OFFSET_RANGE);
+
+        return result;
     }
 
     private void HandleClickOnTile()
@@ -194,15 +276,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public bool TilePositionHasTower(Vector3Int tilePosition)
-    {
-        Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
-
-        bool result = towers.ContainsKey(tileKey);
-
-        return result;
-    }
-
     private void ShowTowerOptionsBarForSelectedTile(Vector3Int tilePosition)
     {
 
@@ -217,13 +290,6 @@ public class LevelManager : MonoBehaviour
     {
         Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
         Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
-
-        return result;
-    }
-
-    private static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
-    {
-        Vector2Int result = (Vector2Int)tilePosition;
 
         return result;
     }
@@ -312,4 +378,36 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
+
+#if UNITY_EDITOR
+
+    public GameObject Test_Level
+    {
+        get
+        {
+            return this.levelInstance;
+        }
+    }
+
+    public int Test_PlayerLives
+    { 
+        get 
+        { 
+            return this.playerLives; 
+        }
+        
+        set 
+        { 
+            this.playerLives = value; 
+        }
+    }
+
+    public Dictionary<Vector2Int, GameObject> Test_Towers
+    {
+        get
+        {
+            return this.towers;
+        }
+    }
+#endif
 }

@@ -11,7 +11,7 @@ public class LevelManagerTests
     {
         LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
 
-        GameObject loadedLevel = levelManager.GetLevel();
+        GameObject loadedLevel = levelManager.Test_Level;
 
         Assert.IsNull(loadedLevel);
     }
@@ -32,7 +32,7 @@ public class LevelManagerTests
         levelManager.PlaceTowerAtTile(towerPrefab, tilePosition);
 
         
-        Dictionary<Vector2Int, GameObject> towers = levelManager.GetTowers();
+        Dictionary<Vector2Int, GameObject> towers = levelManager.Test_Towers;
         bool towerAdded = towers.ContainsKey(new Vector2Int(1, 1));
 
         
@@ -47,12 +47,12 @@ public class LevelManagerTests
         LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
 
      
-        levelManager.PlayerLives = 5;
+        levelManager.Test_PlayerLives = 5;
 
      
         levelManager.DecreasePlayerLives();
 
-        Assert.AreEqual(4, levelManager.PlayerLives, "Die Spielerleben wurden nicht korrekt verringert.");
+        Assert.AreEqual(4, levelManager.Test_PlayerLives, "Die Spielerleben wurden nicht korrekt verringert.");
     }
 
     [Test]
@@ -67,12 +67,12 @@ public class LevelManagerTests
         Vector3Int tilePosition = new Vector3Int(1, 1, 0);
 
       
-        levelManager.GetTowers().Add(new Vector2Int(1, 1), new GameObject("Tower"));
+        levelManager.Test_Towers.Add(new Vector2Int(1, 1), new GameObject("Tower"));
 
         levelManager.PlaceTowerAtTile(towerPrefab, tilePosition);
 
         
-        Dictionary<Vector2Int, GameObject> towersAfter = levelManager.GetTowers();
+        Dictionary<Vector2Int, GameObject> towersAfter = levelManager.Test_Towers;
         int towerCount = towersAfter.Count;
 
        
@@ -88,7 +88,7 @@ public class LevelManagerTests
         Vector3Int tilePosition = new Vector3Int(2, 3, 0);
 
 
-        Vector2Int tileKey = levelManager.GetTileKeyFromTilePosition(tilePosition);
+        Vector2Int tileKey = LevelManager.GetTileKeyFromTilePosition(tilePosition);
 
         
         Assert.AreEqual(new Vector2Int(2, 3), tileKey, "GetTileKeyFromTilePosition gibt einen falschen Tile-Key zur�ck.");
@@ -114,7 +114,7 @@ public class LevelManagerTests
 
         Vector3Int tilePosition = new Vector3Int(1, 1, 0);
 
-        levelManager.GetTowers().Add(new Vector2Int(1, 1), new GameObject("Tower"));
+        levelManager.Test_Towers.Add(new Vector2Int(1, 1), new GameObject("Tower"));
 
         bool hasTower = levelManager.TilePositionHasTower(tilePosition);
 
