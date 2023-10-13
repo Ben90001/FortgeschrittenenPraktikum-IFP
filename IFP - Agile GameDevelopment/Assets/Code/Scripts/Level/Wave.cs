@@ -8,7 +8,15 @@ using UnityEngine;
 [System.Serializable]
 public class Wave
 {
+    [Min(0)]
     public int CurrencyWorth;
 
-    public SubWave[] SubWaves;
+    [Min(1)]
+    public int EnemyCount;
+
+    [Min(1)]
+    public int EnemyHealth;
+
+    [Min(0.1f)]
+    public float SecondsBetweenSpawns;
 }

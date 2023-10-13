@@ -53,7 +53,7 @@ public class LevelManager : MonoBehaviour
 
         if (LevelSelection.LoadedLevel != null)
         {
-            loadedLevel = LoadLevel(LevelSelection.LoadedLevel);
+            loadedLevel = InstantiateLevel(LevelSelection.LoadedLevel);
         }
         else
         {
@@ -221,9 +221,9 @@ public class LevelManager : MonoBehaviour
         return result;
     }
 
-    public Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
+    private static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
-        Vector2Int result = ((Vector2Int)tilePosition);
+        Vector2Int result = (Vector2Int)tilePosition;
 
         return result;
     }
@@ -234,7 +234,7 @@ public class LevelManager : MonoBehaviour
     /// <returns>Array of Positions. One for each waypoint.</returns>
     private static Vector2[] ExtractPathFromLevel(GameObject level)
     {
-        Vector2[] result = null;
+        Vector2[] result;
 
         Transform pathObject = level.transform.Find("Path");
 
@@ -251,6 +251,22 @@ public class LevelManager : MonoBehaviour
                 result[childIndex] = waypoint.position;
             }
         }
+        else
+        {
+            result = new Vector2[0];
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Instantiates the provided Prefab level
+    /// </summary>
+    private static GameObject InstantiateLevel(GameObject level)
+    {
+        Assert.IsNotNull(level);
+
+        GameObject result = Instantiate(level);
 
         return result;
     }
@@ -262,16 +278,7 @@ public class LevelManager : MonoBehaviour
     {
         GameObject level = LevelSelection.LoadLevel(1);
 
-        GameObject result = LoadLevel(level);
-
-        return result;
-    }
-
-    private static GameObject LoadLevel(GameObject level)
-    {
-        Assert.IsNotNull(level);
-
-        GameObject result = Instantiate(level);
+        GameObject result = InstantiateLevel(level);
 
         return result;
     }
@@ -281,23 +288,28 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private static void FocusCameraOnGameplayArea(Camera camera, Bounds gameplayArea)
     {
-        Assert.IsNotNull(camera);
-
         Vector3 oldCameraPosition = camera.transform.position;
-        Vector3 newCameraPosition = default(Vector3);
+        Vector3 newCameraPosition;
 
         Vector3 gameplayAreaCenter = gameplayArea.center;
 
-        newCameraPosition.x = gameplayAreaCenter.x;
-        newCameraPosition.y = gameplayAreaCenter.y;
-        newCameraPosition.z = oldCameraPosition.z;
+        if (float.IsFinite(gameplayAreaCenter.x) && 
+            float.IsFinite(gameplayAreaCenter.x))
+        {
+            newCameraPosition.x = gameplayAreaCenter.x;
+            newCameraPosition.y = gameplayAreaCenter.y;
+            newCameraPosition.z = oldCameraPosition.z;
 
-        float minCameraSizeH = gameplayArea.extents.y;
-        float minCameraSizeV = gameplayArea.extents.x / camera.aspect;
+            float minCameraSizeH = gameplayArea.extents.y;
+            float minCameraSizeV = gameplayArea.extents.x / camera.aspect;
 
-        float minCameraSize = Mathf.Max(minCameraSizeH, minCameraSizeV);
+            float minCameraSize = Mathf.Max(minCameraSizeH, minCameraSizeV);
 
-        camera.transform.position = newCameraPosition;
-        camera.orthographicSize = minCameraSize;
+            if (minCameraSize >= 0.1f &&  minCameraSize < 1000.0f)
+            {
+                camera.transform.position = newCameraPosition;
+                camera.orthographicSize = minCameraSize;
+            }
+        }
     }
 }

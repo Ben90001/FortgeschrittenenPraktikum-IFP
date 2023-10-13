@@ -6,27 +6,20 @@ using UnityEngine.Tilemaps;
 
 public class LevelManagerTests
 {
-
     [Test]
     public void Awake_SetsLevelToNull_ByDefault()
     {
-      
         LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
 
-       
         GameObject loadedLevel = levelManager.GetLevel();
 
-        
         Assert.IsNull(loadedLevel);
     }
 
     [Test]
     public void PlaceTowerAtTile_AddsTowerToTowersDictionary_WhenTilePositionHasNoTower()
     {
-        
         LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
-
-        
         GameObject towerPrefab = new GameObject("TowerPrefab");
 
        
@@ -100,6 +93,7 @@ public class LevelManagerTests
         
         Assert.AreEqual(new Vector2Int(2, 3), tileKey, "GetTileKeyFromTilePosition gibt einen falschen Tile-Key zur�ck.");
     }
+
     [Test]
     public void TilePositionHasTower_ReturnsFalse_WhenNoTowerIsPresent()
     {
@@ -112,10 +106,10 @@ public class LevelManagerTests
 
         Assert.IsFalse(hasTower, "TilePositionHasTower sollte false zur�ckgeben, wenn kein Turm vorhanden ist.");
     }
+
     [Test]
     public void TilePositionHasTower_ReturnsTrue_WhenTowerIsPresent()
     {
-       
         LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
 
         Vector3Int tilePosition = new Vector3Int(1, 1, 0);
@@ -126,5 +120,4 @@ public class LevelManagerTests
 
         Assert.IsTrue(hasTower, "TilePositionHasTower sollte true zur�ckgeben, wenn ein Turm vorhanden ist.");
     }
-
 }
