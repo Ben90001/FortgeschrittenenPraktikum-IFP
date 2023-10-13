@@ -5,13 +5,13 @@ public class BlockadeTowerTests
 {
    
      private Blockade blockade = new GameObject().AddComponent<Blockade>();
+  
 
-
-    [Test]
-    public void Blockade_InitialHealth_IsMaxHealth()
+    [Test, Order(1)]
+    public void InitialHealth_IsMaxHealth()
     {
-        float currentHealth = blockade.GetHealth();
-        Assert.AreEqual(blockade.MaxHealth, currentHealth); // Überprüfen, ob currentHealth zu Beginn MaxHealth entspricht.
+        float maxHealth = 100.0f;
+        Assert.AreEqual(maxHealth, blockade.GetHealth());
     }
 
     [Test]

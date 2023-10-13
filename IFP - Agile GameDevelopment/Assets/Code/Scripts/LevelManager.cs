@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
+    public GameObject Blockade;
 
     public TowerOptionsBar TowerOptionsBar;
 
@@ -177,12 +178,53 @@ public class LevelManager : MonoBehaviour
 
                 TowerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
             }
+            if (tile == this.Path)
+            {
+                Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+
+                // Verwende dein Blockade-Prefab, um die Blockade-Komponente zu erhalten
+                Blockade blockade = Blockade.GetComponent<Blockade>();
+
+                if (blockade != null)
+                {
+                    PlaceBlockadeAtTile(blockade, tilePosition);
+                }
+                else
+                {
+                    Debug.LogWarning("Blockade component not found.");
+                }
+            }
+
         }
         else
         {
             // TODO: Tile already has a tower
         }
     }
+
+    public void PlaceBlockadeAtTile(Blockade blockade, Vector3Int tilePosition)
+    {
+        if (!TilePositionHasTower(tilePosition))
+        {
+            Vector3 instantiationPosition = tilemap.GetCellCenterWorld(tilePosition);
+            Debug.Log("Placing Blockade at position: " + instantiationPosition);
+
+            GameObject blockadeObject = Instantiate(blockade.gameObject, instantiationPosition, Quaternion.identity);
+            Debug.Log("Blockade instantiated.");
+
+            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+            towers.Add(tileKey, blockadeObject);
+
+            // Gib auch die Anzahl der Türme oder Blockaden aus:
+            Debug.Log("Total Towers/Blockades: " + towers.Count);
+        }
+        else
+        {
+            Debug.LogWarning("Blockade not placed, tile already occupied.");
+        }
+    }
+
+
 
     public bool TilePositionHasTower(Vector3Int tilePosition)
     {
