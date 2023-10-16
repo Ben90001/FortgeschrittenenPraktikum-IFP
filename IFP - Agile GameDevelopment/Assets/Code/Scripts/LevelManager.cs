@@ -132,7 +132,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            loadedLevel = LoadDefaultLevel();
+            loadedLevel = InstantiateDefaultLevel();
         }
 
         InitializeLoadedLevel(loadedLevel);
@@ -340,7 +340,7 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// Load the first level by default. This is for starting from the GameScene in the editor.
     /// </summary>
-    private static GameObject LoadDefaultLevel()
+    private static GameObject InstantiateDefaultLevel()
     {
         GameObject level = LevelSelection.LoadLevel(1);
 
