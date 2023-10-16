@@ -6,7 +6,6 @@ public class Blockade : BaseTower
     private float currentHealth;
     public float maxHealth = 4f;
     private List<Enemy> stoppedEnemiesList = new List<Enemy>();
-    private bool resettingSpeed = false;
     private float resetSpeedDelay = 0.25f;
 
     public Blockade()
@@ -37,43 +36,20 @@ public class Blockade : BaseTower
 
     private void Update()
     {
-        /* The problem is that you are using FindBestTarget() to get the enemy you want to stop.
-         * What happens when this function returns an enemy that is already stopped?
-         * This would cause the new enemy to not be stopped until it is randomly selected by 
-         * FindBestTarget(). 
-         * I'd suggest using a trigger collider the size of the tower and OnTriggerEnter() to stop
-         * enemies. 
-         * Also it might then still be useful to set the stopped enemy position to exactly the border
-         * of this tower.
-         */
-#if false
+       
+
         if (currentHealth == 0)
         {
-            
+
             gameObject.SetActive(false);
             return;
         }
 
-        Enemy target = FindBestTarget(0.5f);
-
-        if (target != null && !stoppedEnemiesList.Contains(target))
-        {
-            target.MovementSpeed = 0f;
-            stoppedEnemiesList.Add(target);
-            ApplyDamage(1); 
-
-            
-            if (currentHealth <= 0)
-            {
-                StartResettingSpeed();
-            }
-        }
-#endif
     }
 
     private void StartResettingSpeed()
     {
-        resettingSpeed = true;
+       
         InvokeRepeating("ResetNextEnemySpeed", resetSpeedDelay, resetSpeedDelay);
     }
 
@@ -89,7 +65,7 @@ public class Blockade : BaseTower
             
             if (stoppedEnemiesList.Count == 0)
             {
-                resettingSpeed = false;
+           
                 CancelInvoke("ResetNextEnemySpeed");
             }
         }
@@ -113,6 +89,6 @@ public class Blockade : BaseTower
 
     protected override void TowerUpgrade()
     {
-        // TODO: Fügen Sie Funktionalität hinzu
+        
     }
 }
