@@ -44,24 +44,14 @@ public class BasicTowerTests
     {
         //set up scene for LevelManager
         SceneManager.LoadScene("GameScene");
-        GameObject LevelManagerObject = GameObject.Find("LevelManager");
+        yield return new WaitForSeconds(4f);
+        GameObject LevelManagerObject = GameObject.Find("/LevelManager");
         Assert.IsNotNull(LevelManagerObject, "LevelManagerObject Null");
 
         //create Tower
         GameObject BasicTowerObject = GameObject.Instantiate<GameObject>(basicTowerPrefab, spawningPosition, Quaternion.identity);
         Assert.IsNotNull(BasicTowerObject, "BasicTowerObject is Null"); //message error message or message if woriking?
-        //create Enemy
-        Vector2 pathStart = new Vector2(spawningPosition.x, spawningPosition.y);
-        Vector2 pathEnd = new Vector2(10.0f, 10.0f);
-        Vector2[] path = { pathStart, pathEnd };
-
-        /*
-        GameObject EnemyObject = GameObject.Instantiate<GameObject>(EnemyPrefab, spawningPosition, Quaternion.identity);
-        //Assert.IsNotNull(EnemyObject);
-        EnemyObject.GetComponent<Enemy>().Initialize(levelManagerObject.GetComponent<LevelManager>(), path);
-        EnemyObject.GetComponent<Enemy>().SetMovementSpeed(0.0f);
-        */
-
+ 
         yield return null;
     }
 }
