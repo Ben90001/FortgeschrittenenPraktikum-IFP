@@ -147,7 +147,7 @@ public class LevelManager : MonoBehaviour
 
         Enemy enemy = enemyObject.GetComponent<Enemy>();
 
-        enemy.Initialize(this, path);
+        
     }
 
     /// <summary>
@@ -292,4 +292,5 @@ public class LevelManager : MonoBehaviour
         camera.transform.position = newCameraPosition;
         camera.orthographicSize = minCameraSize;
     }
+
 }
