@@ -19,6 +19,22 @@ public class Blockade : BaseTower
         return currentHealth;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Collision");
+
+        Enemy target = collision.gameObject.GetComponent<Enemy>();
+
+        target.MovementSpeed = 0f;
+        stoppedEnemiesList.Add(target);
+        ApplyDamage(1);
+
+        if (currentHealth <= 0)
+        {
+            StartResettingSpeed();
+        }
+    }
+
     private void Update()
     {
         /* The problem is that you are using FindBestTarget() to get the enemy you want to stop.
@@ -30,7 +46,7 @@ public class Blockade : BaseTower
          * Also it might then still be useful to set the stopped enemy position to exactly the border
          * of this tower.
          */
-
+#if false
         if (currentHealth == 0)
         {
             
@@ -52,7 +68,7 @@ public class Blockade : BaseTower
                 StartResettingSpeed();
             }
         }
-      
+#endif
     }
 
     private void StartResettingSpeed()
