@@ -6,8 +6,6 @@ using UnityEngine.EventSystems;
 
 public class LevelManager : MonoBehaviour
 {
-    private static readonly float SPAWN_OFFSET_RANGE = 0.3f;
-
     public GameObject Enemy;
 
     public TileBase Grass;
@@ -34,29 +32,11 @@ public class LevelManager : MonoBehaviour
 
     private Vector2[] path;
 
-    private Wave[] waves;
-
-    private bool currentWaveIsSpawning;
-
-    private int currentWave;
-
-    private int remainingEnemyCount;
+    private EnemySpawner enemySpawner;
 
     private int bestTry;
 
     private int playerLives;
-
-    private float secondsBetweenSpawns;
-
-    private float enemySpawnTimer = 0.0f;
-
-    private bool waitingForNextWave = false;
-
-    private float waveTimer = 0.0f;
-
-    private float secondsBetweenWaves = 3.0f;
-
-    private PRNG spawnPRNG;
 
     public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
@@ -124,7 +104,7 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
-        GameObject loadedLevel = null;
+        GameObject loadedLevel;
 
         if (LevelSelection.LoadedLevel != null)
         {
@@ -135,7 +115,13 @@ public class LevelManager : MonoBehaviour
             loadedLevel = InstantiateDefaultLevel();
         }
 
-        InitializeLoadedLevel(loadedLevel);
+        LoadDataFromInstantiatedLevel(loadedLevel);
+
+        InitializeEnemySpawner();
+
+        this.playerLives = this.levelInfo.playerLives;
+
+        FocusCameraOnGameplayArea(Camera.main, this.levelInfo.GameplayArea);
     }
 
     private void Update()
@@ -160,99 +146,7 @@ public class LevelManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (currentWaveIsSpawning)
-        {
-            HandleWaveSpawns();
-        }
-        else
-        {
-            if (!waitingForNextWave)
-            {
-                waveTimer = secondsBetweenWaves;
-
-                waitingForNextWave = true;
-            }
-
-            waveTimer -= Time.fixedDeltaTime;
-
-            if (waveTimer <= 0.0f)
-            {
-                waveTimer = 0.0f;
-
-                waitingForNextWave = false;
-
-                currentWaveIsSpawning = true;
-
-                if (currentWave < waves.Length - 1)
-                {
-                    ++currentWave;
-                }
-
-                Wave wave = waves[currentWave];
-
-                secondsBetweenSpawns = wave.SecondsBetweenSpawns;
-                enemySpawnTimer = 0.0f;
-                remainingEnemyCount = wave.EnemyCount;
-            }
-        }
-    }
-
-    private void HandleWaveSpawns()
-    {
-        enemySpawnTimer -= Time.fixedDeltaTime;
-
-        if (enemySpawnTimer < 0)
-        {
-            enemySpawnTimer += secondsBetweenSpawns;
-
-            SpawnEnemy();
-
-            --remainingEnemyCount;
-
-            if (remainingEnemyCount <= 0)
-            {
-                currentWaveIsSpawning = false;
-            }
-        }
-    }
-
-    private void SpawnEnemy()
-    {
-        GameObject enemyObject = Instantiate(Enemy);
-
-        Enemy enemy = enemyObject.GetComponent<Enemy>();
-
-        float offset = GetEnemySpawnOffset();
-
-        enemy.Initialize(this, path, offset);
-    }
-
-    /// <summary>
-    /// Extract all relevant data from the instantiated level object.
-    /// </summary>
-    private void InitializeLoadedLevel(GameObject level)
-    {
-        this.levelInstance = level;
-        this.levelInfo = level.GetComponent<LevelInfo>();
-        this.tilemap = level.GetComponentInChildren<Tilemap>();
-        this.path = ExtractPathFromLevel(level);
-        this.waves = this.levelInfo.Waves;
-        this.currentWave = 0;
-        this.spawnPRNG = new PRNG(0);
-
-        FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
-
-        this.playerLives = this.levelInfo.playerLives;
-        this.currentWaveIsSpawning = true;
-        this.remainingEnemyCount = this.waves[0].EnemyCount;
-        this.secondsBetweenSpawns = this.waves[0].SecondsBetweenSpawns;
-    }
-
-    private float GetEnemySpawnOffset()
-    {
-        float result = (float)spawnPRNG.NextRange(-SPAWN_OFFSET_RANGE, SPAWN_OFFSET_RANGE);
-
-        return result;
+        this.enemySpawner.Tick(Time.fixedDeltaTime);
     }
 
     private void HandleClickOnTile()
@@ -292,6 +186,22 @@ public class LevelManager : MonoBehaviour
         Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
 
         return result;
+    }
+
+    private void InitializeEnemySpawner()
+    {
+        this.enemySpawner = new EnemySpawner(this, this.levelInfo.Waves, this.path, this.Enemy);
+    }
+
+    /// <summary>
+    /// Extract all relevant data from the instantiated level object.
+    /// </summary>
+    private void LoadDataFromInstantiatedLevel(GameObject level)
+    {
+        this.levelInstance = level;
+        this.levelInfo = level.GetComponent<LevelInfo>();
+        this.tilemap = level.GetComponentInChildren<Tilemap>();
+        this.path = ExtractPathFromLevel(level);
     }
 
     /// <summary>
