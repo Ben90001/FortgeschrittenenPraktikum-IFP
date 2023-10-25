@@ -115,21 +115,24 @@ public class LevelManager : MonoBehaviour
 
     public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
     {
-        if (!TilePositionHasTower(tilePosition))
+        if (!TilePositionHasTower(tilePosition) && currency >= 50)
         {
             Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
 
             GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
 
             Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+            
+                SpendCurrency(50);
 
-            towers.Add(tileKey, towerObject);
-           
+                towers.Add(tileKey, towerObject);
+            
+            
         }
     
         else
         {
-            // TODO: What todo
+            Debug.Log("not enough money to purchase the item");
         }
     }
 
