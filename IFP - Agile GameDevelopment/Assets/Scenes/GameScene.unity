@@ -201,7 +201,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -342,6 +342,7 @@ MonoBehaviour:
   BasicTower: {fileID: 7596997370653839420, guid: b31ef3fdd378a417d80bfecef18b0932, type: 3}
   SniperTower: {fileID: 2746393042390166952, guid: 4c27ce3febc9be24ab31fb0252d540d4, type: 3}
   IceTower: {fileID: 7093835851391559277, guid: 3d9d82f010d43184c97b6332364f9abd, type: 3}
+  currency: 0
   TowerOptionsBar: {fileID: 6682796177558364796}
   TimeBetweenSpawns: 1.5
   HUD: {fileID: 744179455}

@@ -1,15 +1,17 @@
 using UnityEngine;
+using static Codice.CM.Common.CmCallContext;
 
 public class Enemy : MonoBehaviour
 { 
     public float MovementSpeed = 10.0f;
     public float Health;
-
+ 
     private bool isSlowed = false;
 
     private float slowFactor = 1.0f;
     private float originalMovementSpeed;
-
+    [SerializeField] private int currencyWorth = 10;
+    
     //
 
     private LevelManager levelManager;
@@ -166,9 +168,10 @@ public class Enemy : MonoBehaviour
         if (Health <= 0.0f)
         {
             // TODO: Handle destroyed enemy
-            // TODO: Handel Currency for Kill.
-
+            // TODO: Handel Currency for Kill
+            levelManager.IncreaseCurrency(currencyWorth);
             Destroy(gameObject);
+           
         }
     }
 

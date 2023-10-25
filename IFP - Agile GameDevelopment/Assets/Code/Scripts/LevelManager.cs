@@ -17,8 +17,11 @@ public class LevelManager : MonoBehaviour
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
+    public int currency;
 
     public TowerOptionsBar TowerOptionsBar;
+   
+
 
     public float TimeBetweenSpawns = 1.0f;
 
@@ -34,6 +37,7 @@ public class LevelManager : MonoBehaviour
     public Tilemap tilemap;
 
     private Vector2[] path;
+    
 
     // NOTE: Gameplay logic specific data
 
@@ -46,10 +50,14 @@ public class LevelManager : MonoBehaviour
     //
 
     private PRNG spawnRandom;
-
+    public void Start()
+    {
+        currency = 100;
+    }
     public void Awake()
     {
         GameObject loadedLevel = null;
+       
 
         if (LevelSelection.LoadedLevel != null)
         {
@@ -116,7 +124,9 @@ public class LevelManager : MonoBehaviour
             Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
 
             towers.Add(tileKey, towerObject);
+           
         }
+    
         else
         {
             // TODO: What todo
@@ -274,6 +284,25 @@ public class LevelManager : MonoBehaviour
         GameObject result = Instantiate(level);
 
         return result;
+    }
+
+    public void IncreaseCurrency(int amount)
+    {
+        currency += amount;
+    }
+
+    public bool SpendCurrency(int amount)
+    {
+        if (amount <= currency)
+        {
+            currency -= amount;
+            return true;
+        }
+        else
+        {
+            Debug.Log("Not enough money to purchase this item");
+            return false;
+        }
     }
 
     /// <summary>
