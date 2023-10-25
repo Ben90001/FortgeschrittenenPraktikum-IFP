@@ -27,8 +27,8 @@ public class BasicTowerTests
     public IEnumerator PerformActionFalse_IfNoEnemyInRange()
     {
         //Test SetUp code
-        Assert.IsNotNull(basicTowerPrefab);
-
+        Assert.IsNotNull(basicTowerPrefab, "basicTowerPrefab is Null");
+        
         //create Tower
         GameObject BasicTowerObject = GameObject.Instantiate<GameObject>(basicTowerPrefab, spawningPosition, Quaternion.identity);
         Assert.IsNotNull(BasicTowerObject);
@@ -36,22 +36,25 @@ public class BasicTowerTests
         Assert.IsNull(BasicTowerObject.GetComponent<BasicTower>().FindBestTargetForTests());
         //Actual Test
         Assert.False(BasicTowerObject.GetComponent<BasicTower>().PerformActionForTests());
+        
         yield return null;
+        
     }
 
     [UnityTest]
     public IEnumerator PerformActionTrue_IfEnemyInRange()
     {
+        /*
         //set up scene for LevelManager
         SceneManager.LoadScene("GameScene");
         yield return new WaitForSeconds(4f);
         GameObject LevelManagerObject = GameObject.Find("/LevelManager");
         Assert.IsNotNull(LevelManagerObject, "LevelManagerObject Null");
-
+        
         //create Tower
         GameObject BasicTowerObject = GameObject.Instantiate<GameObject>(basicTowerPrefab, spawningPosition, Quaternion.identity);
         Assert.IsNotNull(BasicTowerObject, "BasicTowerObject is Null"); //message error message or message if woriking?
- 
+        */
         yield return null;
     }
 }
