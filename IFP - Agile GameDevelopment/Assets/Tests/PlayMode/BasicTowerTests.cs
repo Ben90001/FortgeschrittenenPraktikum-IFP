@@ -44,17 +44,23 @@ public class BasicTowerTests
     [UnityTest]
     public IEnumerator PerformActionTrue_IfEnemyInRange()
     {
-        /*
-        //set up scene for LevelManager
+        
+        //set up scene for LevelManager (needed for Enemey spawing)
         SceneManager.LoadScene("GameScene");
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2.5f);
         GameObject LevelManagerObject = GameObject.Find("/LevelManager");
         Assert.IsNotNull(LevelManagerObject, "LevelManagerObject Null");
-        
+        //disable loosing
+        LevelManagerObject.GetComponent<LevelManager>().PlayerLives = 100000; //not so nice
+
+
         //create Tower
         GameObject BasicTowerObject = GameObject.Instantiate<GameObject>(basicTowerPrefab, spawningPosition, Quaternion.identity);
-        Assert.IsNotNull(BasicTowerObject, "BasicTowerObject is Null"); //message error message or message if woriking?
-        */
+        Assert.IsNotNull(BasicTowerObject, "BasicTowerObject is Null");
+        //create Enemy
+
+
+
         yield return null;
     }
 }
