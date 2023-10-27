@@ -1763,16 +1763,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36a3febae7675f48ab92038e928d09e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerLives: 10
   GameplayArea:
     m_Center: {x: 1.5, y: -1, z: 0}
     m_Extent: {x: 8.5, y: 4, z: 5}
   Waves:
-  - CurrencyWorth: 0
-    SubWaves:
-    - StartTime: 0
-      SpawnInterval: 0
-      EnemiesToSpawn: 0
-  Waypoints: []
+  - CurrencyWorth: 10
+    EnemyCount: 20
+    EnemyHealth: 5
+    SecondsBetweenSpawns: 0.2
+  - CurrencyWorth: 20
+    EnemyCount: 10
+    EnemyHealth: 15
+    SecondsBetweenSpawns: 0.5
+  - CurrencyWorth: 40
+    EnemyCount: 10
+    EnemyHealth: 20
+    SecondsBetweenSpawns: 0.5
+  - CurrencyWorth: 60
+    EnemyCount: 5
+    EnemyHealth: 100
+    SecondsBetweenSpawns: 0.5
 --- !u!1 &8514149982265645370
 GameObject:
   m_ObjectHideFlags: 0
