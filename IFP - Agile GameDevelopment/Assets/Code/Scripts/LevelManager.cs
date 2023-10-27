@@ -56,7 +56,7 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    public void OnEnemyReachedEnd()
+    public void OnEmeyReachedEndOfPath()
     {
 
     }
@@ -166,38 +166,6 @@ public class LevelManager : MonoBehaviour
         HandleEnemySpawning();
     }
 
-    private void HandleEnemySpawning()
-    {
-        bool spawn = enemySpawner.Tick(Time.fixedDeltaTime);
-
-        if (spawn)
-        {
-            SpawnEnemy();
-        }
-
-        if (enemySpawner.WaitingForEndOfCurrentWave())
-        {
-            CheckForEndOfCurrentWave();
-        }
-    }
-
-    private void SpawnEnemy()
-    {
-        Enemy enemy = Instantiate(Enemy, enemyParent.transform).GetComponent<Enemy>();
-
-        float offset = enemySpawner.GetNextEnemySpawnPositionOffset();
-
-        enemy.Initialize(this, this.enemyPath, offset);
-    }
-
-    private void CheckForEndOfCurrentWave()
-    {
-        if (enemyParent.transform.childCount == 0)
-        {
-            enemySpawner.CurrentWaveIsOver();
-        }
-    }
-
     private void HandleClickOnTile()
     {
         Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.tilemap, Input.mousePosition);
@@ -236,6 +204,47 @@ public class LevelManager : MonoBehaviour
         this.enemyParent = new GameObject("Enemies");
 
         enemySpawner.BeginSpawning();
+    }
+
+    /// <summary>
+    /// Updates spawner. Spawns Enemies when necessary and updates the wave count.
+    /// </summary>
+    private void HandleEnemySpawning()
+    {
+        bool spawn = enemySpawner.Tick(Time.fixedDeltaTime);
+
+        if (spawn)
+        {
+            SpawnEnemy();
+        }
+
+        if (enemySpawner.WaitingForEndOfCurrentWave())
+        {
+            CheckForEndOfCurrentWave();
+        }
+    }
+
+    /// <summary>
+    /// Spawns an enemy at the first waypoint with an offset.
+    /// </summary>
+    private void SpawnEnemy()
+    {
+        Enemy enemy = Instantiate(Enemy, enemyParent.transform).GetComponent<Enemy>();
+
+        float offset = enemySpawner.GetNextEnemySpawnPositionOffset();
+
+        enemy.Initialize(this, this.enemyPath, offset);
+    }
+
+    /// <summary>
+    /// Checks if the current wave has been defeated and triggers the next wave to spawn.
+    /// </summary>
+    private void CheckForEndOfCurrentWave()
+    {
+        if (enemyParent.transform.childCount == 0)
+        {
+            enemySpawner.CurrentWaveIsOver();
+        }
     }
 
     /// <summary>
