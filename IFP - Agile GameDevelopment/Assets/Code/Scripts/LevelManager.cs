@@ -42,8 +42,6 @@ public class LevelManager : MonoBehaviour
 
     private EnemySpawner enemySpawner;
 
-    private PRNG spawnOffsetRandom;
-
     public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
         Vector2Int result = new Vector2Int(tilePosition.x, tilePosition.y);
