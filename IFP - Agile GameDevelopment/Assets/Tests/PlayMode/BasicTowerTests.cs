@@ -51,7 +51,7 @@ public class BasicTowerTests
         GameObject LevelManagerObject = GameObject.Find("/LevelManager");
         Assert.IsNotNull(LevelManagerObject, "LevelManagerObject Null");
         //disable loosing
-        LevelManagerObject.GetComponent<LevelManager>().PlayerLives = 100000; //not so nice
+        LevelManagerObject.GetComponent<LevelManager>().Test_PlayerLives = 100000; //not so nice
 
 
         //create Tower
