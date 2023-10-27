@@ -30,17 +30,23 @@ public class LevelManager : MonoBehaviour
 
     private Tilemap tilemap;
 
-    private Vector2[] path;
-
-    private EnemySpawner enemySpawner;
-
     private int bestTry;
 
     private int playerLives;
 
+    // 
+
+    private GameObject enemyParent;
+
+    private Vector2[] enemyPath;
+
+    private EnemySpawner enemySpawner;
+
+    private PRNG spawnOffsetRandom;
+
     public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
-        Vector2Int result = (Vector2Int)tilePosition;
+        Vector2Int result = new Vector2Int(tilePosition.x, tilePosition.y);
 
         return result;
     }
@@ -102,6 +108,15 @@ public class LevelManager : MonoBehaviour
         return result;
     }
 
+    private static Vector3Int GetTilePositionFromScreenPosition(Camera camera, Tilemap tilemap, Vector2 screenPosition)
+    {
+        Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
+
+        Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
+
+        return result;
+    }
+
     private void Awake()
     {
         GameObject loadedLevel;
@@ -117,11 +132,13 @@ public class LevelManager : MonoBehaviour
 
         LoadDataFromInstantiatedLevel(loadedLevel);
 
-        InitializeEnemySpawner();
+        InitializeEnemySpawning();
 
-        this.playerLives = this.levelInfo.playerLives;
+        FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
 
-        FocusCameraOnGameplayArea(Camera.main, this.levelInfo.GameplayArea);
+        // TODO: Figure out where these should be initialized
+
+        this.playerLives = levelInfo.playerLives;
     }
 
     private void Update()
@@ -146,7 +163,39 @@ public class LevelManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        this.enemySpawner.Tick(Time.fixedDeltaTime);
+        HandleEnemySpawning();
+    }
+
+    private void HandleEnemySpawning()
+    {
+        bool spawn = enemySpawner.Tick(Time.fixedDeltaTime);
+
+        if (spawn)
+        {
+            SpawnEnemy();
+        }
+
+        if (enemySpawner.WaitingForEndOfCurrentWave())
+        {
+            CheckForEndOfCurrentWave();
+        }
+    }
+
+    private void SpawnEnemy()
+    {
+        Enemy enemy = Instantiate(Enemy, enemyParent.transform).GetComponent<Enemy>();
+
+        float offset = enemySpawner.GetNextEnemySpawnPositionOffset();
+
+        enemy.Initialize(this, this.enemyPath, offset);
+    }
+
+    private void CheckForEndOfCurrentWave()
+    {
+        if (enemyParent.transform.childCount == 0)
+        {
+            enemySpawner.CurrentWaveIsOver();
+        }
     }
 
     private void HandleClickOnTile()
@@ -180,17 +229,13 @@ public class LevelManager : MonoBehaviour
         TowerOptionsBar.Hide();
     }
 
-    private static Vector3Int GetTilePositionFromScreenPosition(Camera camera, Tilemap tilemap, Vector2 screenPosition)
+    private void InitializeEnemySpawning()
     {
-        Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
-        Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
+        this.enemySpawner = new EnemySpawner(levelInfo.Waves);
 
-        return result;
-    }
+        this.enemyParent = new GameObject("Enemies");
 
-    private void InitializeEnemySpawner()
-    {
-        this.enemySpawner = new EnemySpawner(this, this.levelInfo.Waves, this.path, this.Enemy);
+        enemySpawner.BeginSpawning();
     }
 
     /// <summary>
@@ -201,7 +246,7 @@ public class LevelManager : MonoBehaviour
         this.levelInstance = level;
         this.levelInfo = level.GetComponent<LevelInfo>();
         this.tilemap = level.GetComponentInChildren<Tilemap>();
-        this.path = ExtractPathFromLevel(level);
+        this.enemyPath = ExtractPathFromLevel(level);
     }
 
     /// <summary>
