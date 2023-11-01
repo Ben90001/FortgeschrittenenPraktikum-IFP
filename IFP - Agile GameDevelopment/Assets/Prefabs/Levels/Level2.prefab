@@ -1768,12 +1768,14 @@ MonoBehaviour:
     m_Center: {x: 1.5, y: -1, z: 0}
     m_Extent: {x: 8.5, y: 4, z: 5}
   Waves:
-  - CurrencyWorth: 0
-    SubWaves:
-    - StartTime: 0
-      SpawnInterval: 0
-      EnemiesToSpawn: 0
-  Waypoints: []
+  - CurrencyWorth: 49
+    EnemyCount: 20
+    SecondsBetweenSpawns: 0.65
+    EnemyHealth: 1200
+  - CurrencyWorth: 4
+    EnemyCount: 7
+    SecondsBetweenSpawns: 0.19
+    EnemyHealth: 1.15
 --- !u!1 &8191095757974999383
 GameObject:
   m_ObjectHideFlags: 0

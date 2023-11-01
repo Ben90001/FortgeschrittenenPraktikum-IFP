@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1987631301797498224}
   - component: {fileID: 6368161488805073193}
   m_Layer: 0
-  m_Name: Blockade
+  m_Name: BlockadeTowerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

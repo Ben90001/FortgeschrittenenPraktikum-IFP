@@ -3,12 +3,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+
 
 public class LevelManager : MonoBehaviour
 {
-    private static readonly float SPAWN_OFFSET_RANGE = 0.3f;
-
     public GameObject Enemy;
 
     public TileBase Grass;
@@ -21,24 +19,24 @@ public class LevelManager : MonoBehaviour
     public int currency;
     public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
-   
 
 
-    public float TimeBetweenSpawns = 1.0f;
 
     public HUD HUD;
 
-    // NOTE: Level specific private data
+    // NOTE: Level specific data
 
-    [SerializeField] private GameObject level;
-    [SerializeField] private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
+    private GameObject levelInstance;
+
+    private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
     private LevelInfo levelInfo;
+
 
     public Tilemap tilemap;
 
     private Vector2[] path;
-    
+
 
     // NOTE: Gameplay logic specific data
 
@@ -46,32 +44,126 @@ public class LevelManager : MonoBehaviour
 
     public int PlayerLives = 10; //only public for game design changes during development
 
+
     private int bestTry;
 
-    //
+    private int playerLives;
 
-    private PRNG spawnRandom;
-   
-    public void Awake()
+
+    // 
+
+    private GameObject enemyParent;
+
+    private Vector2[] enemyPath;
+
+    private EnemySpawner enemySpawner;
+
+    public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
-        GameObject loadedLevel = null;
-       
+        Vector2Int result = new Vector2Int(tilePosition.x, tilePosition.y);
+
+        return result;
+
+    }
+
+    public void OnEnemyDestroyed()
+    {
+
+    }
+
+    public void OnEmeyReachedEndOfPath()
+    {
+
+    }
+
+    public void DecreasePlayerLives()
+    {
+        playerLives--;
+
+        if (playerLives <= 0)
+        {
+            this.HUD.ShowGameOverScreen(playerLives, this.bestTry);
+        }
+    }
+
+    public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
+    {
+        if (!TilePositionHasTower(tilePosition) && currency >= 50)
+        {
+            Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
+
+            GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
+
+            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+
+            SpendCurrency(50);
+
+            towers.Add(tileKey, towerObject);
+
+
+        }
+
+        else
+        {
+            Debug.Log("not enough money to purchase the item");
+        }
+    }
+
+    public void SetLoadedLevel(GameObject loadedLevel)
+    {
+        levelInstance = loadedLevel;
+    }
+
+    public void HandleClickOnTileForTesting()
+    {
+        HandleClickOnTile();
+    }
+
+    public bool TilePositionHasTower(Vector3Int tilePosition)
+    {
+        Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+
+        bool result = towers.ContainsKey(tileKey);
+
+        return result;
+    }
+
+    private static Vector3Int GetTilePositionFromScreenPosition(Camera camera, Tilemap tilemap, Vector2 screenPosition)
+    {
+        Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
+
+        Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
+
+        return result;
+    }
+
+    private void Awake()
+    {
+        GameObject loadedLevel;
 
         if (LevelSelection.LoadedLevel != null)
         {
-            loadedLevel = LoadLevel(LevelSelection.LoadedLevel);
+            loadedLevel = InstantiateLevel(LevelSelection.LoadedLevel);
         }
         else
         {
-            loadedLevel = LoadDefaultLevel();
+            loadedLevel = InstantiateDefaultLevel();
         }
 
-        InitializeLoadedLevel(loadedLevel);
-        currency = 100; 
-        UpdateUI(); 
+        LoadDataFromInstantiatedLevel(loadedLevel);
+        currency = 100;
+        UpdateUI();
+
+        InitializeEnemySpawning();
+
+        FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
+
+        // TODO: Figure out where these should be initialized
+
+        this.playerLives = levelInfo.playerLives;
     }
 
-    public void Update()
+    private void Update()
     {
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
 
@@ -89,102 +181,11 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
-       
     }
 
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
-        spawnTimer -= Time.fixedDeltaTime;
-
-        if (spawnTimer < 0)
-        {
-            spawnTimer += TimeBetweenSpawns;
-
-            SpawnEnemy();
-        }
-    }
-  
-    public void DecreasePlayerLives()
-    {
-        PlayerLives--;
-
-        if (PlayerLives <= 0)
-        {
-            this.HUD.ShowGameOverScreen(this.PlayerLives, this.bestTry);
-        }
-    }
-
-    public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
-    {
-        if (!TilePositionHasTower(tilePosition) && currency >= 50)
-        {
-            Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
-
-            GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
-
-            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
-            
-                SpendCurrency(50);
-
-                towers.Add(tileKey, towerObject);
-            
-            
-        }
-    
-        else
-        {
-            Debug.Log("not enough money to purchase the item");
-        }
-    }
-
-    public GameObject GetLevel() => level;
-
-    public void SetLoadedLevel(GameObject loadedLevel)
-    {
-        level = loadedLevel;
-    }
-
-    public Dictionary<Vector2Int, GameObject> GetTowers()
-    {
-        return towers;
-    }
-
-    public void HandleClickOnTileForTesting()
-    {
-        HandleClickOnTile();
-    }
-
-    private float GetEnemySpawnOffset()
-    {
-        float result = (float)spawnRandom.NextRange(-SPAWN_OFFSET_RANGE, SPAWN_OFFSET_RANGE);
-
-        return result;
-    }
-
-    private void SpawnEnemy()
-    {
-        GameObject enemyObject = Instantiate(Enemy);
-
-        Enemy enemy = enemyObject.GetComponent<Enemy>();
-
-        float offset = GetEnemySpawnOffset();
-
-        enemy.Initialize(this, path, offset);
-    }
-
-    /// <summary>
-    /// Extract all relevant data from the instantiated level object.
-    /// </summary>
-    private void InitializeLoadedLevel(GameObject level)
-    {
-        this.level = level;
-        this.levelInfo = level.GetComponent<LevelInfo>();
-        this.tilemap = level.GetComponentInChildren<Tilemap>();
-        this.path = ExtractPathFromLevel(level);
-
-        FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
-
-        this.spawnRandom = new PRNG(0);
+        HandleEnemySpawning();
     }
 
     private void HandleClickOnTile()
@@ -208,15 +209,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public bool TilePositionHasTower(Vector3Int tilePosition)
-    {
-        Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
-
-        bool result = towers.ContainsKey(tileKey);
-
-        return result;
-    }
-
     private void ShowTowerOptionsBarForSelectedTile(Vector3Int tilePosition)
     {
 
@@ -227,19 +219,65 @@ public class LevelManager : MonoBehaviour
         TowerOptionsBar.Hide();
     }
 
-    private static Vector3Int GetTilePositionFromScreenPosition(Camera camera, Tilemap tilemap, Vector2 screenPosition)
+    private void InitializeEnemySpawning()
     {
-        Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
-        Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
+        this.enemySpawner = new EnemySpawner(levelInfo.Waves);
 
-        return result;
+        this.enemyParent = new GameObject("Enemies");
+
+        enemySpawner.BeginSpawning();
     }
 
-    public Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
+    /// <summary>
+    /// Updates spawner. Spawns Enemies when necessary and updates the wave count.
+    /// </summary>
+    private void HandleEnemySpawning()
     {
-        Vector2Int result = ((Vector2Int)tilePosition);
+        bool spawn = enemySpawner.Tick(Time.fixedDeltaTime);
 
-        return result;
+        if (spawn)
+        {
+            SpawnEnemy();
+        }
+
+        if (enemySpawner.WaitingForEndOfCurrentWave())
+        {
+            CheckForEndOfCurrentWave();
+        }
+    }
+
+    /// <summary>
+    /// Spawns an enemy at the first waypoint with an offset.
+    /// </summary>
+    private void SpawnEnemy()
+    {
+        Enemy enemy = Instantiate(Enemy, enemyParent.transform).GetComponent<Enemy>();
+
+        float offset = enemySpawner.GetNextEnemySpawnPositionOffset();
+
+        enemy.Initialize(this, this.enemyPath, offset);
+    }
+
+    /// <summary>
+    /// Checks if the current wave has been defeated and triggers the next wave to spawn.
+    /// </summary>
+    private void CheckForEndOfCurrentWave()
+    {
+        if (enemyParent.transform.childCount == 0)
+        {
+            enemySpawner.CurrentWaveIsOver();
+        }
+    }
+
+    /// <summary>
+    /// Extract all relevant data from the instantiated level object.
+    /// </summary>
+    private void LoadDataFromInstantiatedLevel(GameObject level)
+    {
+        this.levelInstance = level;
+        this.levelInfo = level.GetComponent<LevelInfo>();
+        this.tilemap = level.GetComponentInChildren<Tilemap>();
+        this.enemyPath = ExtractPathFromLevel(level);
     }
 
     /// <summary>
@@ -248,7 +286,7 @@ public class LevelManager : MonoBehaviour
     /// <returns>Array of Positions. One for each waypoint.</returns>
     private static Vector2[] ExtractPathFromLevel(GameObject level)
     {
-        Vector2[] result = null;
+        Vector2[] result;
 
         Transform pathObject = level.transform.Find("Path");
 
@@ -265,23 +303,18 @@ public class LevelManager : MonoBehaviour
                 result[childIndex] = waypoint.position;
             }
         }
+        else
+        {
+            result = new Vector2[0];
+        }
 
         return result;
     }
 
     /// <summary>
-    /// Load the first level by default. This is for starting from the GameScene in the editor.
+    /// Instantiates the provided Prefab level
     /// </summary>
-    private static GameObject LoadDefaultLevel()
-    {
-        GameObject level = LevelSelection.LoadLevel(1);
-
-        GameObject result = LoadLevel(level);
-
-        return result;
-    }
-
-    private static GameObject LoadLevel(GameObject level)
+    private static GameObject InstantiateLevel(GameObject level)
     {
         Assert.IsNotNull(level);
 
@@ -312,44 +345,96 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Load the first level by default. This is for starting from the GameScene in the editor.
+    /// </summary>
+    private static GameObject InstantiateDefaultLevel()
+    {
+        GameObject level = LevelSelection.LoadLevel(1);
+
+        GameObject result = InstantiateLevel(level);
+
+        return result;
+    }
+
+    /// <summary>
     /// Sets up the camera to center on and show the entire gameplayArea of level.
     /// </summary>
     private static void FocusCameraOnGameplayArea(Camera camera, Bounds gameplayArea)
     {
-        Assert.IsNotNull(camera);
-
         Vector3 oldCameraPosition = camera.transform.position;
-        Vector3 newCameraPosition = default(Vector3);
+        Vector3 newCameraPosition;
 
         Vector3 gameplayAreaCenter = gameplayArea.center;
 
-        newCameraPosition.x = gameplayAreaCenter.x;
-        newCameraPosition.y = gameplayAreaCenter.y;
-        newCameraPosition.z = oldCameraPosition.z;
+        if (float.IsFinite(gameplayAreaCenter.x) &&
+            float.IsFinite(gameplayAreaCenter.x))
+        {
+            newCameraPosition.x = gameplayAreaCenter.x;
+            newCameraPosition.y = gameplayAreaCenter.y;
+            newCameraPosition.z = oldCameraPosition.z;
 
-        float minCameraSizeH = gameplayArea.extents.y;
-        float minCameraSizeV = gameplayArea.extents.x / camera.aspect;
+            float minCameraSizeH = gameplayArea.extents.y;
+            float minCameraSizeV = gameplayArea.extents.x / camera.aspect;
 
-        float minCameraSize = Mathf.Max(minCameraSizeH, minCameraSizeV);
+            float minCameraSize = Mathf.Max(minCameraSizeH, minCameraSizeV);
 
-        camera.transform.position = newCameraPosition;
-        camera.orthographicSize = minCameraSize;
+            if (minCameraSize >= 0.1f && minCameraSize < 1000.0f)
+            {
+                camera.transform.position = newCameraPosition;
+                camera.orthographicSize = minCameraSize;
+            }
+        }
     }
+
 
 
     public void UpdateUI()
     {
-        
-            if (Anzeige != null)
-            {
-                
-                Anzeige.text = "Currency: " + currency;
-            }
-            else
-            {
-               
-            }
-        }
-    
 
+        if (Anzeige != null)
+        {
+
+            Anzeige.text = "Currency: " + currency;
+        }
+        else
+        {
+
+        }
     }
+
+
+#if UNITY_EDITOR
+
+    public GameObject Test_Level
+    {
+        get
+        {
+            return this.levelInstance;
+        }
+    }
+
+    public int Test_PlayerLives
+    {
+        get
+        {
+            return this.playerLives;
+        }
+
+        set
+        {
+            this.playerLives = value;
+        }
+    }
+
+    public Dictionary<Vector2Int, GameObject> Test_Towers
+    {
+        get
+        {
+            return this.towers;
+        }
+    }
+
+#endif
+}
+
+

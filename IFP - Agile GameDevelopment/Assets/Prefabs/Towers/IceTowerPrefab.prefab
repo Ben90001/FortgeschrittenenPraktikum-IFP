@@ -837,7 +837,7 @@ GameObject:
   - component: {fileID: 3672455626445709316}
   - component: {fileID: -5193903107038947917}
   m_Layer: 0
-  m_Name: IceTower
+  m_Name: IceTowerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

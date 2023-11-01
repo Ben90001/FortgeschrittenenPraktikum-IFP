@@ -9,6 +9,8 @@ public abstract class BaseTower : MonoBehaviour
 
     private float actionTimer;
 
+    protected float actionRadius;
+
     // private int level;
     // private List<int> upgradeCosts;
     // private List<Sprite> levelLook;
