@@ -2,12 +2,11 @@ using UnityEngine;
 using static Codice.CM.Common.CmCallContext;
 
 public class Enemy : MonoBehaviour
-{ 
+{
     public float MovementSpeed = 10.0f;
     public float Health;
  
     private bool isSlowed = false;
-
     private float slowFactor = 1.0f;
     private float originalMovementSpeed;
     [SerializeField] private int currencyWorth = 10;
@@ -18,19 +17,22 @@ public class Enemy : MonoBehaviour
 
     private EnemyPath path;
 
+    private float health;
+
     /// <summary>
     /// Initializes the enemy.
     /// </summary>
     /// <param name="levelManager">Reference to LevelManager in Scene.</param>
     /// <param name="waypoints">List of waypoints the enemy should follow.</param>
     /// <param name="offset">The perpendicular offset that should be applied to the waypoints.</param>
-    public void Initialize(LevelManager levelManager, Vector2[] waypoints, float offset)
+    public void Initialize(LevelManager levelManager, Vector2[] waypoints, float offset, float health)
     {
         this.levelManager = levelManager;
+        this.health = health;
 
         InitializePath(waypoints, offset);
 
-        InitializePositionFromPath(this.path);
+        InitializePositionFromPath(path);
     }
 
     /// <summary>
@@ -163,9 +165,9 @@ public class Enemy : MonoBehaviour
 
     public void ApplyDamage(float amount)
     {
-        Health -= amount;
+        health -= amount;
 
-        if (Health <= 0.0f)
+        if (health <= 0.0f)
         {
             // TODO: Handle destroyed enemy
             // TODO: Handel Currency for Kill
@@ -209,9 +211,9 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Initializes the enemy with a specified starting position.
     /// </summary>
-    public void Initialize(LevelManager levelManager, Vector2[] waypoints, Vector2 startingPosition)
+    public void Initialize(LevelManager levelManager, Vector2[] waypoints, Vector2 startingPosition, float health)
     {
-        Initialize(levelManager, waypoints, 0.0f);
+        Initialize(levelManager, waypoints, 0.0f, health);
 
         transform.position = startingPosition;
     }

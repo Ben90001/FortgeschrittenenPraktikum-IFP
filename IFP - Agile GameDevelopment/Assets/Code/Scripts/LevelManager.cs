@@ -154,13 +154,9 @@ public class LevelManager : MonoBehaviour
         currency = 100; 
         UpdateUI();
 
-        InitializeEnemySpawning();
+        BeginEnemySpawning();
 
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
-
-        // TODO: Figure out where these should be initialized
-
-        this.playerLives = levelInfo.playerLives;
     }
 
     private void Update()
@@ -219,7 +215,7 @@ public class LevelManager : MonoBehaviour
         TowerOptionsBar.Hide();
     }
 
-    private void InitializeEnemySpawning()
+    private void BeginEnemySpawning()
     {
         this.enemySpawner = new EnemySpawner(levelInfo.Waves);
 
@@ -251,11 +247,15 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void SpawnEnemy()
     {
-        Enemy enemy = Instantiate(Enemy, enemyParent.transform).GetComponent<Enemy>();
+        Vector3 spawnPosition = new Vector3(1000, 0, 0);
+
+        Enemy enemy = Instantiate(Enemy, spawnPosition, Quaternion.identity, enemyParent.transform).GetComponent<Enemy>();
 
         float offset = enemySpawner.GetNextEnemySpawnPositionOffset();
 
-        enemy.Initialize(this, this.enemyPath, offset);
+        int health = enemySpawner.GetNextEnemyHealth();
+
+        enemy.Initialize(this, enemyPath, offset, health);
     }
 
     /// <summary>
@@ -278,6 +278,7 @@ public class LevelManager : MonoBehaviour
         this.levelInfo = level.GetComponent<LevelInfo>();
         this.tilemap = level.GetComponentInChildren<Tilemap>();
         this.enemyPath = ExtractPathFromLevel(level);
+        this.playerLives = levelInfo.playerLives;
     }
 
     /// <summary>
