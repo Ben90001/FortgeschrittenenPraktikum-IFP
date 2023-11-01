@@ -130,7 +130,7 @@ public class LevelManager : MonoBehaviour
 
         LoadDataFromInstantiatedLevel(loadedLevel);
 
-        InitializeEnemySpawning();
+        BeginEnemySpawning();
 
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
 
@@ -195,7 +195,7 @@ public class LevelManager : MonoBehaviour
         TowerOptionsBar.Hide();
     }
 
-    private void InitializeEnemySpawning()
+    private void BeginEnemySpawning()
     {
         this.enemySpawner = new EnemySpawner(levelInfo.Waves);
 
@@ -231,7 +231,9 @@ public class LevelManager : MonoBehaviour
 
         float offset = enemySpawner.GetNextEnemySpawnPositionOffset();
 
-        enemy.Initialize(this, this.enemyPath, offset);
+        int health = enemySpawner.GetNextEnemyHealth();
+
+        enemy.Initialize(this, this.enemyPath, offset, health);
     }
 
     /// <summary>
