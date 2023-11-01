@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
-    public int currency;
+    public int currency = 100;
     public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
 
@@ -88,7 +88,7 @@ public class LevelManager : MonoBehaviour
 
     public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
     {
-        if (!TilePositionHasTower(tilePosition) && currency >= 50)
+        if (!TilePositionHasTower(tilePosition) && currency >= 30)
         {
             Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
 
@@ -96,7 +96,7 @@ public class LevelManager : MonoBehaviour
 
             Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
 
-            SpendCurrency(50);
+            SpendCurrency(30);
 
             towers.Add(tileKey, towerObject);
 
@@ -151,7 +151,7 @@ public class LevelManager : MonoBehaviour
         }
 
         LoadDataFromInstantiatedLevel(loadedLevel);
-        currency = 100;
+        currency = 100; 
         UpdateUI();
 
         InitializeEnemySpawning();

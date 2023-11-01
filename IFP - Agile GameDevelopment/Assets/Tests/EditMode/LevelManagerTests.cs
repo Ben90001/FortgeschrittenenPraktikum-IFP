@@ -120,4 +120,45 @@ public class LevelManagerTests
 
         Assert.IsTrue(hasTower, "TilePositionHasTower sollte true zur�ckgeben, wenn ein Turm vorhanden ist.");
     }
+   
+
+    [Test]
+    public void IncreaseCurrency_AddsToCurrency()
+    {
+        GameObject gameObject = new GameObject();
+        LevelManager levelManager = gameObject.AddComponent<LevelManager>();
+
+        levelManager.IncreaseCurrency(50);
+        Assert.AreEqual(150, levelManager.currency);
+    }
+
+    [Test]
+    public void SpendCurrency_DeductsFromCurrency()
+    {
+        GameObject gameObject = new GameObject();
+        LevelManager levelManager = gameObject.AddComponent<LevelManager>();
+        levelManager.SpendCurrency(30);
+        Assert.AreEqual(70, levelManager.currency);
+    }
+
+    [Test]
+    public void SpendCurrency_ReturnsTrueIfEnoughCurrency()
+    {
+        GameObject gameObject = new GameObject();
+        LevelManager levelManager = gameObject.AddComponent<LevelManager>();
+
+       
+        bool result = levelManager.SpendCurrency(30);
+        Assert.IsTrue(result);
+    }
+
+    [Test]
+    public void SpendCurrency_ReturnsFalseIfNotEnoughCurrency()
+    {
+        GameObject gameObject = new GameObject();
+        LevelManager levelManager = gameObject.AddComponent<LevelManager>();
+        bool result = levelManager.SpendCurrency(200);
+        Assert.IsFalse(result);
+    }
+
 }
