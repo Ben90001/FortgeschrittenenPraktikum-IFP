@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 { 
-    public float MovementSpeed = 10.0f;
+    public float MovementSpeed = 2.0f;
     private bool isSlowed = false;
     private float slowFactor = 1.0f;
     private float originalMovementSpeed;
@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
 
         InitializePath(waypoints, offset);
 
-        InitializePositionFromPath(this.path);
+        InitializePositionFromPath(path);
     }
 
     /// <summary>

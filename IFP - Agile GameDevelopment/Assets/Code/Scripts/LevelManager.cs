@@ -223,13 +223,15 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void SpawnEnemy()
     {
-        Enemy enemy = Instantiate(Enemy, enemyParent.transform).GetComponent<Enemy>();
+        Vector3 spawnPosition = new Vector3(1000, 0, 0);
+
+        Enemy enemy = Instantiate(Enemy, spawnPosition, Quaternion.identity, enemyParent.transform).GetComponent<Enemy>();
 
         float offset = enemySpawner.GetNextEnemySpawnPositionOffset();
 
         int health = enemySpawner.GetNextEnemyHealth();
 
-        enemy.Initialize(this, this.enemyPath, offset, health);
+        enemy.Initialize(this, enemyPath, offset, health);
     }
 
     /// <summary>
