@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class LevelManager : MonoBehaviour
     public GameObject SniperTower;
     public GameObject IceTower;
     public int currency;
-
+    public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
    
 
@@ -50,10 +51,7 @@ public class LevelManager : MonoBehaviour
     //
 
     private PRNG spawnRandom;
-    public void Start()
-    {
-        currency = 100;
-    }
+   
     public void Awake()
     {
         GameObject loadedLevel = null;
@@ -69,6 +67,8 @@ public class LevelManager : MonoBehaviour
         }
 
         InitializeLoadedLevel(loadedLevel);
+        currency = 100; 
+        UpdateUI(); 
     }
 
     public void Update()
@@ -89,6 +89,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
+       
     }
 
     public void FixedUpdate()
@@ -102,7 +103,7 @@ public class LevelManager : MonoBehaviour
             SpawnEnemy();
         }
     }
-
+  
     public void DecreasePlayerLives()
     {
         PlayerLives--;
@@ -292,6 +293,7 @@ public class LevelManager : MonoBehaviour
     public void IncreaseCurrency(int amount)
     {
         currency += amount;
+        UpdateUI();
     }
 
     public bool SpendCurrency(int amount)
@@ -299,6 +301,7 @@ public class LevelManager : MonoBehaviour
         if (amount <= currency)
         {
             currency -= amount;
+            UpdateUI();
             return true;
         }
         else
@@ -332,4 +335,21 @@ public class LevelManager : MonoBehaviour
         camera.transform.position = newCameraPosition;
         camera.orthographicSize = minCameraSize;
     }
-}
+
+
+    public void UpdateUI()
+    {
+        
+            if (Anzeige != null)
+            {
+                
+                Anzeige.text = "Currency: " + currency;
+            }
+            else
+            {
+               
+            }
+        }
+    
+
+    }
