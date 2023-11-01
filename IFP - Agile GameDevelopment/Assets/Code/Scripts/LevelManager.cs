@@ -133,10 +133,6 @@ public class LevelManager : MonoBehaviour
         BeginEnemySpawning();
 
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
-
-        // TODO: Figure out where these should be initialized
-
-        this.playerLives = levelInfo.playerLives;
     }
 
     private void Update()
@@ -256,6 +252,7 @@ public class LevelManager : MonoBehaviour
         this.levelInfo = level.GetComponent<LevelInfo>();
         this.tilemap = level.GetComponentInChildren<Tilemap>();
         this.enemyPath = ExtractPathFromLevel(level);
+        this.playerLives = levelInfo.playerLives;
     }
 
     /// <summary>
