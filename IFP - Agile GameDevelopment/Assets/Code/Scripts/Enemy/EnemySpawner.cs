@@ -86,6 +86,15 @@ public struct EnemySpawner
         return result;
     }
 
+    public int GetNextEnemyHealth()
+    {
+        Wave wave = GetCurrentWave();
+
+        int result = wave.EnemyHealth;
+
+        return result;
+    }
+
     private Wave GetCurrentWave()
     {
         Wave result = default;

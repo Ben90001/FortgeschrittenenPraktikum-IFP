@@ -4,6 +4,7 @@ using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
 
+
 public class LevelManager : MonoBehaviour
 {
     public GameObject Enemy;
@@ -15,8 +16,11 @@ public class LevelManager : MonoBehaviour
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
-
+    public int currency = 100;
+    public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
+
+
 
     public HUD HUD;
 
@@ -28,13 +32,25 @@ public class LevelManager : MonoBehaviour
 
     private LevelInfo levelInfo;
 
-    private Tilemap tilemap;
+
+    public Tilemap tilemap;
+
+    private Vector2[] path;
+
+
+    // NOTE: Gameplay logic specific data
+
+    private float spawnTimer = 0.0f;
+
+    public int PlayerLives = 10; //only public for game design changes during development
+
 
     private int bestTry;
 
     private int playerLives;
 
-    // 
+
+    //
 
     private GameObject enemyParent;
 
@@ -47,6 +63,7 @@ public class LevelManager : MonoBehaviour
         Vector2Int result = new Vector2Int(tilePosition.x, tilePosition.y);
 
         return result;
+
     }
 
     public void OnEnemyDestroyed()
@@ -71,7 +88,7 @@ public class LevelManager : MonoBehaviour
 
     public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
     {
-        if (!TilePositionHasTower(tilePosition))
+        if (!TilePositionHasTower(tilePosition) && currency >= 30)
         {
             Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
 
@@ -79,11 +96,16 @@ public class LevelManager : MonoBehaviour
 
             Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
 
+            SpendCurrency(30);
+
             towers.Add(tileKey, towerObject);
+
+
         }
+
         else
         {
-            // TODO: What todo
+            Debug.Log("not enough money to purchase the item");
         }
     }
 
@@ -129,14 +151,12 @@ public class LevelManager : MonoBehaviour
         }
 
         LoadDataFromInstantiatedLevel(loadedLevel);
+        currency = 100;
+        UpdateUI();
 
-        InitializeEnemySpawning();
+        BeginEnemySpawning();
 
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
-
-        // TODO: Figure out where these should be initialized
-
-        this.playerLives = levelInfo.playerLives;
     }
 
     private void Update()
@@ -195,7 +215,7 @@ public class LevelManager : MonoBehaviour
         TowerOptionsBar.Hide();
     }
 
-    private void InitializeEnemySpawning()
+    private void BeginEnemySpawning()
     {
         this.enemySpawner = new EnemySpawner(levelInfo.Waves);
 
@@ -227,11 +247,15 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private void SpawnEnemy()
     {
-        Enemy enemy = Instantiate(Enemy, enemyParent.transform).GetComponent<Enemy>();
+        Vector3 spawnPosition = new Vector3(1000, 0, 0);
+
+        Enemy enemy = Instantiate(Enemy, spawnPosition, Quaternion.identity, enemyParent.transform).GetComponent<Enemy>();
 
         float offset = enemySpawner.GetNextEnemySpawnPositionOffset();
 
-        enemy.Initialize(this, this.enemyPath, offset);
+        int health = enemySpawner.GetNextEnemyHealth();
+
+        enemy.Initialize(this, enemyPath, offset, health);
     }
 
     /// <summary>
@@ -254,6 +278,7 @@ public class LevelManager : MonoBehaviour
         this.levelInfo = level.GetComponent<LevelInfo>();
         this.tilemap = level.GetComponentInChildren<Tilemap>();
         this.enemyPath = ExtractPathFromLevel(level);
+        this.playerLives = levelInfo.playerLives;
     }
 
     /// <summary>
@@ -299,6 +324,27 @@ public class LevelManager : MonoBehaviour
         return result;
     }
 
+    public void IncreaseCurrency(int amount)
+    {
+        currency += amount;
+        UpdateUI();
+    }
+
+    public bool SpendCurrency(int amount)
+    {
+        if (amount <= currency)
+        {
+            currency -= amount;
+            UpdateUI();
+            return true;
+        }
+        else
+        {
+            Debug.Log("Not enough money to purchase this item");
+            return false;
+        }
+    }
+
     /// <summary>
     /// Load the first level by default. This is for starting from the GameScene in the editor.
     /// </summary>
@@ -321,7 +367,7 @@ public class LevelManager : MonoBehaviour
 
         Vector3 gameplayAreaCenter = gameplayArea.center;
 
-        if (float.IsFinite(gameplayAreaCenter.x) && 
+        if (float.IsFinite(gameplayAreaCenter.x) &&
             float.IsFinite(gameplayAreaCenter.x))
         {
             newCameraPosition.x = gameplayAreaCenter.x;
@@ -333,7 +379,7 @@ public class LevelManager : MonoBehaviour
 
             float minCameraSize = Mathf.Max(minCameraSizeH, minCameraSizeV);
 
-            if (minCameraSize >= 0.1f &&  minCameraSize < 1000.0f)
+            if (minCameraSize >= 0.1f && minCameraSize < 1000.0f)
             {
                 camera.transform.position = newCameraPosition;
                 camera.orthographicSize = minCameraSize;
@@ -346,6 +392,20 @@ public class LevelManager : MonoBehaviour
         return levelInstance;
     }
 
+
+    public void UpdateUI()
+    {
+
+        if (Anzeige != null)
+        {
+
+            Anzeige.text = "Currency: " + currency;
+        }
+        else
+        {
+
+        }
+    }
 #if UNITY_EDITOR
 
     public GameObject Test_Level
@@ -357,15 +417,15 @@ public class LevelManager : MonoBehaviour
     }
 
     public int Test_PlayerLives
-    { 
-        get 
-        { 
-            return this.playerLives; 
+    {
+        get
+        {
+            return this.playerLives;
         }
-        
-        set 
-        { 
-            this.playerLives = value; 
+
+        set
+        {
+            this.playerLives = value;
         }
     }
 
@@ -376,5 +436,6 @@ public class LevelManager : MonoBehaviour
             return this.towers;
         }
     }
+
 #endif
 }
