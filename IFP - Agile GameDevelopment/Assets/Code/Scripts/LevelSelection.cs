@@ -45,7 +45,8 @@ public class LevelSelection : MonoBehaviour
         }
         else
         {
-            // TODO: Error: Failed to load the level. 
+            // TODO: Error: Failed to load the level.
+            Debug.LogWarning("Failed to load level. level is Null.");
         }
     }
 }

@@ -316,6 +316,7 @@ GameObject:
   m_Component:
   - component: {fileID: 966348541}
   - component: {fileID: 966348540}
+  - component: {fileID: 966348542}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -343,11 +344,7 @@ MonoBehaviour:
   SniperTower: {fileID: 2746393042390166952, guid: 4c27ce3febc9be24ab31fb0252d540d4, type: 3}
   IceTower: {fileID: 7093835851391559277, guid: 3d9d82f010d43184c97b6332364f9abd, type: 3}
   TowerOptionsBar: {fileID: 6682796177558364796}
-  TimeBetweenSpawns: 1.5
   HUD: {fileID: 744179455}
-  level: {fileID: 0}
-  tilemap: {fileID: 0}
-  PlayerLives: 10
 --- !u!4 &966348541
 Transform:
   m_ObjectHideFlags: 0
@@ -363,6 +360,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &966348542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966348539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa33f22b841626848b4a9cbaa46d2a5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1660850102 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6105775017026916986, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
@@ -389,6 +398,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa33f22b841626848b4a9cbaa46d2a5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1660850105 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6220735838126008929, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
+  m_PrefabInstance: {fileID: 4405378234514934807}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660850102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d388adfd1424e789822338aee85a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1766047864
@@ -907,25 +927,29 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6220735838126008929, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
+      propertyPath: LevelManager
+      value: 
+      objectReference: {fileID: 966348539}
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1660850104}
+      objectReference: {fileID: 1660850105}
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadLevel
+      value: RestartLevel
       objectReference: {fileID: 0}
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: LevelSelection, Scripts
+      value: DefeatMessage, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument

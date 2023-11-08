@@ -341,6 +341,11 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public GameObject GetLevelInstance()
+    {
+        return levelInstance;
+    }
+
 #if UNITY_EDITOR
 
     public GameObject Test_Level
