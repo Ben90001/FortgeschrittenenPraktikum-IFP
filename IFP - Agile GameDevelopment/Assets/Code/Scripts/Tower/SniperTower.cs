@@ -16,7 +16,7 @@ public class SniperTower : BaseTower
     {
         bool success = false;
 
-        Enemy target = FindBestTarget(2.0f);
+        Enemy target = FindBestTarget(actionRadius);
 
         if (target != null)
         {
