@@ -232,7 +232,7 @@ public class LevelManager : MonoBehaviour
             CheckForEndOfCurrentWave();
         }
 
-        if (enemySpawner.GetState() == EnemySpawner.SpawnerState.Done) //win case
+        if (enemySpawner.State == EnemySpawner.SpawnerState.Done) //win case
         {
             this.HUD.ShowGameOverScreen(playerLives, bestTry);
         }
