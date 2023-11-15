@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class SniperTower : BaseTower
 {
-   public GameObject BulletPrefab;
+    public GameObject BulletPrefab;
 
     private Enemy target;
+
+    public float Damage;
+    public float BulletSpeed;
 
     protected override void TowerUpgrade()
     {
@@ -23,11 +26,13 @@ public class SniperTower : BaseTower
             GameObject bulletObject = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
 
             Bullet bullet = bulletObject.GetComponent<Bullet>();
-
+            bullet.Damage = this.Damage;
+            bullet.Speed = this.BulletSpeed;
             bullet.Target = target;
 
             success = true;
         }
+
 
         return success;
     }

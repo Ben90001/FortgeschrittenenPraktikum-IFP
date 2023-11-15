@@ -6,6 +6,7 @@ public class HUD : MonoBehaviour
 {
 
     public GameObject DefeatScreen;
+    public GameObject WinScreen;
 
     void Start()
     {
@@ -20,11 +21,31 @@ public class HUD : MonoBehaviour
 
     public void ShowGameOverScreen(int playerLives, int bestTry)
     {
-        if (DefeatScreen != null)
+        Debug.Log("ShowGameOverScreen called");
+        Time.timeScale = 0;
+        if (playerLives <= 0)
         {
-            //TODO: update bestTry in PlayerInfo
-            Time.timeScale = 0;
-            DefeatScreen.SetActive(true);
+            if (DefeatScreen != null)
+            {
+                //TODO: update bestTry in PlayerInfo
+                DefeatScreen.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning("DefeatScreen is Null!");
+            }
         }
+        else
+        {
+            if(WinScreen != null)
+            {
+                WinScreen.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning("WinScreen is Null!");
+            }
+        }
+        
     }
 }

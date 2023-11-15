@@ -6,6 +6,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float Speed;
+    public float Damage = 1.0f;
 
     [HideInInspector]
     public Enemy Target;
@@ -32,7 +33,7 @@ public class Bullet : MonoBehaviour
             {
                 // TODO: Add damage stats
 
-                Target.ApplyDamage(1.0f);
+                Target.ApplyDamage(Damage);
 
                 Destroy(gameObject);
             }

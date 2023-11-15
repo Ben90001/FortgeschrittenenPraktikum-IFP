@@ -66,15 +66,6 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    public void OnEnemyDestroyed()
-    {
-
-    }
-
-    public void OnEmeyReachedEndOfPath()
-    {
-
-    }
 
     public void DecreasePlayerLives()
     {
@@ -181,7 +172,7 @@ public class LevelManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandleEnemySpawning();
+        HandleEnemySpawning(); //also calls WinMessage
     }
 
     private void HandleClickOnTile()
@@ -239,6 +230,11 @@ public class LevelManager : MonoBehaviour
         if (enemySpawner.WaitingForEndOfCurrentWave())
         {
             CheckForEndOfCurrentWave();
+        }
+
+        if (enemySpawner.GetState() == EnemySpawner.SpawnerState.Done) //win case
+        {
+            this.HUD.ShowGameOverScreen(playerLives, bestTry);
         }
     }
 

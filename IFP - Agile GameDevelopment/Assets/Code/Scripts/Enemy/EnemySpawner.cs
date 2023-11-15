@@ -184,4 +184,9 @@ public struct EnemySpawner
         BetweenWaves,
         Done
     }
+
+    public SpawnerState GetState()
+    {
+        return this.state;
+    }
 }
