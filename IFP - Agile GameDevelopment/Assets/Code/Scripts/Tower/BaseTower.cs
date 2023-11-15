@@ -60,6 +60,7 @@ public abstract class BaseTower : MonoBehaviour
 
                 if (bestTarget == null || pathDistance < bestTargetPathDistance)
                 {
+                    bestTargetPathDistance = pathDistance;
                     bestTarget = enemy;
                 }
             }
