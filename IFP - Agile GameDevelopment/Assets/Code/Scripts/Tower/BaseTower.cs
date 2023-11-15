@@ -39,16 +39,16 @@ public abstract class BaseTower : MonoBehaviour
         }
     }
 
-
     protected abstract void TowerUpgrade();
 
     protected abstract bool PerformAction();
 
     protected Enemy FindBestTarget(float radius)
     {
-        Enemy result = null;
-
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+
+        Enemy bestTarget = null;
+        float bestTargetPathDistance = float.MaxValue;
 
         foreach (Collider2D collider in colliders)
         {
@@ -56,12 +56,16 @@ public abstract class BaseTower : MonoBehaviour
 
             if (enemy != null)
             {
-                result = enemy;
-                break;
+                float pathDistance = enemy.GetRemainingDistanceAlongPath();
+
+                if (bestTarget == null || pathDistance < bestTargetPathDistance)
+                {
+                    bestTarget = enemy;
+                }
             }
         }
 
-        return result;
+        return bestTarget;
     }
 
     //Methods used only for testing
