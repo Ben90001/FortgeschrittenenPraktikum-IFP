@@ -19,6 +19,7 @@ public class LevelManager : MonoBehaviour
     public int currency = 100;
     public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
+    public GameObject TowerMenu;
 
 
 
@@ -58,6 +59,17 @@ public class LevelManager : MonoBehaviour
 
     private EnemySpawner enemySpawner;
 
+
+    private void ShowTowerMenu(Vector3Int tilePosition)
+    {
+        // Positionieren und Anzeigen des Menüs für den Turm
+        // Hier könnten Sie z.B. die Position des Menüs auf die Position des Turms setzen
+        // und das Menü aktivieren
+        TowerMenu.SetActive(true);
+        TowerMenu.transform.position = Camera.main.WorldToScreenPoint(tilemap.GetCellCenterWorld(tilePosition));
+
+    
+    }
     public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
         Vector2Int result = new Vector2Int(tilePosition.x, tilePosition.y);
@@ -180,6 +192,15 @@ public class LevelManager : MonoBehaviour
         Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.tilemap, Input.mousePosition);
 
         TileBase tile = tilemap.GetTile(tilePosition);
+        if (TilePositionHasTower(tilePosition))
+        {
+            ShowTowerMenu(tilePosition); // Anzeigen des Turm-Menüs
+        }
+        else if (tile == this.Grass)
+        {
+            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+            TowerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
+        }
 
         if (!TilePositionHasTower(tilePosition))
         {
