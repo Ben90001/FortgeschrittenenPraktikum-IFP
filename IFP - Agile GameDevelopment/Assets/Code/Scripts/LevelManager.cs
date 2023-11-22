@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
-
+using PlasticPipe.PlasticProtocol.Messages;
 
 public class LevelManager : MonoBehaviour
 {
@@ -16,10 +16,14 @@ public class LevelManager : MonoBehaviour
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
+    public GameObject UpgradedBasicTower;
+    public GameObject UpgradedIceTower;
+    public GameObject UpgradedSniperTower;
     public int currency = 100;
     public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
-    public GameObject TowerMenu;
+    public TowerUpgradeMenu TowerMenu;
+
 
 
 
@@ -60,16 +64,7 @@ public class LevelManager : MonoBehaviour
     private EnemySpawner enemySpawner;
 
 
-    private void ShowTowerMenu(Vector3Int tilePosition)
-    {
-        // Positionieren und Anzeigen des Menüs für den Turm
-        // Hier könnten Sie z.B. die Position des Menüs auf die Position des Turms setzen
-        // und das Menü aktivieren
-        TowerMenu.SetActive(true);
-        TowerMenu.transform.position = Camera.main.WorldToScreenPoint(tilemap.GetCellCenterWorld(tilePosition));
 
-    
-    }
     public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
         Vector2Int result = new Vector2Int(tilePosition.x, tilePosition.y);
@@ -104,6 +99,25 @@ public class LevelManager : MonoBehaviour
             towers.Add(tileKey, towerObject);
 
 
+        }
+        else if (TilePositionHasTower(tilePosition))
+        {
+            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+            if (towers.TryGetValue(tileKey, out GameObject existingTower))
+            {
+                Destroy(existingTower);
+
+                towers.Remove(GetTileKeyFromTilePosition(tilePosition));
+                Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
+
+                GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
+
+
+
+                SpendCurrency(30);
+
+                towers.Add(tileKey, towerObject);
+            }
         }
 
         else
@@ -194,7 +208,8 @@ public class LevelManager : MonoBehaviour
         TileBase tile = tilemap.GetTile(tilePosition);
         if (TilePositionHasTower(tilePosition))
         {
-            ShowTowerMenu(tilePosition); // Anzeigen des Turm-Menüs
+            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+            TowerMenu.ShowTowerTile(tilePosition, tileWorldPosition);
         }
         else if (tile == this.Grass)
         {
