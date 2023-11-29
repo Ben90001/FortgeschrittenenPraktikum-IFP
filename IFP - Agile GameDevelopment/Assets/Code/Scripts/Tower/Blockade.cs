@@ -6,6 +6,11 @@ public class Blockade : BaseTower
     private int maxBlockadeHealth;
     private bool isBlockadeActive;
 
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        print("collide");
+    }
+
     public void ActivateBlockade()
     {
         this.isBlockadeActive = true;
