@@ -15,7 +15,7 @@ public class BasicTower : BaseTower
 
     protected override void TowerUpgrade()
     {
-        //TODO: add funtionality
+        // TODO: Add funtionality
     }
 
     protected override bool PerformAction()
@@ -44,6 +44,7 @@ public class BasicTower : BaseTower
     {
         return PerformAction();
     }
+
     public Enemy FindBestTargetForTests()
     {
         return FindBestTarget(actionRadius);

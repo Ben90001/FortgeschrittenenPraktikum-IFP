@@ -70,7 +70,8 @@ public abstract class BaseTower : MonoBehaviour
     }
 
     //Methods used only for testing
-    public float GetActionTimer() 
+
+    public float GetActionTimer()
     {
         return actionTimer;
     }

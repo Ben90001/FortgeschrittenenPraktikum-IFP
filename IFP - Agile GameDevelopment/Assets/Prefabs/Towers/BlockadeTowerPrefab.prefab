@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8916978973116324668}
   - component: {fileID: 1987631301797498224}
-  - component: {fileID: 6368161488805073193}
   m_Layer: 0
   m_Name: BlockadeTowerPrefab
   m_TagString: Untagged
@@ -27,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 8585508036847761987}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 2.33, z: 0}
-  m_LocalScale: {x: 1.9524, y: 0.619, z: 1}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,15 +84,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6368161488805073193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8585508036847761987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 737c9fe8ab3d9404ba2115eb221dcffd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
