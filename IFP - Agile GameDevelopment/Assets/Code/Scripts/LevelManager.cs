@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
-
+using PlasticPipe.PlasticProtocol.Messages;
 
 public class LevelManager : MonoBehaviour
 {
@@ -13,12 +13,18 @@ public class LevelManager : MonoBehaviour
     public TileBase Mountain;
     public TileBase Path;
 
+    private GameObject selectedTower;
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
+    public GameObject UpgradedBasicTower;
+    public GameObject UpgradedIceTower;
+    public GameObject UpgradedSniperTower;
     public int currency = 100;
     public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
+    public TowerUpgradeMenu TowerMenu;
+
 
 
 
@@ -58,6 +64,8 @@ public class LevelManager : MonoBehaviour
 
     private EnemySpawner enemySpawner;
 
+
+
     public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
         Vector2Int result = new Vector2Int(tilePosition.x, tilePosition.y);
@@ -92,6 +100,25 @@ public class LevelManager : MonoBehaviour
             towers.Add(tileKey, towerObject);
 
 
+        }
+        else if (TilePositionHasTower(tilePosition))
+        {
+            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+            if (towers.TryGetValue(tileKey, out GameObject existingTower))
+            {
+                Destroy(existingTower);
+
+                towers.Remove(GetTileKeyFromTilePosition(tilePosition));
+                Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
+
+                GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
+
+
+
+                SpendCurrency(30);
+
+                towers.Add(tileKey, towerObject);
+            }
         }
 
         else
@@ -175,11 +202,32 @@ public class LevelManager : MonoBehaviour
         HandleEnemySpawning(); //also calls WinMessage
     }
 
+    public void UpgradeTower()
+    {
+        TowerMenu.SetCurrentTower(selectedTower);
+    }
+
     private void HandleClickOnTile()
     {
         Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.tilemap, Input.mousePosition);
 
         TileBase tile = tilemap.GetTile(tilePosition);
+        if (TilePositionHasTower(tilePosition))
+        {
+            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+            selectedTower = towers[tileKey];
+          
+            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+            TowerMenu.ShowTowerTile(tilePosition, tileWorldPosition);
+            
+
+
+        }
+        else if (tile == this.Grass)
+        {
+            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+            TowerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
+        }
 
         if (!TilePositionHasTower(tilePosition))
         {

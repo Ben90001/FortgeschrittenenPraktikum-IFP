@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IceTower : BaseTower
+public class UpgradedIceTower : BaseTower
 {
- 
 
-    public float SlowFactor = 0.001f;
+
+    public float SlowFactor = 0.0001f;
     private List<Enemy> slowedEnemies = new List<Enemy>();
 
 
@@ -18,7 +18,7 @@ public class IceTower : BaseTower
     {
         bool success = false;
 
-        
+
         for (int i = slowedEnemies.Count - 1; i >= 0; i--)
         {
             Enemy slowedEnemy = slowedEnemies[i];
@@ -45,7 +45,7 @@ public class IceTower : BaseTower
     {
         target.ApplySlow(SlowFactor);
 
-        
+
         slowedEnemies.Add(target);
     }
 
