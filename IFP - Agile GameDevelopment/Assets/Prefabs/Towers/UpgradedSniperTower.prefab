@@ -112,6 +112,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6855166598577864234}
+  - component: {fileID: -4487296163048973601}
   m_Layer: 0
   m_Name: UpgradedSniperTower
   m_TagString: Untagged
@@ -135,6 +136,23 @@ Transform:
   - {fileID: 7385641506569926620}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-4487296163048973601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355658271348086211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c260d26a115d86742a768d23bc058ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SecondsBetweenActions: 0.5
+  actionRadius: 0
+  BulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
+  Damage: 8
+  BulletSpeed: 0
 --- !u!1 &3768971788163370481
 GameObject:
   m_ObjectHideFlags: 0
