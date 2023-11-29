@@ -4,7 +4,6 @@ using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
 
-
 public class LevelManager : MonoBehaviour
 {
     public GameObject Enemy;
@@ -16,6 +15,8 @@ public class LevelManager : MonoBehaviour
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
+    public GameObject Blockade;
+
     public int currency = 100;
     public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
@@ -90,10 +91,7 @@ public class LevelManager : MonoBehaviour
             SpendCurrency(30);
 
             towers.Add(tileKey, towerObject);
-
-
         }
-
         else
         {
             Debug.Log("not enough money to purchase the item");
@@ -172,7 +170,7 @@ public class LevelManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandleEnemySpawning(); //also calls WinMessage
+        HandleEnemySpawning(); // also calls WinMessage
     }
 
     private void HandleClickOnTile()
@@ -183,11 +181,15 @@ public class LevelManager : MonoBehaviour
 
         if (!TilePositionHasTower(tilePosition))
         {
+            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+
             if (tile == this.Grass)
             {
-                Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
-
                 TowerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
+            }
+            else if (tile == this.Path)
+            {
+                PlaceTowerAtTile(this.Blockade, tilePosition);
             }
         }
         else
