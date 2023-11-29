@@ -13,6 +13,7 @@ public class LevelManager : MonoBehaviour
     public TileBase Mountain;
     public TileBase Path;
 
+    private GameObject selectedTower;
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
@@ -201,6 +202,11 @@ public class LevelManager : MonoBehaviour
         HandleEnemySpawning(); //also calls WinMessage
     }
 
+    public void UpgradeTower()
+    {
+        TowerMenu.SetCurrentTower(selectedTower);
+    }
+
     private void HandleClickOnTile()
     {
         Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.tilemap, Input.mousePosition);
@@ -208,8 +214,14 @@ public class LevelManager : MonoBehaviour
         TileBase tile = tilemap.GetTile(tilePosition);
         if (TilePositionHasTower(tilePosition))
         {
+            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+            selectedTower = towers[tileKey];
+          
             Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
             TowerMenu.ShowTowerTile(tilePosition, tileWorldPosition);
+            
+
+
         }
         else if (tile == this.Grass)
         {

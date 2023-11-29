@@ -569,13 +569,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 30871225}
-        m_TargetAssemblyTypeName: TowerUpgradeMenu, Scripts
-        m_MethodName: PlaceTower
-        m_Mode: 2
+      - m_Target: {fileID: 966348540}
+        m_TargetAssemblyTypeName: LevelManager, Scripts
+        m_MethodName: UpgradeTower
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 6429463773198634609, guid: 33529a8475ad65046bd95061b392f8ba, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

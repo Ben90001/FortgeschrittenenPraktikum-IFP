@@ -35,14 +35,54 @@ public class TowerUpgradeMenu : MonoBehaviour
             
         }
     }
-    public void PlaceTower(GameObject towerPrefab)
-    {
-        
-        levelManager.PlaceTowerAtTile(towerPrefab, this.tilePosition);
-        gameObject.SetActive(false);
-        Time.timeScale = 1f;
+   
+    
 
+    public void SetCurrentTower(GameObject tower)
+    {
+        // Speichern des übergebenen Turm-GameObjects in der privaten Variable
+        currentTower = tower;
+
+        // Überprüfen, ob das übergebene Turm-GameObject gültig ist
+        if (currentTower != null)
+        {
+            Debug.Log("Ausgewählter Turm: " + currentTower.name);
+            if (currentTower.CompareTag("BasicTower"))
+            {
+                Debug.Log("Upgrading to UpgradedBasicTower");
+                levelManager.PlaceTowerAtTile(UpgradedBasicTower, this.tilePosition);
+                gameObject.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            if (currentTower.CompareTag("SniperTower"))
+            {
+                Debug.Log("Upgrading to UpgradedSniperrTower");
+                levelManager.PlaceTowerAtTile(UpgradedSniperTower, this.tilePosition);
+                gameObject.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            if (currentTower.CompareTag("IceTower"))
+            {
+                Debug.Log("Upgrading to UpgradedIceTower");
+                levelManager.PlaceTowerAtTile(UpgradedIceTower, this.tilePosition);
+                gameObject.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            // Hier können Sie Aktionen durchführen, die notwendig sind, wenn ein Turm ausgewählt wird
+            // Zum Beispiel das Anzeigen eines Upgrade-Menüs oder das Aktivieren von spezifischen UI-Elementen
+            ShowTowerOptions();
+        }
+        else
+        {
+            Debug.LogError("SetCurrentTower wurde mit einem null-GameObject aufgerufen.");
+        }
     }
+
+    private void ShowTowerOptions()
+    {
+        // Logik zum Anzeigen von Turm-Optionen, z. B. Upgrade-Optionen
+    }
+
 
     private GameObject GetUpgradedTowerPrefab(GameObject tower)
     {
