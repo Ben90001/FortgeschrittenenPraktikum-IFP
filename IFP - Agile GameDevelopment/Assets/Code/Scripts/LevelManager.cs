@@ -205,11 +205,13 @@ public class LevelManager : MonoBehaviour
     public void UpgradeTower()
     {
         TowerMenu.SetCurrentTower(selectedTower);
+        SpendCurrency(20);
     }
 
     public void SellPlacedTower()
     {
         TowerMenu.SellTower(selectedTower);
+        IncreaseCurrency(15);
     }
 
     private void HandleClickOnTile()
