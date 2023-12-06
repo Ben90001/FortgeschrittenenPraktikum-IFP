@@ -45,6 +45,10 @@ public class Blockade : BaseTower
 
                 this.nextReleaseDelay += this.delayBetweenReleases;
             }
+            else
+            {
+                this.gameObject.SetActive(false);
+            }
         }
     }
 
