@@ -207,6 +207,11 @@ public class LevelManager : MonoBehaviour
         TowerMenu.SetCurrentTower(selectedTower);
     }
 
+    public void SellPlacedTower()
+    {
+        TowerMenu.SellTower(selectedTower);
+    }
+
     private void HandleClickOnTile()
     {
         Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.tilemap, Input.mousePosition);

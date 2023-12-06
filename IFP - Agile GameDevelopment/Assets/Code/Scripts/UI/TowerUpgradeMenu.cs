@@ -68,9 +68,8 @@ public class TowerUpgradeMenu : MonoBehaviour
                 gameObject.SetActive(false);
                 Time.timeScale = 1f;
             }
-            // Hier können Sie Aktionen durchführen, die notwendig sind, wenn ein Turm ausgewählt wird
-            // Zum Beispiel das Anzeigen eines Upgrade-Menüs oder das Aktivieren von spezifischen UI-Elementen
-            ShowTowerOptions();
+            
+           
         }
         else
         {
@@ -78,30 +77,26 @@ public class TowerUpgradeMenu : MonoBehaviour
         }
     }
 
-    private void ShowTowerOptions()
-    {
-        // Logik zum Anzeigen von Turm-Optionen, z. B. Upgrade-Optionen
-    }
+   
 
 
     private GameObject GetUpgradedTowerPrefab(GameObject tower)
     {
-        // Bestimmen Sie hier, welches Upgrade-Prefab verwendet werden soll
-        // Basierend auf dem Typ des aktuellen Turms
-        // Zum Beispiel:
         if (tower.CompareTag("BasicTower")) return UpgradedBasicTower;
         if (tower.CompareTag("IceTower")) return UpgradedIceTower;
         if (tower.CompareTag("SniperTower")) return UpgradedSniperTower;
         return null;
     }
 
-    public void SellTower()
+    public void SellTower(GameObject selectedtower)
     {
+        currentTower = selectedtower;
         if (currentTower != null)
         {
-            // Fügen Sie hier Logik hinzu, um die Spielerwährung zu erhöhen
+            // hier Logik , um die Spielerwährung zu erhöhen
             Destroy(currentTower);
             Hide();
+            Time.timeScale = 1f;
         }
     }
 

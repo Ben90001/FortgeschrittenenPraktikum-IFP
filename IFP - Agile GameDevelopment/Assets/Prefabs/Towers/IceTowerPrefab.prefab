@@ -975,7 +975,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SecondsBetweenActions: 0
   actionRadius: 0
-  SlowFactor: 0.5
+  SlowFactor: 0.2
 --- !u!1 &7315645691262933713
 GameObject:
   m_ObjectHideFlags: 0
