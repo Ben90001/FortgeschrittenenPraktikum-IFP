@@ -101,6 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SecondsBetweenActions: 0
   actionRadius: 0
+  initialBlockadeHealth: 5
+  delayBetweenReleases: 0.25
 --- !u!61 &-3485629475741573436
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -144,7 +146,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.05, y: 1.05}
   m_EdgeRadius: 0
 --- !u!50 &-5526640911301040608
 Rigidbody2D:

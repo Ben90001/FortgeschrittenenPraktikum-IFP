@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 using static Codice.CM.Common.CmCallContext;
 
 public class Enemy : MonoBehaviour
@@ -18,6 +19,10 @@ public class Enemy : MonoBehaviour
     private EnemyPath path;
 
     private float health;
+
+    private Blockade blockade;
+
+    private float releaseDelay;
 
     /// <summary>
     /// Initializes the enemy.
@@ -53,18 +58,55 @@ public class Enemy : MonoBehaviour
         return result;
     }
 
+    public void StopAtBlockade(Blockade blockade, float releaseDelay)
+    {
+        this.blockade = blockade;
+        this.releaseDelay = releaseDelay;
+    }
+
     private void FixedUpdate()
     {
-        bool reachedPathEnd = FollowPath();
+        bool isBlocked = false;
 
-        if (reachedPathEnd)
+        if (this.blockade != null)
         {
-            if (levelManager != null)
+            if (this.blockade.BlockadeHealth <= 0)
             {
-                levelManager.DecreasePlayerLives();
+                this.blockade = null;
             }
+            else
+            {
+                isBlocked = true;
+            }
+        }
 
-            Destroy(gameObject);
+        if (!isBlocked && this.releaseDelay > 0.0f)
+        {
+            this.releaseDelay -= Time.fixedDeltaTime;
+
+            if (this.releaseDelay > 0.0f)
+            {
+                isBlocked = true;
+            }
+            else
+            {
+                this.releaseDelay = 0.0f;
+            }
+        }
+
+        if (isBlocked == false)
+        {
+            bool reachedPathEnd = FollowPath();
+
+            if (reachedPathEnd)
+            {
+                if (levelManager != null)
+                {
+                    levelManager.DecreasePlayerLives();
+                }
+
+                Destroy(gameObject);
+            }
         }
     }
 

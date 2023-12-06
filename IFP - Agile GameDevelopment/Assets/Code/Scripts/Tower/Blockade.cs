@@ -2,24 +2,50 @@ using UnityEngine;
 
 public class Blockade : BaseTower
 {
+    [SerializeField]
+    private int initialBlockadeHealth;
     private int blockadeHealth;
-    private int maxBlockadeHealth;
-    private bool isBlockadeActive;
 
-    public void OnTriggerEnter2D(Collider2D other)
+    [SerializeField]
+    private float delayBetweenReleases;
+    private float nextReleaseDelay;
+
+    public int BlockadeHealth { get { return blockadeHealth; } }
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        print("collide");
+        Enemy enemy = other.GetComponent<Enemy>();
+
+        if (enemy != null)
+        {
+            HandleEnemyEnteredBlockade(enemy);
+        }
     }
 
-    public void ActivateBlockade()
+    private void Start()
     {
-        this.isBlockadeActive = true;
-        this.blockadeHealth = this.maxBlockadeHealth;
+        Reset();
     }
 
-    public void DeactivateBlockade()
+    private void Reset()
     {
-        this.isBlockadeActive = false;
+        this.blockadeHealth = this.initialBlockadeHealth;
+        this.nextReleaseDelay = 0;
+    }
+
+    private void HandleEnemyEnteredBlockade(Enemy enemy)
+    {
+        if (this.blockadeHealth > 0)
+        {
+            --this.blockadeHealth;
+
+            if (this.blockadeHealth > 0)
+            {
+                enemy.StopAtBlockade(this, this.nextReleaseDelay);
+
+                this.nextReleaseDelay += this.delayBetweenReleases;
+            }
+        }
     }
 
     protected override void TowerUpgrade()
@@ -30,18 +56,5 @@ public class Blockade : BaseTower
     protected override bool PerformAction()
     {
         return true;
-    }
-
-    private void TakeDamage(int damage)
-    {
-        if (this.isBlockadeActive)
-        {
-            this.blockadeHealth -= damage;
-
-            if (this.blockadeHealth <= 0)
-            {
-                this.DeactivateBlockade();
-            }
-        }
     }
 }
