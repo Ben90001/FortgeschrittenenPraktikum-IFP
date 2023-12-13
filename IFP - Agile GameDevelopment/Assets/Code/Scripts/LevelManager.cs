@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
+using System.Collections.ObjectModel;
 
 public class LevelManager : MonoBehaviour
 {
@@ -264,6 +265,26 @@ public class LevelManager : MonoBehaviour
         if (enemyParent.transform.childCount == 0)
         {
             enemySpawner.CurrentWaveIsOver();
+
+            ResetTowers();
+        }
+    }
+
+    /// <summary>
+    /// Resets towers between waves.
+    /// </summary>
+    private void ResetTowers()
+    {
+        foreach (var towerObject in towers.Values)
+        {
+            BaseTower tower = towerObject.GetComponent<BaseTower>();
+
+            if (tower is Blockade)
+            {
+                Blockade blockade = (Blockade)tower;
+
+                blockade.Reset();
+            }
         }
     }
 

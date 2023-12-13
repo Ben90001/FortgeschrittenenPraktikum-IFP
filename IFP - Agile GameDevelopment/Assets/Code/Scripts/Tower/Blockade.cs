@@ -16,6 +16,8 @@ public class Blockade : BaseTower
     {
         this.blockadeHealth = this.initialBlockadeHealth;
         this.nextReleaseDelay = 0;
+
+        this.gameObject.SetActive(true);
     }
 
     protected override void TowerUpgrade()
