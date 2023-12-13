@@ -12,6 +12,22 @@ public class Blockade : BaseTower
 
     public int BlockadeHealth { get { return blockadeHealth; } }
 
+    public void Reset()
+    {
+        this.blockadeHealth = this.initialBlockadeHealth;
+        this.nextReleaseDelay = 0;
+    }
+
+    protected override void TowerUpgrade()
+    {
+        // TODO: Add funtionality
+    }
+
+    protected override bool PerformAction()
+    {
+        return true;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         Enemy enemy = other.GetComponent<Enemy>();
@@ -25,12 +41,6 @@ public class Blockade : BaseTower
     private void Start()
     {
         Reset();
-    }
-
-    private void Reset()
-    {
-        this.blockadeHealth = this.initialBlockadeHealth;
-        this.nextReleaseDelay = 0;
     }
 
     private void HandleEnemyEnteredBlockade(Enemy enemy)
@@ -50,15 +60,5 @@ public class Blockade : BaseTower
                 this.gameObject.SetActive(false);
             }
         }
-    }
-
-    protected override void TowerUpgrade()
-    {
-        // TODO: Add funtionality
-    }
-
-    protected override bool PerformAction()
-    {
-        return true;
     }
 }
