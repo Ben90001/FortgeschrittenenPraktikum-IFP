@@ -1004,7 +1004,7 @@ PrefabInstance:
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1657771378}
+      objectReference: {fileID: 0}
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: RestartLevel
@@ -1028,7 +1028,7 @@ PrefabInstance:
     - target: {fileID: 8920931477628517608, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1657771377}
+      objectReference: {fileID: 0}
     - target: {fileID: 8920931477628517608, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LoadMenu
