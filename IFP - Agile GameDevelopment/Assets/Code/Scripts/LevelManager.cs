@@ -201,9 +201,23 @@ public class LevelManager : MonoBehaviour
 
     public void SellPlacedTower()
     {
-        TowerMenu.SellTower(selectedTower);
-        IncreaseCurrency(15);
+        if (selectedTower != null)
+        {
+            
+            TowerMenu.SellTower(selectedTower);
+            Vector3Int towerTilePosition = tilemap.WorldToCell(selectedTower.transform.position);
+            Vector2Int tileKey = GetTileKeyFromTilePosition(towerTilePosition);
+
+            if (towers.ContainsKey(tileKey))
+            {
+                towers.Remove(tileKey);
+            }
+
+            IncreaseCurrency(15);
+            selectedTower = null;
+        }
     }
+
 
     private void HandleClickOnTile()
     {

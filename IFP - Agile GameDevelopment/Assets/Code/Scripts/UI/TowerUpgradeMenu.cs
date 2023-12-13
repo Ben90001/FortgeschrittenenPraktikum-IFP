@@ -40,10 +40,8 @@ public class TowerUpgradeMenu : MonoBehaviour
 
     public void SetCurrentTower(GameObject tower)
     {
-        // Speichern des übergebenen Turm-GameObjects in der privaten Variable
+        
         currentTower = tower;
-
-        // Überprüfen, ob das übergebene Turm-GameObject gültig ist
         if (currentTower != null)
         {
             Debug.Log("Ausgewählter Turm: " + currentTower.name);
@@ -93,7 +91,6 @@ public class TowerUpgradeMenu : MonoBehaviour
         currentTower = selectedtower;
         if (currentTower != null)
         {
-            // hier Logik , um die Spielerwährung zu erhöhen
             Destroy(currentTower);
             Hide();
             Time.timeScale = 1f;
