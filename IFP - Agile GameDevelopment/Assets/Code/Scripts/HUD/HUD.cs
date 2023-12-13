@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class HUD : MonoBehaviour
 {
 
     public GameObject DefeatScreen;
     public GameObject WinScreen;
+    [SerializeField] private TextMeshPro ScoreText;
 
     void Start()
     {
@@ -21,7 +23,7 @@ public class HUD : MonoBehaviour
 
     public void ShowGameOverScreen(int playerLives, int bestTry)
     {
-        Debug.Log("ShowGameOverScreen called");
+        Debug.Log("ShowGameOverScreen called: "+ playerLives + " playerLives remaining");
         Time.timeScale = 0;
         if (playerLives <= 0)
         {
@@ -39,6 +41,9 @@ public class HUD : MonoBehaviour
         {
             if(WinScreen != null)
             {
+                GameObject ScoreTextObject =  WinScreen.transform.GetChild(0).Find("ScoreText").gameObject;
+                ScoreTextObject.GetComponent<TextMeshPro>();
+                //TODO: finish this
                 WinScreen.SetActive(true);
             }
             else

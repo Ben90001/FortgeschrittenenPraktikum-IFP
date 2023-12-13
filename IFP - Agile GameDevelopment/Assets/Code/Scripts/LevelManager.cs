@@ -21,33 +21,23 @@ public class LevelManager : MonoBehaviour
     public TowerOptionsBar TowerOptionsBar;
 
 
-
     public HUD HUD;
 
     // NOTE: Level specific data
 
     private GameObject levelInstance;
-
     private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
-
     private LevelInfo levelInfo;
 
-
     public Tilemap tilemap;
-
     private Vector2[] path;
 
 
     // NOTE: Gameplay logic specific data
 
     private float spawnTimer = 0.0f;
-
-    public int PlayerLives = 10; //only public for game design changes during development
-
-
     private int bestTry;
-
-    private int playerLives;
+    [SerializeField] private int playerLives; //set in LevelInfo
 
 
     //
@@ -73,6 +63,7 @@ public class LevelManager : MonoBehaviour
 
         if (playerLives <= 0)
         {
+            Debug.Log("Defeat detected: calling HUD.ShowGameOverScreen");
             this.HUD.ShowGameOverScreen(playerLives, this.bestTry);
         }
     }
@@ -234,6 +225,7 @@ public class LevelManager : MonoBehaviour
 
         if (enemySpawner.State == EnemySpawner.SpawnerState.Done) //win case
         {
+            Debug.Log("Win detected: calling HUD.ShowGameOverScreen");
             this.HUD.ShowGameOverScreen(playerLives, bestTry);
         }
     }

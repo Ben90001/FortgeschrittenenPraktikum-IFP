@@ -6,6 +6,7 @@ using UnityEngine.Assertions;
 public class DefeatMessage : MonoBehaviour
 {
     public GameObject LevelManager;
+
     // Start is called before the first frame update
     void Start()
     {
