@@ -46,13 +46,9 @@ public class LevelManager : MonoBehaviour
 
     // NOTE: Gameplay logic specific data
 
-    private float spawnTimer = 0.0f;
-
-    public int PlayerLives = 10; //only public for game design changes during development
-
-
     private int bestTry;
 
+    [SerializeField]
     private int playerLives;
 
 

@@ -2178,16 +2178,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36a3febae7675f48ab92038e928d09e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerLives: 10
   GameplayArea:
     m_Center: {x: 1.5, y: 0, z: 0}
     m_Extent: {x: 8.5, y: 5, z: 5}
   Waves:
   - CurrencyWorth: 0
-    SubWaves:
-    - StartTime: 0
-      SpawnInterval: 0
-      EnemiesToSpawn: 0
-  Waypoints: []
+    EnemyCount: 0
+    EnemyHealth: 0
+    SecondsBetweenSpawns: 0
 --- !u!1 &8191095757974999383
 GameObject:
   m_ObjectHideFlags: 0

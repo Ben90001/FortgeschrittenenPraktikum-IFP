@@ -734,7 +734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefeatScreen: {fileID: 1660850102}
-  WinScreen: {fileID: 0}
+  WinScreen: {fileID: 1657771373}
 --- !u!1 &759901968
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,7 +849,7 @@ MonoBehaviour:
   TowerMenu: {fileID: 30871225}
   HUD: {fileID: 744179455}
   tilemap: {fileID: 0}
-  PlayerLives: 10
+  playerLives: 0
 --- !u!4 &966348541
 Transform:
   m_ObjectHideFlags: 0
