@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
+using UnityEngine.Assertions;
+using System;
 
 public class LevelSelection : MonoBehaviour
 {
@@ -47,5 +49,18 @@ public class LevelSelection : MonoBehaviour
             // TODO: Error: Failed to load the level.
             Debug.LogWarning("Failed to load level. level is Null.");
         }
+    }
+
+    public void LoadNextLevel()
+    {
+        Assert.IsNotNull(LoadedLevel, "LoadedLevel is Null");
+
+        string oldLevelName = LoadedLevel.name;
+        int oldLevelID = Int32.Parse(oldLevelName.Substring(5,2));
+        Debug.Log("Loading Level after ID: " + oldLevelID);
+
+        LoadLevelAndSwitchScene(oldLevelID+1);
+        
+        //TODO: what if there is no higher level? (last level)
     }
 }
