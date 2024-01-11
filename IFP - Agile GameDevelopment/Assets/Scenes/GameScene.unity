@@ -1338,17 +1338,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa33f22b841626848b4a9cbaa46d2a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1660850105 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6220735838126008929, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
-  m_PrefabInstance: {fileID: 4405378234514934807}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1660850102}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40d388adfd1424e789822338aee85a32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1660850110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2051,14 +2040,14 @@ PrefabInstance:
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1660850105}
+      objectReference: {fileID: 1660850104}
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: RestartLevel
       objectReference: {fileID: 0}
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DefeatMessage, Scripts
+      value: LevelSelection, Scripts
       objectReference: {fileID: 0}
     - target: {fileID: 6626559829215554491, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
@@ -2080,7 +2069,8 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: LoadMenuScene, Scripts
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6220735838126008929, guid: 5d011ec3faf8844109181f2b7db4995d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

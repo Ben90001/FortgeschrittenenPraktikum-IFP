@@ -3,7 +3,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 using UnityEngine.Assertions;
-using System;
 
 public class LevelSelection : MonoBehaviour
 {
@@ -51,16 +50,29 @@ public class LevelSelection : MonoBehaviour
         }
     }
 
-    public void LoadNextLevel()
+    private int GetCurrentLevelID()
     {
         Assert.IsNotNull(LoadedLevel, "LoadedLevel is Null");
 
-        string oldLevelName = LoadedLevel.name;
-        int oldLevelID = Int32.Parse(oldLevelName.Substring(5,2));
-        Debug.Log("Loading Level after ID: " + oldLevelID);
+        string levelName = LoadedLevel.name;
+        int levelID = int.Parse(levelName.Substring(5, 2));
 
+        Debug.Log("Loaded Level has ID: " + levelID);
+
+        return levelID;
+    }
+
+    public void LoadNextLevel()
+    {
+        int oldLevelID = GetCurrentLevelID();
         LoadLevelAndSwitchScene(oldLevelID+1);
         
         //TODO: what if there is no higher level? (last level)
+    }
+
+    public void RestartLevel()
+    {
+        int levelID = GetCurrentLevelID();
+        LoadLevelAndSwitchScene(levelID);
     }
 }
