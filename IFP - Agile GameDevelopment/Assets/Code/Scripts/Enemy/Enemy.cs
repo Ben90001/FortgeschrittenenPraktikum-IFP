@@ -24,6 +24,8 @@ public class Enemy : MonoBehaviour
 
     private float releaseDelay;
 
+    private new Rigidbody2D rigidbody;
+
     /// <summary>
     /// Initializes the enemy.
     /// </summary>
@@ -143,7 +145,7 @@ public class Enemy : MonoBehaviour
     {
         bool hasReachedEnd = path.HasReachedEndOfPath();
 
-        Vector2 position = transform.position;
+        Vector2 position = rigidbody.position;
 
         Vector2 target = path.GetCurrentTarget();
 
@@ -159,7 +161,7 @@ public class Enemy : MonoBehaviour
             hasReachedEnd = path.HasReachedEndOfPath();
         }
 
-        transform.position = position;
+        rigidbody.MovePosition(position);
 
         return hasReachedEnd;
     }
