@@ -36,6 +36,7 @@ public class Enemy : MonoBehaviour
     {
         this.levelManager = levelManager;
         this.health = health;
+        this.rigidbody = GetComponent<Rigidbody2D>();
 
         InitializePath(waypoints, offset);
 
