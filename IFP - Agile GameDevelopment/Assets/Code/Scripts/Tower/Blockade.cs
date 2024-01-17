@@ -51,13 +51,11 @@ public class Blockade : BaseTower
         {
             --this.blockadeHealth;
 
-            if (this.blockadeHealth > 0)
-            {
-                enemy.StopAtBlockade(this, this.nextReleaseDelay);
+            enemy.StopAtBlockade(this, this.nextReleaseDelay);
 
-                this.nextReleaseDelay += this.delayBetweenReleases;
-            }
-            else
+            this.nextReleaseDelay += this.delayBetweenReleases;
+
+            if (this.blockadeHealth <= 0)
             {
                 this.gameObject.SetActive(false);
             }
