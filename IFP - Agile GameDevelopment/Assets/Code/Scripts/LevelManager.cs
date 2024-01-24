@@ -181,7 +181,12 @@ public class LevelManager : MonoBehaviour
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                if (!TowerOptionsBar.gameObject.activeSelf)
+                if (TowerMenu.gameObject.activeSelf)
+                {
+                    // Verbergen des TowerMenu, wenn es aktiv ist und auﬂerhalb geklickt wird
+                    HideTowerMenu();
+                }
+                else if (!TowerOptionsBar.gameObject.activeSelf)
                 {
                     HandleClickOnTile();
                 }
@@ -192,6 +197,13 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
+
+    private void HideTowerMenu()
+    {
+        TowerMenu.Hide();
+        Time.timeScale = 1;
+    }
+
 
     private void FixedUpdate()
     {
@@ -270,6 +282,8 @@ public class LevelManager : MonoBehaviour
     {
         TowerOptionsBar.Hide();
     }
+
+  
 
     private void BeginEnemySpawning()
     {
