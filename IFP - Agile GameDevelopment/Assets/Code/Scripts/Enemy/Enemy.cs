@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float Health;
-
     [SerializeField]
     private float movementSpeed = 10.0f;
  
