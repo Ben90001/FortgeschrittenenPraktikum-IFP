@@ -22,7 +22,7 @@ public class LevelManager : MonoBehaviour
     public GameObject UpgradedBasicTower;
     public GameObject UpgradedIceTower;
     public GameObject UpgradedSniperTower;
-
+    public GameObject UpgradedBlockade;
     public GameObject Blockade;
 
     public int currency = 100;

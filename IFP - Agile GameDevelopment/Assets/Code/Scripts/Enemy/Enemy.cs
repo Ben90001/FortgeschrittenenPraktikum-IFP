@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
     private float health;
 
     private Blockade blockade;
+   
 
     private float releaseDelay;
 

@@ -7,6 +7,7 @@ TagManager:
   - BasicTower
   - IceTower
   - SniperTower
+  - Blockade
   layers:
   - Default
   - TransparentFX

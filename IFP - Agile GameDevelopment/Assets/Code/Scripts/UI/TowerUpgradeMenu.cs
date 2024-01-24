@@ -6,6 +6,7 @@ public class TowerUpgradeMenu : MonoBehaviour
     public GameObject UpgradedBasicTower;
     public GameObject UpgradedIceTower;
     public GameObject UpgradedSniperTower;
+    public GameObject UpgradedBlockade;
     public LevelManager levelManager;
 
     private GameObject currentTower;
@@ -54,7 +55,7 @@ public class TowerUpgradeMenu : MonoBehaviour
             }
             if (currentTower.CompareTag("SniperTower"))
             {
-                Debug.Log("Upgrading to UpgradedSniperrTower");
+                Debug.Log("Upgrading to UpgradedSniperTower");
                 levelManager.PlaceTowerAtTile(UpgradedSniperTower, this.tilePosition);
                 gameObject.SetActive(false);
                 Time.timeScale = 1f;
@@ -66,8 +67,15 @@ public class TowerUpgradeMenu : MonoBehaviour
                 gameObject.SetActive(false);
                 Time.timeScale = 1f;
             }
-            
-           
+            if (currentTower.CompareTag("Blockade"))
+            {
+                Debug.Log("Upgrading to UpgradedBlockade");
+                levelManager.PlaceTowerAtTile(UpgradedBlockade, this.tilePosition);
+                gameObject.SetActive(false);
+                Time.timeScale = 1f;
+            }
+
+
         }
         else
         {
@@ -83,6 +91,7 @@ public class TowerUpgradeMenu : MonoBehaviour
         if (tower.CompareTag("BasicTower")) return UpgradedBasicTower;
         if (tower.CompareTag("IceTower")) return UpgradedIceTower;
         if (tower.CompareTag("SniperTower")) return UpgradedSniperTower;
+        if (tower.CompareTag("Blockade")) return UpgradedBlockade;
         return null;
     }
 
