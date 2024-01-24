@@ -1,6 +1,5 @@
-using UnityEngine;
-using UnityEditor;
 using NUnit.Framework;
+using UnityEngine;
 
 public class HUDTests
 {
@@ -17,6 +16,7 @@ public class HUDTests
         hud.ShowGameOverScreen(0, 0);
         Assert.IsTrue(defeatScreen.activeSelf, "Das DefeatScreen wurde nicht aktiviert.");
     }
+
     [Test]
     public void ShowGameOverScreen_SetsTimeScaleToZero()
     {
@@ -24,10 +24,8 @@ public class HUDTests
         GameObject hudObject = new GameObject("HUD");
         HUD hud = hudObject.AddComponent<HUD>();
 
-       
         hud.ShowGameOverScreen(0, 0);
 
         Assert.AreEqual(0f, Time.timeScale, "Die TimeScale wurde nicht auf Null gesetzt.");
     }
-
 }
