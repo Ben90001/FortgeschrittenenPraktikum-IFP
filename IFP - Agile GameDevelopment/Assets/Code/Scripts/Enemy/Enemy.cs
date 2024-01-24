@@ -224,11 +224,8 @@ public class Enemy : MonoBehaviour
         if (!isSlowed)
         {
             isSlowed = true;
-            slowFactor = factor;
             originalMovementSpeed = movementSpeed;
-            movementSpeed *= slowFactor;
-
-            Debug.Log("Enemy slowed down!");
+            movementSpeed *= factor;
         }
     }
 
@@ -238,8 +235,6 @@ public class Enemy : MonoBehaviour
         {
             isSlowed = false;
             movementSpeed = originalMovementSpeed;
-
-            Debug.Log("Slow removed from Enemy!");
         }
     }
 
