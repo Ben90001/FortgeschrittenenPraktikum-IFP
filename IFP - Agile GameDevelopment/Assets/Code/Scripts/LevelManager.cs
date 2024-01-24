@@ -4,6 +4,7 @@ using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
 using PlasticPipe.PlasticProtocol.Messages;
+using System.Collections.ObjectModel;
 
 public class LevelManager : MonoBehaviour
 {
@@ -17,9 +18,13 @@ public class LevelManager : MonoBehaviour
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
+
     public GameObject UpgradedBasicTower;
     public GameObject UpgradedIceTower;
     public GameObject UpgradedSniperTower;
+
+    public GameObject Blockade;
+
     public int currency = 100;
     public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
@@ -94,8 +99,6 @@ public class LevelManager : MonoBehaviour
             SpendCurrency(30);
 
             towers.Add(tileKey, towerObject);
-
-
         }
         else if (TilePositionHasTower(tilePosition))
         {
@@ -116,7 +119,6 @@ public class LevelManager : MonoBehaviour
                 towers.Add(tileKey, towerObject);
             }
         }
-
         else
         {
             Debug.Log("not enough money to purchase the item");
@@ -195,7 +197,7 @@ public class LevelManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandleEnemySpawning(); //also calls WinMessage
+        HandleEnemySpawning(); // also calls WinMessage
     }
 
     public void UpgradeTower()
@@ -248,11 +250,15 @@ public class LevelManager : MonoBehaviour
 
         if (!TilePositionHasTower(tilePosition))
         {
+            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+
             if (tile == this.Grass)
             {
-                Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
-
                 TowerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
+            }
+            else if (tile == this.Path)
+            {
+                PlaceTowerAtTile(this.Blockade, tilePosition);
             }
         }
         else
@@ -327,6 +333,26 @@ public class LevelManager : MonoBehaviour
         if (enemyParent.transform.childCount == 0)
         {
             enemySpawner.CurrentWaveIsOver();
+
+            ResetTowers();
+        }
+    }
+
+    /// <summary>
+    /// Resets towers between waves.
+    /// </summary>
+    private void ResetTowers()
+    {
+        foreach (var towerObject in towers.Values)
+        {
+            BaseTower tower = towerObject.GetComponent<BaseTower>();
+
+            if (tower is Blockade)
+            {
+                Blockade blockade = (Blockade)tower;
+
+                blockade.Reset();
+            }
         }
     }
 

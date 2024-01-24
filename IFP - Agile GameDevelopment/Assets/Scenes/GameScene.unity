@@ -843,6 +843,7 @@ MonoBehaviour:
   UpgradedBasicTower: {fileID: 0}
   UpgradedIceTower: {fileID: 0}
   UpgradedSniperTower: {fileID: 0}
+  Blockade: {fileID: 8585508036847761987, guid: f3e5341f620e39d43a1664bb0743c889, type: 3}
   currency: 0
   Anzeige: {fileID: 317173461}
   TowerOptionsBar: {fileID: 6682796177558364796}

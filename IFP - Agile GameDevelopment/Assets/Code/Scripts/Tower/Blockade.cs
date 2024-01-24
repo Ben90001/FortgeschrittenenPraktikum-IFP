@@ -1,46 +1,64 @@
-#if false
 using UnityEngine;
 
 public class Blockade : BaseTower
 {
+    [SerializeField]
+    private int initialBlockadeHealth;
     private int blockadeHealth;
-    private int maxBlockadeHealth;
-    private bool isBlockadeActive;
 
-    public override void TowerUpgrade()
+    [SerializeField]
+    private float delayBetweenReleases;
+    private float nextReleaseDelay;
+
+    public int BlockadeHealth { get { return blockadeHealth; } }
+
+    public void Reset()
     {
+        this.blockadeHealth = this.initialBlockadeHealth;
+        this.nextReleaseDelay = 0;
+
+        this.gameObject.SetActive(true);
     }
 
-    public override void FixedUpdate()
+    protected override void TowerUpgrade()
     {
+        // TODO: Add funtionality
     }
 
-    public void TakeDamage(int damage)
+    protected override bool PerformAction()
     {
-        if (this.isBlockadeActive)
+        return true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Enemy enemy = other.GetComponent<Enemy>();
+
+        if (enemy != null)
         {
-            this.blockadeHealth -= damage;
-
-            if (this.blockadeHealth <= 0)
-            {
-                this.DeactivateBlockade();
-            }
+            HandleEnemyEnteredBlockade(enemy);
         }
     }
 
-    public void ActivateBlockade()
+    private void Start()
     {
-        this.isBlockadeActive = true;
-        this.blockadeHealth = this.maxBlockadeHealth;
+        Reset();
     }
 
-    public void DeactivateBlockade()
+    private void HandleEnemyEnteredBlockade(Enemy enemy)
     {
-        this.isBlockadeActive = false;
-    }
+        if (this.blockadeHealth > 0)
+        {
+            --this.blockadeHealth;
 
-    protected override void PerformAction()
-    {
+            enemy.StopAtBlockade(this, this.nextReleaseDelay);
+
+            this.nextReleaseDelay += this.delayBetweenReleases;
+
+            if (this.blockadeHealth <= 0)
+            {
+                this.gameObject.SetActive(false);
+            }
+        }
     }
 }
-#endif
