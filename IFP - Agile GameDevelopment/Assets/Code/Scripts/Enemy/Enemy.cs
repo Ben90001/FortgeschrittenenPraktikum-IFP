@@ -4,16 +4,10 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float movementSpeed = 10.0f;
- 
-    private bool isSlowed = false;
-    private float slowFactor = 1.0f;
-    private float originalMovementSpeed;
 
     [SerializeField] 
     private int currencyWorth = 10;
     
-    // Final variables
-
     private LevelManager levelManager;
 
     private EnemyPath path;
@@ -25,6 +19,9 @@ public class Enemy : MonoBehaviour
     private float releaseDelay;
 
     private new Rigidbody2D rigidbody;
+
+    private bool isSlowed = false;
+    private float originalMovementSpeed;
 
     /// <summary>
     /// Moves the provided position towards the target. Position is at most moved by amount distanceToTravel or until 
