@@ -9,7 +9,8 @@ public abstract class BaseTower : MonoBehaviour
 
     private float actionTimer;
 
-    [SerializeField] protected float actionRadius;
+    [SerializeField] 
+    protected float actionRadius;
 
     // private int level;
     // private List<int> upgradeCosts;
@@ -70,7 +71,8 @@ public abstract class BaseTower : MonoBehaviour
     }
 
     //Methods used only for testing
-    public float GetActionTimer() 
+
+    public float GetActionTimer()
     {
         return actionTimer;
     }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 using static Codice.CM.Common.CmCallContext;
 
 public class Enemy : MonoBehaviour
@@ -19,6 +20,12 @@ public class Enemy : MonoBehaviour
 
     private float health;
 
+    private Blockade blockade;
+
+    private float releaseDelay;
+
+    private new Rigidbody2D rigidbody;
+
     /// <summary>
     /// Initializes the enemy.
     /// </summary>
@@ -29,6 +36,7 @@ public class Enemy : MonoBehaviour
     {
         this.levelManager = levelManager;
         this.health = health;
+        this.rigidbody = GetComponent<Rigidbody2D>();
 
         InitializePath(waypoints, offset);
 
@@ -53,18 +61,55 @@ public class Enemy : MonoBehaviour
         return result;
     }
 
+    public void StopAtBlockade(Blockade blockade, float releaseDelay)
+    {
+        this.blockade = blockade;
+        this.releaseDelay = releaseDelay;
+    }
+
     private void FixedUpdate()
     {
-        bool reachedPathEnd = FollowPath();
+        bool isBlocked = false;
 
-        if (reachedPathEnd)
+        if (this.blockade != null)
         {
-            if (levelManager != null)
+            if (this.blockade.BlockadeHealth <= 0)
             {
-                levelManager.DecreasePlayerLives();
+                this.blockade = null;
             }
+            else
+            {
+                isBlocked = true;
+            }
+        }
 
-            Destroy(gameObject);
+        if (!isBlocked && this.releaseDelay > 0.0f)
+        {
+            this.releaseDelay -= Time.fixedDeltaTime;
+
+            if (this.releaseDelay > 0.0f)
+            {
+                isBlocked = true;
+            }
+            else
+            {
+                this.releaseDelay = 0.0f;
+            }
+        }
+
+        if (isBlocked == false)
+        {
+            bool reachedPathEnd = FollowPath();
+
+            if (reachedPathEnd)
+            {
+                if (levelManager != null)
+                {
+                    levelManager.DecreasePlayerLives();
+                }
+
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -101,7 +146,7 @@ public class Enemy : MonoBehaviour
     {
         bool hasReachedEnd = path.HasReachedEndOfPath();
 
-        Vector2 position = transform.position;
+        Vector2 position = rigidbody.position;
 
         Vector2 target = path.GetCurrentTarget();
 
@@ -117,7 +162,7 @@ public class Enemy : MonoBehaviour
             hasReachedEnd = path.HasReachedEndOfPath();
         }
 
-        transform.position = position;
+        rigidbody.MovePosition(position);
 
         return hasReachedEnd;
     }
