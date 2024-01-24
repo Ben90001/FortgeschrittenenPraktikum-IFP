@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.UIElements;
-using static Codice.CM.Common.CmCallContext;
 
 public class Enemy : MonoBehaviour
 {
-    public float MovementSpeed = 10.0f;
     public float Health;
+
+    [SerializeField]
+    private float movementSpeed = 10.0f;
  
     private bool isSlowed = false;
     private float slowFactor = 1.0f;
@@ -159,7 +159,7 @@ public class Enemy : MonoBehaviour
     {
         bool hasReachedEnd = false;
 
-        float distanceToTravel = Time.fixedDeltaTime * this.MovementSpeed;
+        float distanceToTravel = Time.fixedDeltaTime * this.movementSpeed;
 
         if (distanceToTravel > 0.0f)
         {
@@ -230,8 +230,8 @@ public class Enemy : MonoBehaviour
         {
             isSlowed = true;
             slowFactor = factor;
-            originalMovementSpeed = MovementSpeed;
-            MovementSpeed *= slowFactor;
+            originalMovementSpeed = movementSpeed;
+            movementSpeed *= slowFactor;
 
             Debug.Log("Enemy slowed down!");
         }
@@ -242,7 +242,7 @@ public class Enemy : MonoBehaviour
         if (isSlowed)
         {
             isSlowed = false;
-            MovementSpeed = originalMovementSpeed;
+            movementSpeed = originalMovementSpeed;
 
             Debug.Log("Slow removed from Enemy!");
         }
@@ -250,7 +250,7 @@ public class Enemy : MonoBehaviour
 
     public void RestoreSpeed()
     {
-        MovementSpeed = 10f;
+        movementSpeed = 10f;
     }
 
 #if UNITY_EDITOR
