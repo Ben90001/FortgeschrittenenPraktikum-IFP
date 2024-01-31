@@ -51,8 +51,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private int playerLives;
 
-    //
-
     private GameObject enemyParent;
 
     private Vector2[] enemyPath;
@@ -378,7 +376,7 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Instantiates the provided Prefab level
+    /// Instantiates the provided Prefab level.
     /// </summary>
     private static GameObject InstantiateLevel(GameObject level)
     {
