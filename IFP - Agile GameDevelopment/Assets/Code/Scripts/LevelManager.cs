@@ -64,6 +64,49 @@ public class LevelManager : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// Extracts the path from the provided level GameObject.
+    /// </summary>
+    /// <returns>Array of Positions. One for each waypoint.</returns>
+    private static Vector2[] ExtractPathFromLevel(GameObject level)
+    {
+        Vector2[] result;
+
+        Transform pathObject = level.transform.Find("Path");
+
+        if (pathObject != null)
+        {
+            int waypointCount = pathObject.childCount;
+
+            result = new Vector2[waypointCount];
+
+            for (int childIndex = 0; childIndex < waypointCount; ++childIndex)
+            {
+                Transform waypoint = pathObject.GetChild(childIndex);
+
+                result[childIndex] = waypoint.position;
+            }
+        }
+        else
+        {
+            result = new Vector2[0];
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Instantiates the provided Prefab level.
+    /// </summary>
+    private static GameObject InstantiateLevel(GameObject level)
+    {
+        Assert.IsNotNull(level);
+
+        GameObject result = Instantiate(level);
+
+        return result;
+    }
+
     public void DecreasePlayerLives()
     {
         playerLives--;
@@ -342,49 +385,6 @@ public class LevelManager : MonoBehaviour
         this.Tilemap = level.GetComponentInChildren<Tilemap>();
         this.enemyPath = ExtractPathFromLevel(level);
         this.playerLives = levelInfo.playerLives;
-    }
-
-    /// <summary>
-    /// Extracts the path from the provided level GameObject.
-    /// </summary>
-    /// <returns>Array of Positions. One for each waypoint.</returns>
-    private static Vector2[] ExtractPathFromLevel(GameObject level)
-    {
-        Vector2[] result;
-
-        Transform pathObject = level.transform.Find("Path");
-
-        if (pathObject != null)
-        {
-            int waypointCount = pathObject.childCount;
-
-            result = new Vector2[waypointCount];
-
-            for (int childIndex = 0; childIndex < waypointCount; ++childIndex)
-            {
-                Transform waypoint = pathObject.GetChild(childIndex);
-
-                result[childIndex] = waypoint.position;
-            }
-        }
-        else
-        {
-            result = new Vector2[0];
-        }
-
-        return result;
-    }
-
-    /// <summary>
-    /// Instantiates the provided Prefab level.
-    /// </summary>
-    private static GameObject InstantiateLevel(GameObject level)
-    {
-        Assert.IsNotNull(level);
-
-        GameObject result = Instantiate(level);
-
-        return result;
     }
 
     public void IncreaseCurrency(int amount)
