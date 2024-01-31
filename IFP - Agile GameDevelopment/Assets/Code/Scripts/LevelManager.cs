@@ -12,7 +12,6 @@ public class LevelManager : MonoBehaviour
     public TileBase Mountain;
     public TileBase Path;
 
-    private GameObject selectedTower;
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
@@ -31,6 +30,8 @@ public class LevelManager : MonoBehaviour
     public TowerUpgradeMenu TowerMenu;
 
     public HUD HUD;
+
+    private GameObject selectedTower;
 
     // NOTE: Level specific data
 
