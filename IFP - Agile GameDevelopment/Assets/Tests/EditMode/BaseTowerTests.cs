@@ -42,7 +42,6 @@ public class BaseTowerTests
                 iceTower.FixedUpdate();
                 actionTimersIceTower[i] = iceTower.GetActionTimer();
             }
-
         }
 
         // TODO: rest of the tower
