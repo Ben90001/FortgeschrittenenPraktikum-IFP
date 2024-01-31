@@ -4,10 +4,10 @@ public abstract class BaseTower : MonoBehaviour
 {
     public float SecondsBetweenActions;
 
-    private float actionTimer;
-
-    [SerializeField] 
+    [SerializeField]
     protected float actionRadius;
+
+    private float actionTimer;
 
     // private int level;
     // private List<int> upgradeCosts;
