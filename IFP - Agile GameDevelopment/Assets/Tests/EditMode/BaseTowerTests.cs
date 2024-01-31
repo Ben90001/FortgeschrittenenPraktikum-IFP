@@ -11,7 +11,7 @@ public class BaseTowerTests
         private SniperTower sniperTower = new GameObject().AddComponent<SniperTower>();
         private IceTower iceTower = new GameObject().AddComponent<IceTower>();
         
-        float[] actionTimersBasciTower = new float[100];
+        float[] actionTimersBasicTower = new float[100];
         float[] actionTimersSniperTower = new float[100];
         float[] actionTimersIceTower = new float[100];
 
@@ -20,11 +20,11 @@ public class BaseTowerTests
         {
             // DRY Principle not apllied due to missing skills :/
             // BasicTower
-            actionTimersBasciTower[0] = basicTower.GetActionTimer();
-            for (int i = 1; i < actionTimersBasciTower.Length; i++)
+            actionTimersBasicTower[0] = basicTower.GetActionTimer();
+            for (int i = 1; i < actionTimersBasicTower.Length; i++)
             {
                 basicTower.FixedUpdate();
-                actionTimersBasciTower[i] = basicTower.GetActionTimer();
+                actionTimersBasicTower[i] = basicTower.GetActionTimer();
             }
 
             // SniperTower
@@ -50,9 +50,9 @@ public class BaseTowerTests
         public void ActionTimeUpperBound()
         {
             // BasicTower
-            for (int i = 0; i < actionTimersBasciTower.Length - 1; i++)
+            for (int i = 0; i < actionTimersBasicTower.Length - 1; i++)
             {
-                Assert.LessOrEqual(actionTimersBasciTower[i], basicTower.SecondsBetweenActions); // Upper bound ActionTimer
+                Assert.LessOrEqual(actionTimersBasicTower[i], basicTower.SecondsBetweenActions); // Upper bound ActionTimer
             }
             
             // SniperTower
@@ -75,9 +75,9 @@ public class BaseTowerTests
             //       assertion does not necessarily be true (not in requirements)
 
             // BasicTower
-            for (int i = 0; i < actionTimersBasciTower.Length - 1; i++)
+            for (int i = 0; i < actionTimersBasicTower.Length - 1; i++)
             {
-                Assert.GreaterOrEqual(actionTimersBasciTower[i], -basicTower.SecondsBetweenActions); 
+                Assert.GreaterOrEqual(actionTimersBasicTower[i], -basicTower.SecondsBetweenActions); 
             }
 
             // SniperTower
@@ -97,29 +97,29 @@ public class BaseTowerTests
         public void ActionTimeStopDecreasingWhenNotPositive()
         {
             // BasicTower
-            for (int i = 0; i < actionTimersBasciTower.Length - 1; i++)
+            for (int i = 0; i < actionTimersBasicTower.Length - 1; i++)
             {
-                if (actionTimersBasciTower[i] <= 0.0f)
+                if (actionTimersBasicTower[i] <= 0.0f)
                 {
-                    Assert.LessOrEqual(actionTimersBasciTower[i], actionTimersBasciTower[i + 1]);
+                    Assert.LessOrEqual(actionTimersBasicTower[i], actionTimersBasicTower[i + 1]);
                 }
             }
 
             // SniperTower
-            for (int i = 0; i < actionTimersBasciTower.Length - 1; i++)
+            for (int i = 0; i < actionTimersBasicTower.Length - 1; i++)
             {
-                if (actionTimersBasciTower[i] <= 0.0f)
+                if (actionTimersBasicTower[i] <= 0.0f)
                 {
-                    Assert.LessOrEqual(actionTimersBasciTower[i], actionTimersBasciTower[i + 1]);
+                    Assert.LessOrEqual(actionTimersBasicTower[i], actionTimersBasicTower[i + 1]);
                 }
             }
             
             // IceTower
-            for (int i = 0; i < actionTimersBasciTower.Length - 1; i++)
+            for (int i = 0; i < actionTimersBasicTower.Length - 1; i++)
             {
-                if (actionTimersBasciTower[i] <= 0.0f)
+                if (actionTimersBasicTower[i] <= 0.0f)
                 {
-                    Assert.LessOrEqual(actionTimersBasciTower[i], actionTimersBasciTower[i + 1]);
+                    Assert.LessOrEqual(actionTimersBasicTower[i], actionTimersBasicTower[i + 1]);
                 }
             }
         }
@@ -128,11 +128,11 @@ public class BaseTowerTests
         public void ActionTimeDecreasedIfPositive()
         {
             // BasicTower
-            for (int i = 0; i < actionTimersBasciTower.Length - 1; i++)
+            for (int i = 0; i < actionTimersBasicTower.Length - 1; i++)
             {
-                if (actionTimersBasciTower[i] > 0.0f)
+                if (actionTimersBasicTower[i] > 0.0f)
                 {
-                    Assert.GreaterOrEqual(actionTimersBasciTower[i], actionTimersBasciTower[i + 1]);
+                    Assert.GreaterOrEqual(actionTimersBasicTower[i], actionTimersBasicTower[i + 1]);
                 }
             }
 
@@ -146,11 +146,11 @@ public class BaseTowerTests
             }
 
             // IceTower
-            for (int i = 0; i < actionTimersBasciTower.Length - 1; i++)
+            for (int i = 0; i < actionTimersBasicTower.Length - 1; i++)
             {
-                if (actionTimersBasciTower[i] > 0.0f)
+                if (actionTimersBasicTower[i] > 0.0f)
                 {
-                    Assert.GreaterOrEqual(actionTimersBasciTower[i], actionTimersBasciTower[i + 1]);
+                    Assert.GreaterOrEqual(actionTimersBasicTower[i], actionTimersBasicTower[i + 1]);
                 }
             }
         }
