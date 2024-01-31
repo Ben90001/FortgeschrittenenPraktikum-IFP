@@ -69,6 +69,8 @@ public abstract class BaseTower : MonoBehaviour
 
 #if UNITY_EDITOR
 
+#pragma warning disable SA1202
+
     public float Test_GetActionTimer()
     {
         return actionTimer;
