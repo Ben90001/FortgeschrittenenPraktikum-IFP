@@ -468,6 +468,8 @@ public class LevelManager : MonoBehaviour
 
 #if UNITY_EDITOR
 
+#pragma warning disable SA1201
+
     public GameObject Test_Level
     {
         get

@@ -240,6 +240,8 @@ public class Enemy : MonoBehaviour
 
 #if UNITY_EDITOR
 
+#pragma warning disable SA1204
+
     public static bool Test_MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
     {
         return MovePositionTowardsTarget(target, ref position, ref distanceToTravel);
