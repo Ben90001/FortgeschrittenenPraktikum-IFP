@@ -33,9 +33,9 @@ public class BasicTowerTests
         GameObject BasicTowerObject = GameObject.Instantiate<GameObject>(basicTowerPrefab, spawningPosition, Quaternion.identity);
         Assert.IsNotNull(BasicTowerObject);
         //Assert no Enemy in Range
-        Assert.IsNull(BasicTowerObject.GetComponent<BasicTower>().FindBestTargetForTests());
+        Assert.IsNull(BasicTowerObject.GetComponent<BasicTower>().Test_FindBestTarget());
         //Actual Test
-        Assert.False(BasicTowerObject.GetComponent<BasicTower>().PerformActionForTests());
+        Assert.False(BasicTowerObject.GetComponent<BasicTower>().Test_PerformAction());
         
         yield return null;
         

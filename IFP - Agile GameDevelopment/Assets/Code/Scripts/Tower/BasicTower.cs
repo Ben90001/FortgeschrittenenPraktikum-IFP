@@ -42,12 +42,12 @@ public class BasicTower : BaseTower
 
 #pragma warning disable SA1202
 
-    public bool PerformActionForTests()
+    public bool Test_PerformAction()
     {
         return PerformAction();
     }
 
-    public Enemy FindBestTargetForTests()
+    public Enemy Test_FindBestTarget()
     {
         return FindBestTarget(actionRadius);
     }
