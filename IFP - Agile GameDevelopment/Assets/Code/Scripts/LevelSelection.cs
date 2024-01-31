@@ -65,7 +65,7 @@ public class LevelSelection : MonoBehaviour
     public void LoadNextLevel()
     {
         int oldLevelID = GetCurrentLevelID();
-        LoadLevelAndSwitchScene(oldLevelID+1);
+        LoadLevelAndSwitchScene(oldLevelID + 1);
         
         // TODO: what if there is no higher level? (last level)
     }

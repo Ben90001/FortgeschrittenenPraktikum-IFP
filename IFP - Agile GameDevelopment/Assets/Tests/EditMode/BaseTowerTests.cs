@@ -10,10 +10,10 @@ public class BaseTowerTests
         private BasicTower basicTower = new GameObject().AddComponent<BasicTower>();
         private SniperTower sniperTower = new GameObject().AddComponent<SniperTower>();
         private IceTower iceTower = new GameObject().AddComponent<IceTower>();
-        
-        float[] actionTimersBasicTower = new float[100];
-        float[] actionTimersSniperTower = new float[100];
-        float[] actionTimersIceTower = new float[100];
+
+        private float[] actionTimersBasicTower = new float[100];
+        private float[] actionTimersSniperTower = new float[100];
+        private float[] actionTimersIceTower = new float[100];
 
         [SetUp]
         public void BeforeEveryTest()
