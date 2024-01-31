@@ -38,7 +38,9 @@ public class BasicTower : BaseTower
         return success;
     }
 
-    // Methodes for testing only
+#if UNITY_EDITOR
+
+#pragma warning disable SA1202
 
     public bool PerformActionForTests()
     {
@@ -49,4 +51,6 @@ public class BasicTower : BaseTower
     {
         return FindBestTarget(actionRadius);
     }
+
+#endif
 }
