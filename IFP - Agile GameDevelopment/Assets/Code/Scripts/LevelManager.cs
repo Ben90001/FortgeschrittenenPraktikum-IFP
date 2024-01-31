@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
-using PlasticPipe.PlasticProtocol.Messages;
-using System.Collections.ObjectModel;
 
 public class LevelManager : MonoBehaviour
 {
@@ -72,9 +70,7 @@ public class LevelManager : MonoBehaviour
         Vector2Int result = new Vector2Int(tilePosition.x, tilePosition.y);
 
         return result;
-
     }
-
 
     public void DecreasePlayerLives()
     {
@@ -111,8 +107,6 @@ public class LevelManager : MonoBehaviour
                 Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
 
                 GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
-
-
 
                 SpendCurrency(30);
 
@@ -238,9 +232,6 @@ public class LevelManager : MonoBehaviour
           
             Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
             TowerMenu.ShowTowerTile(tilePosition, tileWorldPosition);
-            
-
-
         }
         else if (tile == this.Grass)
         {
@@ -265,11 +256,6 @@ public class LevelManager : MonoBehaviour
         {
             // TODO: Tile already has a tower
         }
-    }
-
-    private void ShowTowerOptionsBarForSelectedTile(Vector3Int tilePosition)
-    {
-
     }
 
     private void HideTowerOptionsBar()
@@ -479,7 +465,6 @@ public class LevelManager : MonoBehaviour
         return levelInstance;
     }
 
-
     public void UpdateUI()
     {
 
@@ -493,6 +478,7 @@ public class LevelManager : MonoBehaviour
 
         }
     }
+
 #if UNITY_EDITOR
 
     public GameObject Test_Level
@@ -523,6 +509,5 @@ public class LevelManager : MonoBehaviour
             return this.towers;
         }
     }
-
 #endif
 }
