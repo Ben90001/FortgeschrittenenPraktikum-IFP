@@ -20,27 +20,27 @@ public class BaseTowerTests
         {
             // DRY Principle not apllied due to missing skills :/
             // BasicTower
-            actionTimersBasicTower[0] = basicTower.GetActionTimer();
+            actionTimersBasicTower[0] = basicTower.Test_GetActionTimer();
             for (int i = 1; i < actionTimersBasicTower.Length; i++)
             {
                 basicTower.FixedUpdate();
-                actionTimersBasicTower[i] = basicTower.GetActionTimer();
+                actionTimersBasicTower[i] = basicTower.Test_GetActionTimer();
             }
 
             // SniperTower
-            actionTimersSniperTower[0] = sniperTower.GetActionTimer();
+            actionTimersSniperTower[0] = sniperTower.Test_GetActionTimer();
             for (int i = 1; i < actionTimersSniperTower.Length; i++)
             {
                 sniperTower.FixedUpdate();
-                actionTimersSniperTower[i] = sniperTower.GetActionTimer();
+                actionTimersSniperTower[i] = sniperTower.Test_GetActionTimer();
             }
 
             // IceTower
-            actionTimersIceTower[0] = iceTower.GetActionTimer();
+            actionTimersIceTower[0] = iceTower.Test_GetActionTimer();
             for (int i = 1; i < actionTimersIceTower.Length; i++)
             {
                 iceTower.FixedUpdate();
-                actionTimersIceTower[i] = iceTower.GetActionTimer();
+                actionTimersIceTower[i] = iceTower.Test_GetActionTimer();
             }
         }
 

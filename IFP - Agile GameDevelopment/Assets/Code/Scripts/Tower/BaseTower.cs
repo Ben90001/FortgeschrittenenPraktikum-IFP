@@ -69,7 +69,7 @@ public abstract class BaseTower : MonoBehaviour
 
 #if UNITY_EDITOR
 
-    public float GetActionTimer()
+    public float Test_GetActionTimer()
     {
         return actionTimer;
     }
