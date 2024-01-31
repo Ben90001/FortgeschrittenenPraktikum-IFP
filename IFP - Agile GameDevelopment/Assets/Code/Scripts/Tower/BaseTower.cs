@@ -67,7 +67,7 @@ public abstract class BaseTower : MonoBehaviour
         return bestTarget;
     }
 
-    //Methods used only for testing
+    // Methods used only for testing
 
     public float GetActionTimer()
     {

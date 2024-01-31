@@ -38,7 +38,7 @@ public class BasicTower : BaseTower
         return success;
     }
 
-    //Methodes for testing only
+    // Methodes for testing only
 
     public bool PerformActionForTests()
     {
