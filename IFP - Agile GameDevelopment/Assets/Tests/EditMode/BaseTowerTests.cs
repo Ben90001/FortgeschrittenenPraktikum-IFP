@@ -156,7 +156,7 @@ public class BaseTowerTests
         }
 
         [Test]
-        public void  SecondsBetweenActionsNotNegative()
+        public void SecondsBetweenActionsNotNegative()
         {
             // BasicTower
             Assert.GreaterOrEqual(basicTower.SecondsBetweenActions, 0);

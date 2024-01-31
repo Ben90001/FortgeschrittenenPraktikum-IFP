@@ -6,7 +6,6 @@ public class HUDTests
     [Test]
     public void ShowGameOverScreen_ActivatesDefeatScreen()
     {
-    
         GameObject hudObject = new GameObject("HUD");
         HUD hud = hudObject.AddComponent<HUD>();
 
@@ -20,7 +19,6 @@ public class HUDTests
     [Test]
     public void ShowGameOverScreen_SetsTimeScaleToZero()
     {
-        
         GameObject hudObject = new GameObject("HUD");
         HUD hud = hudObject.AddComponent<HUD>();
 

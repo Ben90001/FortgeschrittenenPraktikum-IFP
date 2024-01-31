@@ -30,9 +30,6 @@ public class LevelManager : MonoBehaviour
     public TowerOptionsBar TowerOptionsBar;
     public TowerUpgradeMenu TowerMenu;
 
-
-
-
     public HUD HUD;
 
     // NOTE: Level specific data
@@ -43,11 +40,9 @@ public class LevelManager : MonoBehaviour
 
     private LevelInfo levelInfo;
 
-
     public Tilemap tilemap;
 
     private Vector2[] path;
-
 
     // NOTE: Gameplay logic specific data
 
@@ -56,7 +51,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private int playerLives;
 
-
     //
 
     private GameObject enemyParent;
@@ -64,8 +58,6 @@ public class LevelManager : MonoBehaviour
     private Vector2[] enemyPath;
 
     private EnemySpawner enemySpawner;
-
-
 
     public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
@@ -219,7 +211,6 @@ public class LevelManager : MonoBehaviour
             selectedTower = null;
         }
     }
-
 
     private void HandleClickOnTile()
     {
@@ -474,7 +465,6 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-
         }
     }
 
