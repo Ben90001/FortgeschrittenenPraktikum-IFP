@@ -67,10 +67,12 @@ public abstract class BaseTower : MonoBehaviour
         return bestTarget;
     }
 
-    // Methods used only for testing
+#if UNITY_EDITOR
 
     public float GetActionTimer()
     {
         return actionTimer;
     }
+
+#endif
 }
