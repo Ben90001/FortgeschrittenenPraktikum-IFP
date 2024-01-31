@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
 
     public GameObject Blockade;
 
-    public int currency = 100;
+    public int Currency = 100;
 
     // TODO: Use english language
     public TextMesh Anzeige;
@@ -40,7 +40,7 @@ public class LevelManager : MonoBehaviour
 
     private LevelInfo levelInfo;
 
-    public Tilemap tilemap;
+    public Tilemap Tilemap;
 
     private Vector2[] path;
 
@@ -76,7 +76,7 @@ public class LevelManager : MonoBehaviour
 
     public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
     {
-        if (!TilePositionHasTower(tilePosition) && currency >= 30)
+        if (!TilePositionHasTower(tilePosition) && Currency >= 30)
         {
             Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
 
@@ -153,7 +153,7 @@ public class LevelManager : MonoBehaviour
         }
 
         LoadDataFromInstantiatedLevel(loadedLevel);
-        currency = 100;
+        Currency = 100;
         UpdateUI();
 
         BeginEnemySpawning();
@@ -197,7 +197,7 @@ public class LevelManager : MonoBehaviour
         if (selectedTower != null)
         {
             TowerMenu.SellTower(selectedTower);
-            Vector3Int towerTilePosition = tilemap.WorldToCell(selectedTower.transform.position);
+            Vector3Int towerTilePosition = Tilemap.WorldToCell(selectedTower.transform.position);
             Vector2Int tileKey = GetTileKeyFromTilePosition(towerTilePosition);
 
             if (towers.ContainsKey(tileKey))
@@ -212,26 +212,26 @@ public class LevelManager : MonoBehaviour
 
     private void HandleClickOnTile()
     {
-        Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.tilemap, Input.mousePosition);
+        Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.Tilemap, Input.mousePosition);
 
-        TileBase tile = tilemap.GetTile(tilePosition);
+        TileBase tile = Tilemap.GetTile(tilePosition);
         if (TilePositionHasTower(tilePosition))
         {
             Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
             selectedTower = towers[tileKey];
           
-            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+            Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
             TowerMenu.ShowTowerTile(tilePosition, tileWorldPosition);
         }
         else if (tile == this.Grass)
         {
-            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+            Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
             TowerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
         }
 
         if (!TilePositionHasTower(tilePosition))
         {
-            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+            Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
 
             if (tile == this.Grass)
             {
@@ -339,7 +339,7 @@ public class LevelManager : MonoBehaviour
     {
         this.levelInstance = level;
         this.levelInfo = level.GetComponent<LevelInfo>();
-        this.tilemap = level.GetComponentInChildren<Tilemap>();
+        this.Tilemap = level.GetComponentInChildren<Tilemap>();
         this.enemyPath = ExtractPathFromLevel(level);
         this.playerLives = levelInfo.playerLives;
     }
@@ -389,15 +389,15 @@ public class LevelManager : MonoBehaviour
 
     public void IncreaseCurrency(int amount)
     {
-        currency += amount;
+        Currency += amount;
         UpdateUI();
     }
 
     public bool SpendCurrency(int amount)
     {
-        if (amount <= currency)
+        if (amount <= Currency)
         {
-            currency -= amount;
+            Currency -= amount;
             UpdateUI();
             return true;
         }
@@ -459,7 +459,7 @@ public class LevelManager : MonoBehaviour
     {
         if (Anzeige != null)
         {
-            Anzeige.text = "Currency: " + currency;
+            Anzeige.text = "Currency: " + Currency;
         }
         else
         {
