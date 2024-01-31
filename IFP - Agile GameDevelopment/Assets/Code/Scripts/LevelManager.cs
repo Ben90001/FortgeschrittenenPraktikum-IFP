@@ -24,6 +24,8 @@ public class LevelManager : MonoBehaviour
     public GameObject Blockade;
 
     public int currency = 100;
+
+    // TODO: Use english language
     public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
     public TowerUpgradeMenu TowerMenu;
