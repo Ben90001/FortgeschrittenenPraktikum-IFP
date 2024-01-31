@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Assertions;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
-using UnityEngine.Assertions;
 
 public class LevelSelection : MonoBehaviour
 {
