@@ -204,7 +204,6 @@ public class LevelManager : MonoBehaviour
     {
         if (selectedTower != null)
         {
-            
             TowerMenu.SellTower(selectedTower);
             Vector3Int towerTilePosition = tilemap.WorldToCell(selectedTower.transform.position);
             Vector2Int tileKey = GetTileKeyFromTilePosition(towerTilePosition);
@@ -467,10 +466,8 @@ public class LevelManager : MonoBehaviour
 
     public void UpdateUI()
     {
-
         if (Anzeige != null)
         {
-
             Anzeige.text = "Currency: " + currency;
         }
         else
