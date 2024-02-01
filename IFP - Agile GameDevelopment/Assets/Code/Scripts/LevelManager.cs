@@ -17,14 +17,14 @@ public class LevelManager : MonoBehaviour
     private TileBase path;
 
     [SerializeField]
-    private GameObject BasicTower;
+    private GameObject basicTower;
     [SerializeField]
-    private GameObject SniperTower;
+    private GameObject sniperTower;
     [SerializeField]
-    private GameObject IceTower;
+    private GameObject iceTower;
 
     [SerializeField]
-    private GameObject Blockade;
+    private GameObject blockade;
 
     [SerializeField]
     private TextMesh currencyUI;
@@ -293,7 +293,7 @@ public class LevelManager : MonoBehaviour
             }
             else if (tile == this.path)
             {
-                PlaceTowerAtTile(this.Blockade, tilePosition);
+                PlaceTowerAtTile(this.blockade, tilePosition);
             }
         }
         else
