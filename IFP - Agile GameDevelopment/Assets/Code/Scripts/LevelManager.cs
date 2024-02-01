@@ -24,15 +24,6 @@ public class LevelManager : MonoBehaviour
     private GameObject IceTower;
 
     [SerializeField]
-    private GameObject UpgradedBasicTower;
-    [SerializeField]
-    private GameObject UpgradedIceTower;
-    [SerializeField]
-    private GameObject UpgradedSniperTower;
-    [SerializeField]
-    private GameObject UpgradedBlockade;
-
-    [SerializeField]
     private GameObject Blockade;
 
     [SerializeField]
