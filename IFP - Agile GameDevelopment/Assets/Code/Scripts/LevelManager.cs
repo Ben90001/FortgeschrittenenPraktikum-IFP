@@ -6,7 +6,8 @@ using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
 {
-    public GameObject Enemy;
+    [SerializeField]
+    private GameObject enemy;
 
     public TileBase Grass;
     public TileBase Mountain;
@@ -347,13 +348,13 @@ public class LevelManager : MonoBehaviour
     {
         Vector3 spawnPosition = new Vector3(1000, 0, 0);
 
-        Enemy enemy = Instantiate(Enemy, spawnPosition, Quaternion.identity, enemyParent.transform).GetComponent<Enemy>();
+        Enemy enemyInstance = Instantiate(enemy, spawnPosition, Quaternion.identity, enemyParent.transform).GetComponent<Enemy>();
 
         float offset = enemySpawner.GetNextEnemySpawnPositionOffset();
 
         int health = enemySpawner.GetNextEnemyHealth();
 
-        enemy.Initialize(this, enemyPath, offset, health);
+        enemyInstance.Initialize(this, enemyPath, offset, health);
     }
 
     /// <summary>
