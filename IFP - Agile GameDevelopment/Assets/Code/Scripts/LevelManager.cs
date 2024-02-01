@@ -9,30 +9,41 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private GameObject enemy;
 
-    public TileBase Grass;
-    public TileBase Mountain;
-    public TileBase Path;
+    [SerializeField]
+    private TileBase grass;
+    [SerializeField]
+    private TileBase mountain;
+    [SerializeField]
+    private TileBase path;
 
-    public GameObject BasicTower;
-    public GameObject SniperTower;
-    public GameObject IceTower;
+    [SerializeField]
+    private GameObject BasicTower;
+    [SerializeField]
+    private GameObject SniperTower;
+    [SerializeField]
+    private GameObject IceTower;
 
-    public GameObject UpgradedBasicTower;
-    public GameObject UpgradedIceTower;
-    public GameObject UpgradedSniperTower;
-    public GameObject UpgradedBlockade;
-    public GameObject Blockade;
+    [SerializeField]
+    private GameObject UpgradedBasicTower;
+    [SerializeField]
+    private GameObject UpgradedIceTower;
+    [SerializeField]
+    private GameObject UpgradedSniperTower;
+    [SerializeField]
+    private GameObject UpgradedBlockade;
+
+    [SerializeField]
+    private GameObject Blockade;
 
     [SerializeField]
     private TextMesh currencyUI;
-    
     [SerializeField]
     private TowerOptionsBar towerOptionsBar;
-    
     [SerializeField]
     private TowerUpgradeMenu towerMenu;
 
-    public HUD HUD;
+    [SerializeField]
+    private HUD HUD;
 
     private GameObject selectedTower;
 
@@ -47,7 +58,7 @@ public class LevelManager : MonoBehaviour
     public Tilemap Tilemap;
 
     // NOTE: Gameplay logic specific data
-
+     
     private int currency = 100;
 
     private int bestTry;
@@ -275,7 +286,7 @@ public class LevelManager : MonoBehaviour
             Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
             towerMenu.ShowTowerTile(tilePosition, tileWorldPosition);
         }
-        else if (tile == this.Grass)
+        else if (tile == this.grass)
         {
             Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
             towerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
@@ -285,11 +296,11 @@ public class LevelManager : MonoBehaviour
         {
             Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
 
-            if (tile == this.Grass)
+            if (tile == this.grass)
             {
                 towerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
             }
-            else if (tile == this.Path)
+            else if (tile == this.path)
             {
                 PlaceTowerAtTile(this.Blockade, tilePosition);
             }
