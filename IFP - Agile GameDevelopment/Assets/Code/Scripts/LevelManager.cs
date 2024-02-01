@@ -23,8 +23,6 @@ public class LevelManager : MonoBehaviour
     public GameObject UpgradedBlockade;
     public GameObject Blockade;
 
-    private int Currency = 100;
-
     // TODO: Use english language
     public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
@@ -45,6 +43,8 @@ public class LevelManager : MonoBehaviour
     public Tilemap Tilemap;
 
     // NOTE: Gameplay logic specific data
+
+    private int currency = 100;
 
     private int bestTry;
 
@@ -118,7 +118,7 @@ public class LevelManager : MonoBehaviour
 
     public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
     {
-        if (!TilePositionHasTower(tilePosition) && Currency >= 30)
+        if (!TilePositionHasTower(tilePosition) && currency >= 30)
         {
             Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
 
@@ -190,7 +190,7 @@ public class LevelManager : MonoBehaviour
         }
 
         LoadDataFromInstantiatedLevel(loadedLevel);
-        Currency = 100;
+        currency = 100;
         UpdateUI();
 
         BeginEnemySpawning();
@@ -394,15 +394,15 @@ public class LevelManager : MonoBehaviour
 
     public void IncreaseCurrency(int amount)
     {
-        Currency += amount;
+        currency += amount;
         UpdateUI();
     }
 
     public bool SpendCurrency(int amount)
     {
-        if (amount <= Currency)
+        if (amount <= currency)
         {
-            Currency -= amount;
+            currency -= amount;
             UpdateUI();
             return true;
         }
@@ -464,7 +464,7 @@ public class LevelManager : MonoBehaviour
     {
         if (Anzeige != null)
         {
-            Anzeige.text = "Currency: " + Currency;
+            Anzeige.text = "Currency: " + currency;
         }
         else
         {
@@ -500,7 +500,7 @@ public class LevelManager : MonoBehaviour
     {
         get
         {
-            return Currency;
+            return currency;
         }
     }
 
