@@ -46,7 +46,7 @@ public class LevelManager : MonoBehaviour
 
     private LevelInfo levelInfo;
 
-    public Tilemap Tilemap;
+    private Tilemap Tilemap;
 
     // NOTE: Gameplay logic specific data
      
