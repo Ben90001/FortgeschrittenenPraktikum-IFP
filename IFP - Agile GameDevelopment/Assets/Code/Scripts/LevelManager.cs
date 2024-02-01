@@ -25,8 +25,12 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField]
     private TextMesh currencyUI;
-    public TowerOptionsBar TowerOptionsBar;
-    public TowerUpgradeMenu TowerMenu;
+    
+    [SerializeField]
+    private TowerOptionsBar towerOptionsBar;
+    
+    [SerializeField]
+    private TowerUpgradeMenu towerMenu;
 
     public HUD HUD;
 
@@ -206,12 +210,12 @@ public class LevelManager : MonoBehaviour
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                if (TowerMenu.gameObject.activeSelf)
+                if (towerMenu.gameObject.activeSelf)
                 {
                     // Verbergen des TowerMenu, wenn es aktiv ist und auﬂerhalb geklickt wird
                     HideTowerMenu();
                 }
-                else if (!TowerOptionsBar.gameObject.activeSelf)
+                else if (!towerOptionsBar.gameObject.activeSelf)
                 {
                     HandleClickOnTile();
                 }
@@ -225,7 +229,7 @@ public class LevelManager : MonoBehaviour
 
     private void HideTowerMenu()
     {
-        TowerMenu.Hide();
+        towerMenu.Hide();
         Time.timeScale = 1;
     }
 
@@ -236,7 +240,7 @@ public class LevelManager : MonoBehaviour
 
     public void UpgradeTower()
     {
-        TowerMenu.SetCurrentTower(selectedTower);
+        towerMenu.SetCurrentTower(selectedTower);
         SpendCurrency(20);
     }
 
@@ -244,7 +248,7 @@ public class LevelManager : MonoBehaviour
     {
         if (selectedTower != null)
         {
-            TowerMenu.SellTower(selectedTower);
+            towerMenu.SellTower(selectedTower);
             Vector3Int towerTilePosition = Tilemap.WorldToCell(selectedTower.transform.position);
             Vector2Int tileKey = GetTileKeyFromTilePosition(towerTilePosition);
 
@@ -269,12 +273,12 @@ public class LevelManager : MonoBehaviour
             selectedTower = towers[tileKey];
           
             Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
-            TowerMenu.ShowTowerTile(tilePosition, tileWorldPosition);
+            towerMenu.ShowTowerTile(tilePosition, tileWorldPosition);
         }
         else if (tile == this.Grass)
         {
             Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
-            TowerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
+            towerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
         }
 
         if (!TilePositionHasTower(tilePosition))
@@ -283,7 +287,7 @@ public class LevelManager : MonoBehaviour
 
             if (tile == this.Grass)
             {
-                TowerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
+                towerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
             }
             else if (tile == this.Path)
             {
@@ -298,7 +302,7 @@ public class LevelManager : MonoBehaviour
 
     private void HideTowerOptionsBar()
     {
-        TowerOptionsBar.Hide();
+        towerOptionsBar.Hide();
     }
 
     private void BeginEnemySpawning()
