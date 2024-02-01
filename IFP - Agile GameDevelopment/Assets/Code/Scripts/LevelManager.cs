@@ -159,11 +159,6 @@ public class LevelManager : MonoBehaviour
         levelInstance = loadedLevel;
     }
 
-    public void HandleClickOnTileForTesting()
-    {
-        HandleClickOnTile();
-    }
-
     public bool TilePositionHasTower(Vector3Int tilePosition)
     {
         Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
