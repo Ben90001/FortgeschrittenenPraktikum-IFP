@@ -46,7 +46,7 @@ public class LevelManager : MonoBehaviour
 
     private LevelInfo levelInfo;
 
-    private Tilemap Tilemap;
+    private Tilemap tilemap;
 
     // NOTE: Gameplay logic specific data
      
@@ -251,7 +251,7 @@ public class LevelManager : MonoBehaviour
         if (selectedTower != null)
         {
             towerMenu.SellTower(selectedTower);
-            Vector3Int towerTilePosition = Tilemap.WorldToCell(selectedTower.transform.position);
+            Vector3Int towerTilePosition = tilemap.WorldToCell(selectedTower.transform.position);
             Vector2Int tileKey = GetTileKeyFromTilePosition(towerTilePosition);
 
             if (towers.ContainsKey(tileKey))
@@ -266,26 +266,26 @@ public class LevelManager : MonoBehaviour
 
     private void HandleClickOnTile()
     {
-        Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.Tilemap, Input.mousePosition);
+        Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.tilemap, Input.mousePosition);
 
-        TileBase tile = Tilemap.GetTile(tilePosition);
+        TileBase tile = tilemap.GetTile(tilePosition);
         if (TilePositionHasTower(tilePosition))
         {
             Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
             selectedTower = towers[tileKey];
           
-            Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
+            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
             towerMenu.ShowTowerTile(tilePosition, tileWorldPosition);
         }
         else if (tile == this.grass)
         {
-            Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
+            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
             towerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
         }
 
         if (!TilePositionHasTower(tilePosition))
         {
-            Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
+            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
 
             if (tile == this.grass)
             {
@@ -393,7 +393,7 @@ public class LevelManager : MonoBehaviour
     {
         this.levelInstance = level;
         this.levelInfo = level.GetComponent<LevelInfo>();
-        this.Tilemap = level.GetComponentInChildren<Tilemap>();
+        this.tilemap = level.GetComponentInChildren<Tilemap>();
         this.enemyPath = ExtractPathFromLevel(level);
         this.playerLives = levelInfo.playerLives;
     }
