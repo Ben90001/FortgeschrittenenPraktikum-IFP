@@ -48,7 +48,6 @@ public class LevelManager : MonoBehaviour
 
     private int bestTry;
 
-    [SerializeField]
     private int playerLives;
 
     private GameObject enemyParent;
