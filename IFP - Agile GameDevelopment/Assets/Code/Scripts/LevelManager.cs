@@ -44,8 +44,6 @@ public class LevelManager : MonoBehaviour
 
     public Tilemap Tilemap;
 
-    private Vector2[] path;
-
     // NOTE: Gameplay logic specific data
 
     private int bestTry;
