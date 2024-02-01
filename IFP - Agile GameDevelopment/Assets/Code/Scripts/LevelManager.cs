@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
-using PlasticPipe.PlasticProtocol.Messages;
-using System.Collections.ObjectModel;
+using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
 {
@@ -14,7 +12,6 @@ public class LevelManager : MonoBehaviour
     public TileBase Mountain;
     public TileBase Path;
 
-    private GameObject selectedTower;
     public GameObject BasicTower;
     public GameObject SniperTower;
     public GameObject IceTower;
@@ -25,15 +22,16 @@ public class LevelManager : MonoBehaviour
     public GameObject UpgradedBlockade;
     public GameObject Blockade;
 
-    public int currency = 100;
+    public int Currency = 100;
+
+    // TODO: Use english language
     public TextMesh Anzeige;
     public TowerOptionsBar TowerOptionsBar;
     public TowerUpgradeMenu TowerMenu;
 
-
-
-
     public HUD HUD;
+
+    private GameObject selectedTower;
 
     // NOTE: Level specific data
 
@@ -43,11 +41,9 @@ public class LevelManager : MonoBehaviour
 
     private LevelInfo levelInfo;
 
-
-    public Tilemap tilemap;
+    public Tilemap Tilemap;
 
     private Vector2[] path;
-
 
     // NOTE: Gameplay logic specific data
 
@@ -56,25 +52,61 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private int playerLives;
 
-
-    //
-
     private GameObject enemyParent;
 
     private Vector2[] enemyPath;
 
     private EnemySpawner enemySpawner;
 
-
-
     public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
         Vector2Int result = new Vector2Int(tilePosition.x, tilePosition.y);
 
         return result;
-
     }
 
+    /// <summary>
+    /// Extracts the path from the provided level GameObject.
+    /// </summary>
+    /// <returns>Array of Positions. One for each waypoint.</returns>
+    private static Vector2[] ExtractPathFromLevel(GameObject level)
+    {
+        Vector2[] result;
+
+        Transform pathObject = level.transform.Find("Path");
+
+        if (pathObject != null)
+        {
+            int waypointCount = pathObject.childCount;
+
+            result = new Vector2[waypointCount];
+
+            for (int childIndex = 0; childIndex < waypointCount; ++childIndex)
+            {
+                Transform waypoint = pathObject.GetChild(childIndex);
+
+                result[childIndex] = waypoint.position;
+            }
+        }
+        else
+        {
+            result = new Vector2[0];
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Instantiates the provided Prefab level.
+    /// </summary>
+    private static GameObject InstantiateLevel(GameObject level)
+    {
+        Assert.IsNotNull(level);
+
+        GameObject result = Instantiate(level);
+
+        return result;
+    }
 
     public void DecreasePlayerLives()
     {
@@ -88,7 +120,7 @@ public class LevelManager : MonoBehaviour
 
     public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
     {
-        if (!TilePositionHasTower(tilePosition) && currency >= 30)
+        if (!TilePositionHasTower(tilePosition) && Currency >= 30)
         {
             Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
 
@@ -111,8 +143,6 @@ public class LevelManager : MonoBehaviour
                 Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
 
                 GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
-
-
 
                 SpendCurrency(30);
 
@@ -167,7 +197,7 @@ public class LevelManager : MonoBehaviour
         }
 
         LoadDataFromInstantiatedLevel(loadedLevel);
-        currency = 100;
+        Currency = 100;
         UpdateUI();
 
         BeginEnemySpawning();
@@ -222,9 +252,8 @@ public class LevelManager : MonoBehaviour
     {
         if (selectedTower != null)
         {
-            
             TowerMenu.SellTower(selectedTower);
-            Vector3Int towerTilePosition = tilemap.WorldToCell(selectedTower.transform.position);
+            Vector3Int towerTilePosition = Tilemap.WorldToCell(selectedTower.transform.position);
             Vector2Int tileKey = GetTileKeyFromTilePosition(towerTilePosition);
 
             if (towers.ContainsKey(tileKey))
@@ -237,32 +266,28 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-
     private void HandleClickOnTile()
     {
-        Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.tilemap, Input.mousePosition);
+        Vector3Int tilePosition = GetTilePositionFromScreenPosition(Camera.main, this.Tilemap, Input.mousePosition);
 
-        TileBase tile = tilemap.GetTile(tilePosition);
+        TileBase tile = Tilemap.GetTile(tilePosition);
         if (TilePositionHasTower(tilePosition))
         {
             Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
             selectedTower = towers[tileKey];
           
-            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+            Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
             TowerMenu.ShowTowerTile(tilePosition, tileWorldPosition);
-            
-
-
         }
         else if (tile == this.Grass)
         {
-            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+            Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
             TowerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
         }
 
         if (!TilePositionHasTower(tilePosition))
         {
-            Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
+            Vector3 tileWorldPosition = Tilemap.GetCellCenterWorld(tilePosition);
 
             if (tile == this.Grass)
             {
@@ -277,11 +302,6 @@ public class LevelManager : MonoBehaviour
         {
             // TODO: Tile already has a tower
         }
-    }
-
-    private void ShowTowerOptionsBarForSelectedTile(Vector3Int tilePosition)
-    {
-
     }
 
     private void HideTowerOptionsBar()
@@ -317,7 +337,7 @@ public class LevelManager : MonoBehaviour
             CheckForEndOfCurrentWave();
         }
 
-        if (enemySpawner.State == EnemySpawner.SpawnerState.Done) //win case
+        if (enemySpawner.State == EnemySpawner.SpawnerState.Done) // win case
         {
             this.HUD.ShowGameOverScreen(playerLives, bestTry);
         }
@@ -377,65 +397,22 @@ public class LevelManager : MonoBehaviour
     {
         this.levelInstance = level;
         this.levelInfo = level.GetComponent<LevelInfo>();
-        this.tilemap = level.GetComponentInChildren<Tilemap>();
+        this.Tilemap = level.GetComponentInChildren<Tilemap>();
         this.enemyPath = ExtractPathFromLevel(level);
         this.playerLives = levelInfo.playerLives;
     }
 
-    /// <summary>
-    /// Extracts the path from the provided level GameObject.
-    /// </summary>
-    /// <returns>Array of Positions. One for each waypoint.</returns>
-    private static Vector2[] ExtractPathFromLevel(GameObject level)
-    {
-        Vector2[] result;
-
-        Transform pathObject = level.transform.Find("Path");
-
-        if (pathObject != null)
-        {
-            int waypointCount = pathObject.childCount;
-
-            result = new Vector2[waypointCount];
-
-            for (int childIndex = 0; childIndex < waypointCount; ++childIndex)
-            {
-                Transform waypoint = pathObject.GetChild(childIndex);
-
-                result[childIndex] = waypoint.position;
-            }
-        }
-        else
-        {
-            result = new Vector2[0];
-        }
-
-        return result;
-    }
-
-    /// <summary>
-    /// Instantiates the provided Prefab level
-    /// </summary>
-    private static GameObject InstantiateLevel(GameObject level)
-    {
-        Assert.IsNotNull(level);
-
-        GameObject result = Instantiate(level);
-
-        return result;
-    }
-
     public void IncreaseCurrency(int amount)
     {
-        currency += amount;
+        Currency += amount;
         UpdateUI();
     }
 
     public bool SpendCurrency(int amount)
     {
-        if (amount <= currency)
+        if (amount <= Currency)
         {
-            currency -= amount;
+            Currency -= amount;
             UpdateUI();
             return true;
         }
@@ -493,21 +470,20 @@ public class LevelManager : MonoBehaviour
         return levelInstance;
     }
 
-
     public void UpdateUI()
     {
-
         if (Anzeige != null)
         {
-
-            Anzeige.text = "Currency: " + currency;
+            Anzeige.text = "Currency: " + Currency;
         }
         else
         {
-
         }
     }
+
 #if UNITY_EDITOR
+
+#pragma warning disable SA1201
 
     public GameObject Test_Level
     {
@@ -537,6 +513,5 @@ public class LevelManager : MonoBehaviour
             return this.towers;
         }
     }
-
 #endif
 }

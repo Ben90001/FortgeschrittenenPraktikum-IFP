@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using System.IO;
 using UnityEngine;
 
 public class EnemyPathTests
@@ -56,28 +55,6 @@ public class EnemyPathTests
 
         Assert.IsTrue(Mathf.Approximately(path[2].x, offsetWaypoint2.x));
         Assert.IsTrue(Mathf.Approximately(path[2].y, offsetWaypoint2.y));
-    }
-
-    private static float GetPathLength(Vector2[] waypoints)
-    {
-        float totalLength = 0.0f;
-
-        Vector2 oldPosition = waypoints[0];
-
-        for (int index = 1; index < waypoints.Length; ++index)
-        {
-            Vector2 newPosition = waypoints[index];
-            
-            Vector2 delta = newPosition - oldPosition;
-
-            float distance = delta.magnitude;
-
-            totalLength += distance;
-
-            oldPosition = newPosition;
-        }
-
-        return totalLength;
     }
 
     [Test]
@@ -202,5 +179,27 @@ public class EnemyPathTests
         float remainingLength = path.RemainingPathLength;
 
         Assert.IsTrue(Mathf.Approximately(remainingLength, 0.0f));
+    }
+
+    private static float GetPathLength(Vector2[] waypoints)
+    {
+        float totalLength = 0.0f;
+
+        Vector2 oldPosition = waypoints[0];
+
+        for (int index = 1; index < waypoints.Length; ++index)
+        {
+            Vector2 newPosition = waypoints[index];
+
+            Vector2 delta = newPosition - oldPosition;
+
+            float distance = delta.magnitude;
+
+            totalLength += distance;
+
+            oldPosition = newPosition;
+        }
+
+        return totalLength;
     }
 }

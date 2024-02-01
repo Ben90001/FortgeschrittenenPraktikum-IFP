@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Assertions;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
-using UnityEngine.Assertions;
 
 public class LevelSelection : MonoBehaviour
 {
@@ -65,9 +65,9 @@ public class LevelSelection : MonoBehaviour
     public void LoadNextLevel()
     {
         int oldLevelID = GetCurrentLevelID();
-        LoadLevelAndSwitchScene(oldLevelID+1);
+        LoadLevelAndSwitchScene(oldLevelID + 1);
         
-        //TODO: what if there is no higher level? (last level)
+        // TODO: what if there is no higher level? (last level)
     }
 
     public void RestartLevel()

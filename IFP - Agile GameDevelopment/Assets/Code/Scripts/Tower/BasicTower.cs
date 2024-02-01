@@ -38,15 +38,19 @@ public class BasicTower : BaseTower
         return success;
     }
 
-    //Methodes for testing only
+#if UNITY_EDITOR
 
-    public bool PerformActionForTests()
+#pragma warning disable SA1202
+
+    public bool Test_PerformAction()
     {
         return PerformAction();
     }
 
-    public Enemy FindBestTargetForTests()
+    public Enemy Test_FindBestTarget()
     {
         return FindBestTarget(actionRadius);
     }
+
+#endif
 }

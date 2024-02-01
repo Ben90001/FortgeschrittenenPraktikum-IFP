@@ -1,19 +1,13 @@
 using UnityEngine;
-using UnityEngine.UIElements;
-using static Codice.CM.Common.CmCallContext;
 
 public class Enemy : MonoBehaviour
 {
-    public float MovementSpeed = 10.0f;
-    public float Health;
- 
-    private bool isSlowed = false;
-    private float slowFactor = 1.0f;
-    private float originalMovementSpeed;
-    [SerializeField] private int currencyWorth = 10;
-    
-    //
+    [SerializeField]
+    private float movementSpeed = 10.0f;
 
+    [SerializeField] 
+    private int currencyWorth = 10;
+    
     private LevelManager levelManager;
 
     private EnemyPath path;
@@ -27,12 +21,16 @@ public class Enemy : MonoBehaviour
 
     private new Rigidbody2D rigidbody;
 
+    private bool isSlowed = false;
+    private float originalMovementSpeed;
+
     /// <summary>
     /// Initializes the enemy.
     /// </summary>
     /// <param name="levelManager">Reference to LevelManager in Scene.</param>
     /// <param name="waypoints">List of waypoints the enemy should follow.</param>
     /// <param name="offset">The perpendicular offset that should be applied to the waypoints.</param>
+    /// <param name="health">The health of the enemy.</param>
     public void Initialize(LevelManager levelManager, Vector2[] waypoints, float offset, float health)
     {
         this.levelManager = levelManager;
@@ -66,6 +64,45 @@ public class Enemy : MonoBehaviour
     {
         this.blockade = blockade;
         this.releaseDelay = releaseDelay;
+    }
+
+    /// <summary>
+    /// Moves the provided position towards the target. Position is at most moved by amount distanceToTravel or until 
+    /// it reached the target. The position and distanceToTravel are modified to reflect the state after the position
+    /// was moved.
+    /// </summary>
+    /// <returns>True when the target was reached.</returns>
+    private static bool MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
+    {
+        bool reachedTarget = false;
+
+        Vector2 delta = target - position;
+
+        float distance = delta.magnitude;
+
+        if (!float.IsNaN(distance) && !float.IsInfinity(distance))
+        {
+            if (distance > distanceToTravel)
+            {
+                Vector2 movementDelta = delta.normalized * distanceToTravel;
+
+                position = position + movementDelta;
+                distanceToTravel = 0.0f;
+            }
+            else
+            {
+                position = target;
+                distanceToTravel = distanceToTravel - distance;
+
+                reachedTarget = true;
+            }
+        }
+        else
+        {
+            reachedTarget = true;
+        }
+
+        return reachedTarget;
     }
 
     private void FixedUpdate()
@@ -118,7 +155,7 @@ public class Enemy : MonoBehaviour
     {
         bool hasReachedEnd = false;
 
-        float distanceToTravel = Time.fixedDeltaTime * this.MovementSpeed;
+        float distanceToTravel = Time.fixedDeltaTime * this.movementSpeed;
 
         if (distanceToTravel > 0.0f)
         {
@@ -142,7 +179,7 @@ public class Enemy : MonoBehaviour
     /// Moves the enemy transform along its path.
     /// </summary>
     /// <param name="distanceToTravel">The distance the enemy should move by.</param>
-    /// <returns></returns>
+    /// <returns>True if enemy has reached end of path.</returns>
     private bool MoveDistanceAlongPath(float distanceToTravel)
     {
         bool hasReachedEnd = path.HasReachedEndOfPath();
@@ -168,45 +205,6 @@ public class Enemy : MonoBehaviour
         return hasReachedEnd;
     }
 
-    /// <summary>
-    /// Moves the provided position towards the target. Position is at most moved by amount distanceToTravel or until 
-    /// it reached the target. The position and distanceToTravel are modified to reflect the state after the position
-    /// was moved.
-    /// </summary>
-    /// <returns>True when the target was reached.</returns>
-    private static bool MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
-    {
-        bool reachedTarget = false;
-
-        Vector2 delta = target - position;
-
-        float distance = delta.magnitude;
-
-        if (!float.IsNaN(distance) && !float.IsInfinity(distance))
-        {
-            if (distance > distanceToTravel)
-            {
-                Vector2 movementDelta = delta.normalized * distanceToTravel;
-
-                position = position + movementDelta;
-                distanceToTravel = 0.0f;
-            }
-            else
-            {
-                position = target;
-                distanceToTravel = distanceToTravel - distance;
-
-                reachedTarget = true;
-            }
-        }
-        else
-        {
-            reachedTarget = true;
-        }
-
-        return reachedTarget;
-    }
-
     // TODO: Refactor
 
     public void ApplyDamage(float amount)
@@ -219,7 +217,6 @@ public class Enemy : MonoBehaviour
             // TODO: Handel Currency for Kill
             levelManager.IncreaseCurrency(currencyWorth);
             Destroy(gameObject);
-           
         }
     }
 
@@ -228,11 +225,8 @@ public class Enemy : MonoBehaviour
         if (!isSlowed)
         {
             isSlowed = true;
-            slowFactor = factor;
-            originalMovementSpeed = MovementSpeed;
-            MovementSpeed *= slowFactor;
-
-            Debug.Log("Enemy slowed down!");
+            originalMovementSpeed = movementSpeed;
+            movementSpeed *= factor;
         }
     }
 
@@ -241,22 +235,19 @@ public class Enemy : MonoBehaviour
         if (isSlowed)
         {
             isSlowed = false;
-            MovementSpeed = originalMovementSpeed;
-
-            Debug.Log("Slow removed from Enemy!");
+            movementSpeed = originalMovementSpeed;
         }
-    }
-
-    public void RestoreSpeed()
-    {
-        MovementSpeed = 10f;
     }
 
 #if UNITY_EDITOR
 
-    /// <summary>
-    /// Initializes the enemy with a specified starting position.
-    /// </summary>
+#pragma warning disable SA1204
+
+    public static bool Test_MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
+    {
+        return MovePositionTowardsTarget(target, ref position, ref distanceToTravel);
+    }
+
     public void Initialize(LevelManager levelManager, Vector2[] waypoints, Vector2 startingPosition, float health)
     {
         Initialize(levelManager, waypoints, 0.0f, health);
@@ -264,15 +255,9 @@ public class Enemy : MonoBehaviour
         transform.position = startingPosition;
     }
 
-    public static bool Test_MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
-    {
-        return MovePositionTowardsTarget(target, ref position, ref distanceToTravel);
-    }
-
     public void Test_MoveDistanceAlongPath(float distanceToTravel)
     {
         MoveDistanceAlongPath(distanceToTravel);
     }
-
 #endif
 }

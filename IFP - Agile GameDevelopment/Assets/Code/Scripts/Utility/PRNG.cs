@@ -11,7 +11,7 @@ public class PRNG
     {
         double nextDouble = random.NextDouble();
 
-        double result = (max - min) * nextDouble + min;
+        double result = (nextDouble * (max - min)) + min;
 
         return result;
     }

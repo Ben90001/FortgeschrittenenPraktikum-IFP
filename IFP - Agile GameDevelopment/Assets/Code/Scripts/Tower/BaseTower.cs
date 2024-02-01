@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class BaseTower : MonoBehaviour
 {
     public float SecondsBetweenActions;
 
-    private float actionTimer;
-
-    [SerializeField] 
+    [SerializeField]
     protected float actionRadius;
+
+    private float actionTimer;
 
     // private int level;
     // private List<int> upgradeCosts;
@@ -70,10 +67,14 @@ public abstract class BaseTower : MonoBehaviour
         return bestTarget;
     }
 
-    //Methods used only for testing
+#if UNITY_EDITOR
 
-    public float GetActionTimer()
+#pragma warning disable SA1202
+
+    public float Test_GetActionTimer()
     {
         return actionTimer;
     }
+
+#endif
 }

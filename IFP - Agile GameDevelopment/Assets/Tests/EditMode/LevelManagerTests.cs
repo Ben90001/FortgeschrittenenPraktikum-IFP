@@ -129,7 +129,7 @@ public class LevelManagerTests
         LevelManager levelManager = gameObject.AddComponent<LevelManager>();
 
         levelManager.IncreaseCurrency(50);
-        Assert.AreEqual(150, levelManager.currency);
+        Assert.AreEqual(150, levelManager.Currency);
     }
 
     [Test]
@@ -138,7 +138,7 @@ public class LevelManagerTests
         GameObject gameObject = new GameObject();
         LevelManager levelManager = gameObject.AddComponent<LevelManager>();
         levelManager.SpendCurrency(30);
-        Assert.AreEqual(70, levelManager.currency);
+        Assert.AreEqual(70, levelManager.Currency);
     }
 
     [Test]
