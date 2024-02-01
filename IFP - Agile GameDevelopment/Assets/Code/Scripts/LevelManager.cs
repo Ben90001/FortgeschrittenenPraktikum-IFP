@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
     public GameObject UpgradedBlockade;
     public GameObject Blockade;
 
-    public int Currency = 100;
+    private int Currency = 100;
 
     // TODO: Use english language
     public TextMesh Anzeige;
@@ -493,6 +493,14 @@ public class LevelManager : MonoBehaviour
         set
         {
             this.playerLives = value;
+        }
+    }
+
+    public int Test_Currency
+    {
+        get
+        {
+            return Currency;
         }
     }
 
