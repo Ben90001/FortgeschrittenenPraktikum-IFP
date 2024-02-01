@@ -23,7 +23,8 @@ public class LevelManager : MonoBehaviour
     public GameObject UpgradedBlockade;
     public GameObject Blockade;
 
-    public TextMesh CurrencyUI;
+    [SerializeField]
+    private TextMesh currencyUI;
     public TowerOptionsBar TowerOptionsBar;
     public TowerUpgradeMenu TowerMenu;
 
@@ -461,9 +462,9 @@ public class LevelManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        if (CurrencyUI != null)
+        if (currencyUI != null)
         {
-            CurrencyUI.text = "Currency: " + currency;
+            currencyUI.text = "Currency: " + currency;
         }
         else
         {
