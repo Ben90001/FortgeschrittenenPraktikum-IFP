@@ -236,7 +236,6 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-
     private void FixedUpdate()
     {
         HandleEnemySpawning(); // also calls WinMessage
@@ -308,8 +307,6 @@ public class LevelManager : MonoBehaviour
     {
         TowerOptionsBar.Hide();
     }
-
-  
 
     private void BeginEnemySpawning()
     {
