@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 317173462}
   - component: {fileID: 317173461}
   m_Layer: 0
-  m_Name: Anzeige
+  m_Name: Currency
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -846,13 +846,11 @@ MonoBehaviour:
   UpgradedSniperTower: {fileID: 0}
   UpgradedBlockade: {fileID: 0}
   Blockade: {fileID: 8585508036847761987, guid: f3e5341f620e39d43a1664bb0743c889, type: 3}
-  Currency: 100
-  Anzeige: {fileID: 317173461}
+  CurrencyUI: {fileID: 317173461}
   TowerOptionsBar: {fileID: 6682796177558364796}
   TowerMenu: {fileID: 30871225}
   HUD: {fileID: 744179455}
   Tilemap: {fileID: 0}
-  playerLives: 0
 --- !u!4 &966348541
 Transform:
   m_ObjectHideFlags: 0
