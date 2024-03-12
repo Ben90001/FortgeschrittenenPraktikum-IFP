@@ -11,53 +11,55 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField]
     private TileBase grass;
+
     [SerializeField]
     private TileBase mountain;
+
     [SerializeField]
     private TileBase path;
 
     [SerializeField]
     private GameObject basicTower;
+
     [SerializeField]
     private GameObject sniperTower;
+
     [SerializeField]
     private GameObject iceTower;
 
     [SerializeField]
     private TextMesh currencyUI;
+
     [SerializeField]
     private TowerOptionsBar towerOptionsBar;
+
     [SerializeField]
     private TowerUpgradeMenu towerMenu;
 
     [SerializeField]
     private HUD HUD;
 
+    private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
+
     private GameObject selectedTower;
 
-    // NOTE: Level specific data
-
     private GameObject levelInstance;
-
-    private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
     private LevelInfo levelInfo;
 
     private Tilemap tilemap;
 
-    // NOTE: Gameplay logic specific data
-     
-    private int currency = 100;
+    private Vector2[] enemyPath;
 
-    private int bestTry;
+    private EnemySpawner enemySpawner;
+
+    private int currency = 100;
 
     private int playerLives;
 
     private GameObject enemyParent;
 
-    private Vector2[] enemyPath;
-
-    private EnemySpawner enemySpawner;
+    private int bestTry;
 
     public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
