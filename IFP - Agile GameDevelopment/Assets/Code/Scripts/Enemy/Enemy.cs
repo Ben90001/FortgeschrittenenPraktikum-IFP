@@ -14,14 +14,10 @@ public class Enemy : MonoBehaviour
 
     private float health;
 
-    private Blockade blockade;
-   
-
-    private float releaseDelay;
-
     private new Rigidbody2D rigidbody;
 
     private bool isSlowed = false;
+
     private float originalMovementSpeed;
 
     /// <summary>
@@ -58,12 +54,6 @@ public class Enemy : MonoBehaviour
         float result = pathLength + targetDistance;
 
         return result;
-    }
-
-    public void StopAtBlockade(Blockade blockade, float releaseDelay)
-    {
-        this.blockade = blockade;
-        this.releaseDelay = releaseDelay;
     }
 
     /// <summary>
@@ -107,47 +97,16 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        bool isBlocked = false;
+        bool reachedPathEnd = FollowPath();
 
-        if (this.blockade != null)
+        if (reachedPathEnd)
         {
-            if (this.blockade.BlockadeHealth <= 0)
+            if (levelManager != null)
             {
-                this.blockade = null;
+                levelManager.DecreasePlayerLives();
             }
-            else
-            {
-                isBlocked = true;
-            }
-        }
 
-        if (!isBlocked && this.releaseDelay > 0.0f)
-        {
-            this.releaseDelay -= Time.fixedDeltaTime;
-
-            if (this.releaseDelay > 0.0f)
-            {
-                isBlocked = true;
-            }
-            else
-            {
-                this.releaseDelay = 0.0f;
-            }
-        }
-
-        if (isBlocked == false)
-        {
-            bool reachedPathEnd = FollowPath();
-
-            if (reachedPathEnd)
-            {
-                if (levelManager != null)
-                {
-                    levelManager.DecreasePlayerLives();
-                }
-
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
     }
 

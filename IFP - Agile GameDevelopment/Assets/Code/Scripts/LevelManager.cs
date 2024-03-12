@@ -24,9 +24,6 @@ public class LevelManager : MonoBehaviour
     private GameObject iceTower;
 
     [SerializeField]
-    private GameObject blockade;
-
-    [SerializeField]
     private TextMesh currencyUI;
     [SerializeField]
     private TowerOptionsBar towerOptionsBar;
@@ -291,10 +288,6 @@ public class LevelManager : MonoBehaviour
             {
                 towerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
             }
-            else if (tile == this.path)
-            {
-                PlaceTowerAtTile(this.blockade, tilePosition);
-            }
         }
         else
         {
@@ -377,12 +370,7 @@ public class LevelManager : MonoBehaviour
         {
             BaseTower tower = towerObject.GetComponent<BaseTower>();
 
-            if (tower is Blockade)
-            {
-                Blockade blockade = (Blockade)tower;
-
-                blockade.Reset();
-            }
+            // TODO: Remove not needed
         }
     }
 
