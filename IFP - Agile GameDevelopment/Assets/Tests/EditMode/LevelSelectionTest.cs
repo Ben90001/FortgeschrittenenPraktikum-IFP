@@ -1,13 +1,11 @@
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelSelectionTests
 {
     [Test]
     public void GetLevelKey_ReturnsCorrectLevelKeyForAllLevels()
     {
-
         int numberOfLevels = 2;
 
         for (int levelID = 1; levelID <= numberOfLevels; levelID++)
@@ -29,8 +27,4 @@ public class LevelSelectionTests
 
         Assert.IsNotNull(loadedLevel);
     }
-
-
-
-
 }
