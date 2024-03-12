@@ -22,7 +22,7 @@ public class LevelManagerTests
 
         Vector3Int tilePosition = new Vector3Int(1, 1, 0);
 
-        bool noTowerOnTileBefore = !levelManager.TilePositionHasTower(tilePosition);
+        bool noTowerOnTileBefore = !levelManager.Test_TilePositionHasTower(tilePosition);
         Assert.IsTrue(noTowerOnTileBefore, "Vor dem Hinzuf�gen des Turms war bereits ein Turm auf dem Tile.");
 
         levelManager.PlaceTowerAtTile(towerPrefab, tilePosition);
@@ -84,7 +84,7 @@ public class LevelManagerTests
         
         Vector3Int tilePosition = new Vector3Int(1, 1, 0);
 
-        bool hasTower = levelManager.TilePositionHasTower(tilePosition);
+        bool hasTower = levelManager.Test_TilePositionHasTower(tilePosition);
 
         Assert.IsFalse(hasTower, "TilePositionHasTower sollte false zur�ckgeben, wenn kein Turm vorhanden ist.");
     }
@@ -98,7 +98,7 @@ public class LevelManagerTests
 
         levelManager.Test_Towers.Add(new Vector2Int(1, 1), new GameObject("Tower"));
 
-        bool hasTower = levelManager.TilePositionHasTower(tilePosition);
+        bool hasTower = levelManager.Test_TilePositionHasTower(tilePosition);
 
         Assert.IsTrue(hasTower, "TilePositionHasTower sollte true zur�ckgeben, wenn ein Turm vorhanden ist.");
     }

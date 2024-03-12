@@ -133,34 +133,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Returns true if there is a tower at the given position.
-    /// </summary>
-    /// <param name="tilePosition">The position to check.</param>
-    /// <returns>True if there is a tower at the given position.</returns>
-    public bool TilePositionHasTower(Vector3Int tilePosition)
-    {
-        Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
-
-        bool result = towers.ContainsKey(tileKey);
-
-        return result;
-    }
-
-    public GameObject GetTowerForTilePosition(Vector3Int tilePosition)
-    {
-        GameObject result = null;
-
-        Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
-
-        if (towers.ContainsKey(tileKey))
-        {
-            result = towers[tileKey];
-        }
-
-        return result;
-    }
-
     public void UpgradeTower()
     {
         towerMenu.SetCurrentTower(selectedTower);
@@ -368,6 +340,29 @@ public class LevelManager : MonoBehaviour
         HandleEnemySpawning(); // also calls WinMessage
     }
 
+    private bool TilePositionHasTower(Vector3Int tilePosition)
+    {
+        Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+
+        bool result = towers.ContainsKey(tileKey);
+
+        return result;
+    }
+
+    private GameObject GetTowerForTilePosition(Vector3Int tilePosition)
+    {
+        GameObject result = null;
+
+        Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+
+        if (towers.ContainsKey(tileKey))
+        {
+            result = towers[tileKey];
+        }
+
+        return result;
+    }
+
     private void HideTowerMenu()
     {
         towerMenu.Hide();
@@ -531,6 +526,11 @@ public class LevelManager : MonoBehaviour
         {
             return this.towers;
         }
+    }
+
+    public bool Test_TilePositionHasTower(Vector3Int tilePosition)
+    {
+        return TilePositionHasTower(tilePosition);
     }
 #endif
 }
