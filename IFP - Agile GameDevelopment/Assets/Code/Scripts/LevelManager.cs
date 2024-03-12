@@ -116,6 +116,9 @@ public class LevelManager : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// Decrease the player lives by one.
+    /// </summary>
     public void DecreasePlayerLives()
     {
         playerLives--;
@@ -126,6 +129,11 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Places tower at the given tile position. 
+    /// </summary>
+    /// <param name="towerPrefab">The tower GameObject to place.</param>
+    /// <param name="tilePosition">The tile position to place the tower at.</param>
     public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
     {
         if (!TilePositionHasTower(tilePosition) && currency >= 30)
