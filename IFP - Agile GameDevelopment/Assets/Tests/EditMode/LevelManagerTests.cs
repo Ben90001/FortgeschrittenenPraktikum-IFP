@@ -1,8 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class LevelManagerTests
 {
