@@ -841,12 +841,10 @@ MonoBehaviour:
   basicTower: {fileID: 7596997370653839420, guid: b31ef3fdd378a417d80bfecef18b0932, type: 3}
   sniperTower: {fileID: 2746393042390166952, guid: 4c27ce3febc9be24ab31fb0252d540d4, type: 3}
   iceTower: {fileID: 7093835851391559277, guid: 3d9d82f010d43184c97b6332364f9abd, type: 3}
-  blockade: {fileID: 8585508036847761987, guid: f3e5341f620e39d43a1664bb0743c889, type: 3}
   currencyUI: {fileID: 317173461}
   towerOptionsBar: {fileID: 6682796177558364796}
   towerMenu: {fileID: 30871225}
-  HUD: {fileID: 744179455}
-  Tilemap: {fileID: 0}
+  hud: {fileID: 744179455}
 --- !u!4 &966348541
 Transform:
   m_ObjectHideFlags: 0
