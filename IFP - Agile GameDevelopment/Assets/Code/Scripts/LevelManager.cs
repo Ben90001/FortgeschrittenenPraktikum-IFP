@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
+using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class LevelManager : MonoBehaviour
     private GameObject blockade;
 
     [SerializeField]
-    private TextMesh currencyUI;
+    private TextMeshProUGUI currencyUI;
     [SerializeField]
     private TowerOptionsBar towerOptionsBar;
     [SerializeField]
@@ -214,7 +215,7 @@ public class LevelManager : MonoBehaviour
             {
                 if (towerMenu.gameObject.activeSelf)
                 {
-                    // Verbergen des TowerMenu, wenn es aktiv ist und außerhalb geklickt wird
+                    // Verbergen des TowerMenu, wenn es aktiv ist und auï¿½erhalb geklickt wird
                     HideTowerMenu();
                 }
                 else if (!towerOptionsBar.gameObject.activeSelf)
