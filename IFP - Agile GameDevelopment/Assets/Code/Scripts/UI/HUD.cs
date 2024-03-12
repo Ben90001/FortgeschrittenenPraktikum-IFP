@@ -1,24 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using static Codice.CM.Common.CmCallContext;
 
 public class HUD : MonoBehaviour
 {
-
     public GameObject DefeatScreen;
     public GameObject WinScreen;
 
+
+    [SerializeField]
+    private TextMeshProUGUI currencyUI;
+    [SerializeField]
+    private TextMeshProUGUI playerLivesUI;
+
+
     void Start()
     {
-       //TODO: Initialize currency and PlayerLives display? 
     }
-
-
     void Update()
     {
-        //TODO: Currency and PlayerLives display
+        //UpdateHUD called in LevelManager
     }
 
+    public void UpdateHUD(int currency, int playerLives)
+    {
+        if (currencyUI != null)
+        {
+            currencyUI.text = "Currency: " + currency;
+        }
+        else
+        {
+            Debug.LogWarning("Currency is null");
+        }
+
+        if (playerLivesUI != null)
+        {
+            playerLivesUI.text = "Lives: " + playerLives;
+        }
+        else
+        {
+            Debug.LogWarning("PlayerLives is null");
+        }
+    }
     public void ShowGameOverScreen(int playerLives, int bestTry)
     {
         Debug.Log("ShowGameOverScreen called");

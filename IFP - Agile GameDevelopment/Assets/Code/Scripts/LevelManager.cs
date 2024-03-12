@@ -29,8 +29,6 @@ public class LevelManager : MonoBehaviour
     private GameObject iceTower;
 
     [SerializeField]
-    private TextMeshProUGUI currencyUI;
-    [SerializeField]
     private TowerOptionsBar towerOptionsBar;
 
     [SerializeField]
@@ -160,7 +158,6 @@ public class LevelManager : MonoBehaviour
     public void IncreaseCurrency(int amount)
     {
         currency += amount;
-        UpdateUI();
     }
 
     public bool SpendCurrency(int amount)
@@ -168,7 +165,6 @@ public class LevelManager : MonoBehaviour
         if (amount <= currency)
         {
             currency -= amount;
-            UpdateUI();
             return true;
         }
         else
@@ -181,17 +177,6 @@ public class LevelManager : MonoBehaviour
     public GameObject GetLevelInstance()
     {
         return levelInstance;
-    }
-
-    public void UpdateUI()
-    {
-        if (currencyUI != null)
-        {
-            currencyUI.text = "Currency: " + currency;
-        }
-        else
-        {
-        }
     }
 
     private static Vector3Int GetTilePositionFromScreenPosition(Camera camera, Tilemap tilemap, Vector2 screenPosition)
@@ -303,8 +288,7 @@ public class LevelManager : MonoBehaviour
 
         LoadDataFromInstantiatedLevel(loadedLevel);
         currency = 100;
-        UpdateUI();
-
+        hud.UpdateHUD(currency, playerLives);
         BeginEnemySpawning();
 
         FocusCameraOnGameplayArea(Camera.main, levelInfo.GameplayArea);
@@ -333,6 +317,8 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
+
+        hud.UpdateHUD(currency, playerLives);
     }
 
     private void FixedUpdate()
