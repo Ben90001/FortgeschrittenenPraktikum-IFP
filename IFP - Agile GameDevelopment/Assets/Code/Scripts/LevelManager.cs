@@ -61,6 +61,11 @@ public class LevelManager : MonoBehaviour
 
     private int bestTry;
 
+    /// <summary>
+    /// Returns a unique key generated for the tiles position.
+    /// </summary>
+    /// <param name="tilePosition">The tile position.</param>
+    /// <returns>The unique key.</returns>
     public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
         Vector2Int result = new Vector2Int(tilePosition.x, tilePosition.y);
