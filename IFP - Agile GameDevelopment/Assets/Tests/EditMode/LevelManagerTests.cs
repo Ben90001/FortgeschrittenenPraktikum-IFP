@@ -102,7 +102,6 @@ public class LevelManagerTests
 
         Assert.IsTrue(hasTower, "TilePositionHasTower sollte true zur�ckgeben, wenn ein Turm vorhanden ist.");
     }
-   
 
     [Test]
     public void IncreaseCurrency_AddsToCurrency()

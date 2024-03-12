@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
-public class LevelSelectionTests
+public class LevelSelectionTest
 {
     [Test]
     public void GetLevelKey_ReturnsCorrectLevelKeyForAllLevels()

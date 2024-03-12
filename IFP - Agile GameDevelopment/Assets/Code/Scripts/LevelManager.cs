@@ -482,7 +482,7 @@ public class LevelManager : MonoBehaviour
         this.levelInfo = level.GetComponent<LevelInfo>();
         this.tilemap = level.GetComponentInChildren<Tilemap>();
         this.enemyPath = ExtractPathFromLevel(level);
-        this.playerLives = levelInfo.playerLives;
+        this.playerLives = levelInfo.PlayerLives;
     }
 
 #if UNITY_EDITOR

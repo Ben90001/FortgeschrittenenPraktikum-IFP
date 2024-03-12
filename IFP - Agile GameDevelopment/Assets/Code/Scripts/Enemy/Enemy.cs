@@ -56,6 +56,38 @@ public class Enemy : MonoBehaviour
         return result;
     }
 
+    public void ApplyDamage(float amount)
+    {
+        health -= amount;
+
+        if (health <= 0.0f)
+        {
+            // TODO: Handle destroyed enemy
+            // TODO: Handel Currency for Kill
+            levelManager.IncreaseCurrency(currencyWorth);
+            Destroy(gameObject);
+        }
+    }
+
+    public void ApplySlow(float factor)
+    {
+        if (!isSlowed)
+        {
+            isSlowed = true;
+            originalMovementSpeed = movementSpeed;
+            movementSpeed *= factor;
+        }
+    }
+
+    public void RemoveSlow()
+    {
+        if (isSlowed)
+        {
+            isSlowed = false;
+            movementSpeed = originalMovementSpeed;
+        }
+    }
+
     /// <summary>
     /// Moves the provided position towards the target. Position is at most moved by amount distanceToTravel or until 
     /// it reached the target. The position and distanceToTravel are modified to reflect the state after the position
@@ -164,43 +196,9 @@ public class Enemy : MonoBehaviour
         return hasReachedEnd;
     }
 
-    // TODO: Refactor
-
-    public void ApplyDamage(float amount)
-    {
-        health -= amount;
-
-        if (health <= 0.0f)
-        {
-            // TODO: Handle destroyed enemy
-            // TODO: Handel Currency for Kill
-            levelManager.IncreaseCurrency(currencyWorth);
-            Destroy(gameObject);
-        }
-    }
-
-    public void ApplySlow(float factor)
-    {
-        if (!isSlowed)
-        {
-            isSlowed = true;
-            originalMovementSpeed = movementSpeed;
-            movementSpeed *= factor;
-        }
-    }
-
-    public void RemoveSlow()
-    {
-        if (isSlowed)
-        {
-            isSlowed = false;
-            movementSpeed = originalMovementSpeed;
-        }
-    }
-
 #if UNITY_EDITOR
 
-#pragma warning disable SA1204
+#pragma warning disable SA1202
 
     public static bool Test_MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
     {

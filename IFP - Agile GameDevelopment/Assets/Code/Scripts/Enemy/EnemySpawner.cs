@@ -1,7 +1,7 @@
 public struct EnemySpawner
 {
-    private static readonly float SECONDS_BETWEEN_WAVES = 5.0f;
-    private static readonly float SPAWN_OFFSET_RANGE = 0.3f;
+    private static readonly float SecondsBetweenWaves = 5.0f;
+    private static readonly float SpawnOffsetRange = 0.3f;
 
     private SpawnerState state;
 
@@ -14,16 +14,6 @@ public struct EnemySpawner
 
     private float timer;
 
-    public SpawnerState State 
-    {  
-        get { return state; } 
-    }
-
-    public int WaveIndex 
-    { 
-        get { return currentWaveIndex; } 
-    }
-
     public EnemySpawner(Wave[] waves)
     {
         this.waves = waves;
@@ -32,6 +22,24 @@ public struct EnemySpawner
         this.currentWaveIndex = 0;
         this.remainingEnemyCount = 0;
         this.random = new PRNG(0);
+    }
+
+    public enum SpawnerState
+    {
+        Initialized,
+        Spawning,
+        BetweenWaves,
+        Done,
+    }
+
+    public SpawnerState State 
+    {  
+        get { return state; } 
+    }
+
+    public int WaveIndex 
+    { 
+        get { return currentWaveIndex; } 
     }
 
     public bool Tick(float timeStep)
@@ -81,7 +89,7 @@ public struct EnemySpawner
 
     public float GetNextEnemySpawnPositionOffset()
     {
-        float result = (float)random.NextRange(-SPAWN_OFFSET_RANGE, SPAWN_OFFSET_RANGE);
+        float result = (float)random.NextRange(-SpawnOffsetRange, SpawnOffsetRange);
 
         return result;
     }
@@ -144,7 +152,7 @@ public struct EnemySpawner
 
     private void HandleCooldownBetweenWaves()
     {
-        if (this.timer > SECONDS_BETWEEN_WAVES)
+        if (this.timer > SecondsBetweenWaves)
         {
             StartSpawningCurrentWave();
         }
@@ -175,13 +183,5 @@ public struct EnemySpawner
         {
             this.state = SpawnerState.Done;
         }
-    }
-
-    public enum SpawnerState
-    {
-        Initialized,
-        Spawning,
-        BetweenWaves,
-        Done
     }
 }

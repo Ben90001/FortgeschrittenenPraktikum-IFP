@@ -9,8 +9,6 @@ public struct EnemyPath
     private float pathLength;
     private float remainingPathLength;
 
-    public float RemainingPathLength { get { return remainingPathLength; } }
-
     public EnemyPath(Vector2[] path, float perpendicularOffset)
     {
         if (path != null && path.Length > 0)
@@ -32,59 +30,9 @@ public struct EnemyPath
         this.targetWaypoint = 0;
     }
 
-    public Vector2 TargetNextWaypoint()
+    public float RemainingPathLength
     {
-        if (targetWaypoint < waypoints.Length)
-        {
-            if (targetWaypoint < waypoints.Length - 1)
-            {
-                Vector2 waypoint0 = waypoints[targetWaypoint];
-                Vector2 waypoint1 = waypoints[targetWaypoint + 1];
-
-                float distance = Vector2.Distance(waypoint0, waypoint1);
-
-                this.remainingPathLength -= distance;
-            }
-
-            ++targetWaypoint;
-        }
-
-        Vector2 result = GetCurrentTarget();
-
-        return result;
-    }
-
-    public Vector2 GetCurrentTarget()
-    {
-        Vector2 result = default;
-
-        if (targetWaypoint >= 0 && targetWaypoint < waypoints.Length)
-        {
-            result = waypoints[targetWaypoint];
-        }
-        else
-        {
-            result = waypoints[waypoints.Length - 1];
-        }
-
-        return result;
-    }
-
-    public Vector2 GetStartingPosition()
-    {
-        return waypoints[0];
-    }
-
-    public bool HasReachedEndOfPath()
-    {
-        bool result = false;
-
-        if (targetWaypoint < 0 || targetWaypoint >= waypoints.Length)
-        {
-            result = true;
-        }
-
-        return result;
+        get { return remainingPathLength; }
     }
 
     public static void ApplyPerpendicularOffsetToPath(Vector2[] waypoints, float perpendicularOffset)
@@ -143,6 +91,61 @@ public struct EnemyPath
 
                 waypoint0 = waypoint1;
             }
+        }
+
+        return result;
+    }
+
+    public Vector2 TargetNextWaypoint()
+    {
+        if (targetWaypoint < waypoints.Length)
+        {
+            if (targetWaypoint < waypoints.Length - 1)
+            {
+                Vector2 waypoint0 = waypoints[targetWaypoint];
+                Vector2 waypoint1 = waypoints[targetWaypoint + 1];
+
+                float distance = Vector2.Distance(waypoint0, waypoint1);
+
+                this.remainingPathLength -= distance;
+            }
+
+            ++targetWaypoint;
+        }
+
+        Vector2 result = GetCurrentTarget();
+
+        return result;
+    }
+
+    public Vector2 GetCurrentTarget()
+    {
+        Vector2 result = default;
+
+        if (targetWaypoint >= 0 && targetWaypoint < waypoints.Length)
+        {
+            result = waypoints[targetWaypoint];
+        }
+        else
+        {
+            result = waypoints[waypoints.Length - 1];
+        }
+
+        return result;
+    }
+
+    public Vector2 GetStartingPosition()
+    {
+        return waypoints[0];
+    }
+
+    public bool HasReachedEndOfPath()
+    {
+        bool result = false;
+
+        if (targetWaypoint < 0 || targetWaypoint >= waypoints.Length)
+        {
+            result = true;
         }
 
         return result;

@@ -50,6 +50,20 @@ public class LevelSelection : MonoBehaviour
         }
     }
 
+    public void LoadNextLevel()
+    {
+        int oldLevelID = GetCurrentLevelID();
+        LoadLevelAndSwitchScene(oldLevelID + 1);
+
+        // TODO: what if there is no higher level? (last level)
+    }
+
+    public void RestartLevel()
+    {
+        int levelID = GetCurrentLevelID();
+        LoadLevelAndSwitchScene(levelID);
+    }
+
     private int GetCurrentLevelID()
     {
         Assert.IsNotNull(LoadedLevel, "LoadedLevel is Null");
@@ -60,19 +74,5 @@ public class LevelSelection : MonoBehaviour
         Debug.Log("Loaded Level has ID: " + levelID);
 
         return levelID;
-    }
-
-    public void LoadNextLevel()
-    {
-        int oldLevelID = GetCurrentLevelID();
-        LoadLevelAndSwitchScene(oldLevelID + 1);
-        
-        // TODO: what if there is no higher level? (last level)
-    }
-
-    public void RestartLevel()
-    {
-        int levelID = GetCurrentLevelID();
-        LoadLevelAndSwitchScene(levelID);
     }
 }
