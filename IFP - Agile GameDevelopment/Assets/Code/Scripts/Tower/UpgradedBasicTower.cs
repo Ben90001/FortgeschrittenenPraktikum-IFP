@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UpgradedBasicTower : BaseTower
@@ -15,7 +13,7 @@ public class UpgradedBasicTower : BaseTower
 
     protected override void TowerUpgrade()
     {
-        //TODO: add funtionality
+        // TODO: add funtionality
     }
 
     protected override bool PerformAction()
@@ -38,14 +36,18 @@ public class UpgradedBasicTower : BaseTower
         return success;
     }
 
-    //Methodes for testing only
+#if UNITY_EDITOR
 
-    public bool PerformActionForTests()
+#pragma warning disable SA1202
+
+    public bool Test_PerformAction()
     {
         return PerformAction();
     }
-    public Enemy FindBestTargetForTests()
+
+    public Enemy Test_FindBestTarget()
     {
         return FindBestTarget(actionRadius);
     }
+#endif
 }

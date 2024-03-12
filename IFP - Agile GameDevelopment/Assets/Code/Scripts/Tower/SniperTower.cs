@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SniperTower : BaseTower
 {
     public GameObject BulletPrefab;
 
-    private Enemy target;
-
     public float Damage;
     public float BulletSpeed;
+
+    private Enemy target;
 
     protected override void TowerUpgrade()
     {
@@ -32,7 +30,6 @@ public class SniperTower : BaseTower
 
             success = true;
         }
-
 
         return success;
     }
