@@ -14,14 +14,10 @@ public class Enemy : MonoBehaviour
 
     private float health;
 
-    private Blockade blockade;
-   
-
-    private float releaseDelay;
-
     private new Rigidbody2D rigidbody;
 
     private bool isSlowed = false;
+
     private float originalMovementSpeed;
 
     /// <summary>
@@ -60,10 +56,36 @@ public class Enemy : MonoBehaviour
         return result;
     }
 
-    public void StopAtBlockade(Blockade blockade, float releaseDelay)
+    public void ApplyDamage(float amount)
     {
-        this.blockade = blockade;
-        this.releaseDelay = releaseDelay;
+        health -= amount;
+
+        if (health <= 0.0f)
+        {
+            // TODO: Handle destroyed enemy
+            // TODO: Handel Currency for Kill
+            levelManager.IncreaseCurrency(currencyWorth);
+            Destroy(gameObject);
+        }
+    }
+
+    public void ApplySlow(float factor)
+    {
+        if (!isSlowed)
+        {
+            isSlowed = true;
+            originalMovementSpeed = movementSpeed;
+            movementSpeed *= factor;
+        }
+    }
+
+    public void RemoveSlow()
+    {
+        if (isSlowed)
+        {
+            isSlowed = false;
+            movementSpeed = originalMovementSpeed;
+        }
     }
 
     /// <summary>
@@ -107,47 +129,16 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        bool isBlocked = false;
+        bool reachedPathEnd = FollowPath();
 
-        if (this.blockade != null)
+        if (reachedPathEnd)
         {
-            if (this.blockade.BlockadeHealth <= 0)
+            if (levelManager != null)
             {
-                this.blockade = null;
+                levelManager.DecreasePlayerLives();
             }
-            else
-            {
-                isBlocked = true;
-            }
-        }
 
-        if (!isBlocked && this.releaseDelay > 0.0f)
-        {
-            this.releaseDelay -= Time.fixedDeltaTime;
-
-            if (this.releaseDelay > 0.0f)
-            {
-                isBlocked = true;
-            }
-            else
-            {
-                this.releaseDelay = 0.0f;
-            }
-        }
-
-        if (isBlocked == false)
-        {
-            bool reachedPathEnd = FollowPath();
-
-            if (reachedPathEnd)
-            {
-                if (levelManager != null)
-                {
-                    levelManager.DecreasePlayerLives();
-                }
-
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
         }
     }
 
@@ -205,43 +196,9 @@ public class Enemy : MonoBehaviour
         return hasReachedEnd;
     }
 
-    // TODO: Refactor
-
-    public void ApplyDamage(float amount)
-    {
-        health -= amount;
-
-        if (health <= 0.0f)
-        {
-            // TODO: Handle destroyed enemy
-            // TODO: Handel Currency for Kill
-            levelManager.IncreaseCurrency(currencyWorth);
-            Destroy(gameObject);
-        }
-    }
-
-    public void ApplySlow(float factor)
-    {
-        if (!isSlowed)
-        {
-            isSlowed = true;
-            originalMovementSpeed = movementSpeed;
-            movementSpeed *= factor;
-        }
-    }
-
-    public void RemoveSlow()
-    {
-        if (isSlowed)
-        {
-            isSlowed = false;
-            movementSpeed = originalMovementSpeed;
-        }
-    }
-
 #if UNITY_EDITOR
 
-#pragma warning disable SA1204
+#pragma warning disable SA1202
 
     public static bool Test_MovePositionTowardsTarget(Vector2 target, ref Vector2 position, ref float distanceToTravel)
     {

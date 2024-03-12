@@ -1,8 +1,6 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Reflection;
+using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class LevelManagerTests
 {
@@ -22,20 +20,16 @@ public class LevelManagerTests
         LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
         GameObject towerPrefab = new GameObject("TowerPrefab");
 
-       
         Vector3Int tilePosition = new Vector3Int(1, 1, 0);
 
-        
         bool noTowerOnTileBefore = !levelManager.TilePositionHasTower(tilePosition);
         Assert.IsTrue(noTowerOnTileBefore, "Vor dem Hinzuf�gen des Turms war bereits ein Turm auf dem Tile.");
 
         levelManager.PlaceTowerAtTile(towerPrefab, tilePosition);
-
         
         Dictionary<Vector2Int, GameObject> towers = levelManager.Test_Towers;
         bool towerAdded = towers.ContainsKey(new Vector2Int(1, 1));
 
-        
         Assert.IsTrue(noTowerOnTileBefore, "Vor dem Hinzuf�gen des Turms war bereits ein Turm auf dem Tile.");
         Assert.IsTrue(towerAdded, "Der Turm wurde nicht zum 'towers'-Dictionary hinzugef�gt.");
     }
@@ -43,13 +37,10 @@ public class LevelManagerTests
     [Test]
     public void DecreasePlayerLives_UpdatesPlayerLivesCorrectly()
     {
-        
         LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
-
      
         levelManager.Test_PlayerLives = 5;
 
-     
         levelManager.DecreasePlayerLives();
 
         Assert.AreEqual(4, levelManager.Test_PlayerLives, "Die Spielerleben wurden nicht korrekt verringert.");
@@ -60,36 +51,28 @@ public class LevelManagerTests
     {
         LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
 
-     
         GameObject towerPrefab = new GameObject("TowerPrefab");
-
        
         Vector3Int tilePosition = new Vector3Int(1, 1, 0);
-
       
         levelManager.Test_Towers.Add(new Vector2Int(1, 1), new GameObject("Tower"));
 
         levelManager.PlaceTowerAtTile(towerPrefab, tilePosition);
-
         
         Dictionary<Vector2Int, GameObject> towersAfter = levelManager.Test_Towers;
         int towerCount = towersAfter.Count;
 
-       
         Assert.AreEqual(1, towerCount, "Es wurde ein Turm zur 'towers'-Dictionary hinzugef�gt, obwohl bereits einer vorhanden war.");
     }
 
     [Test]
     public void GetTileKeyFromTilePosition_ReturnsCorrectTileKey()
     {
-        
         LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
 
         Vector3Int tilePosition = new Vector3Int(2, 3, 0);
 
-
         Vector2Int tileKey = LevelManager.GetTileKeyFromTilePosition(tilePosition);
-
         
         Assert.AreEqual(new Vector2Int(2, 3), tileKey, "GetTileKeyFromTilePosition gibt einen falschen Tile-Key zur�ck.");
     }
@@ -97,7 +80,6 @@ public class LevelManagerTests
     [Test]
     public void TilePositionHasTower_ReturnsFalse_WhenNoTowerIsPresent()
     {
-        
         LevelManager levelManager = new GameObject().AddComponent<LevelManager>();
         
         Vector3Int tilePosition = new Vector3Int(1, 1, 0);
@@ -120,7 +102,6 @@ public class LevelManagerTests
 
         Assert.IsTrue(hasTower, "TilePositionHasTower sollte true zur�ckgeben, wenn ein Turm vorhanden ist.");
     }
-   
 
     [Test]
     public void IncreaseCurrency_AddsToCurrency()
@@ -147,7 +128,6 @@ public class LevelManagerTests
         GameObject gameObject = new GameObject();
         LevelManager levelManager = gameObject.AddComponent<LevelManager>();
 
-       
         bool result = levelManager.SpendCurrency(30);
         Assert.IsTrue(result);
     }
@@ -160,5 +140,4 @@ public class LevelManagerTests
         bool result = levelManager.SpendCurrency(200);
         Assert.IsFalse(result);
     }
-
 }

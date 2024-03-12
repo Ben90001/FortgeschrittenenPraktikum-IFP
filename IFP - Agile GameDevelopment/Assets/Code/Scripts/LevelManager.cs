@@ -12,60 +12,207 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField]
     private TileBase grass;
+
     [SerializeField]
     private TileBase mountain;
+
     [SerializeField]
     private TileBase path;
 
     [SerializeField]
     private GameObject basicTower;
-    [SerializeField]
-    private GameObject sniperTower;
-    [SerializeField]
-    private GameObject iceTower;
 
     [SerializeField]
-    private GameObject blockade;
+    private GameObject sniperTower;
+
+    [SerializeField]
+    private GameObject iceTower;
 
     [SerializeField]
     private TextMeshProUGUI currencyUI;
     [SerializeField]
     private TowerOptionsBar towerOptionsBar;
+
     [SerializeField]
     private TowerUpgradeMenu towerMenu;
 
     [SerializeField]
-    private HUD HUD;
+    private HUD hud;
+
+    private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
     private GameObject selectedTower;
 
-    // NOTE: Level specific data
-
     private GameObject levelInstance;
-
-    private Dictionary<Vector2Int, GameObject> towers = new Dictionary<Vector2Int, GameObject>();
 
     private LevelInfo levelInfo;
 
     private Tilemap tilemap;
 
-    // NOTE: Gameplay logic specific data
-     
-    private int currency = 100;
+    private Vector2[] enemyPath;
 
-    private int bestTry;
+    private EnemySpawner enemySpawner;
+
+    private int currency = 100;
 
     private int playerLives;
 
     private GameObject enemyParent;
 
-    private Vector2[] enemyPath;
+    private int bestTry;
 
-    private EnemySpawner enemySpawner;
-
+    /// <summary>
+    /// Returns a unique key generated for the tiles position.
+    /// </summary>
+    /// <param name="tilePosition">The tile position.</param>
+    /// <returns>The unique key.</returns>
     public static Vector2Int GetTileKeyFromTilePosition(Vector3Int tilePosition)
     {
         Vector2Int result = new Vector2Int(tilePosition.x, tilePosition.y);
+
+        return result;
+    }
+
+    public void SetLoadedLevel(GameObject loadedLevel)
+    {
+        levelInstance = loadedLevel;
+    }
+
+    /// <summary>
+    /// Decrease the player lives by one.
+    /// </summary>
+    public void DecreasePlayerLives()
+    {
+        playerLives--;
+
+        if (playerLives <= 0)
+        {
+            this.hud.ShowGameOverScreen(playerLives, this.bestTry);
+        }
+    }
+
+    /// <summary>
+    /// Places tower at the given tile position. 
+    /// </summary>
+    /// <param name="towerPrefab">The tower GameObject to place.</param>
+    /// <param name="tilePosition">The tile position to place the tower at.</param>
+    public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
+    {
+        if (!TilePositionHasTower(tilePosition) && currency >= 30)
+        {
+            Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
+
+            GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
+
+            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+
+            SpendCurrency(30);
+
+            towers.Add(tileKey, towerObject);
+        }
+        else if (TilePositionHasTower(tilePosition))
+        {
+            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+            if (towers.TryGetValue(tileKey, out GameObject existingTower))
+            {
+                Destroy(existingTower);
+
+                towers.Remove(GetTileKeyFromTilePosition(tilePosition));
+                Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
+
+                GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
+
+                SpendCurrency(30);
+
+                towers.Add(tileKey, towerObject);
+            }
+        }
+        else
+        {
+            Debug.Log("not enough money to purchase the item");
+        }
+    }
+
+    /// <summary>
+    /// Returns true if there is a tower at the given position.
+    /// </summary>
+    /// <param name="tilePosition">The position to check.</param>
+    /// <returns>True if there is a tower at the given position.</returns>
+    public bool TilePositionHasTower(Vector3Int tilePosition)
+    {
+        Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+
+        bool result = towers.ContainsKey(tileKey);
+
+        return result;
+    }
+
+    public void UpgradeTower()
+    {
+        towerMenu.SetCurrentTower(selectedTower);
+        SpendCurrency(20);
+    }
+
+    public void SellPlacedTower()
+    {
+        if (selectedTower != null)
+        {
+            towerMenu.SellTower(selectedTower);
+            Vector3Int towerTilePosition = tilemap.WorldToCell(selectedTower.transform.position);
+            Vector2Int tileKey = GetTileKeyFromTilePosition(towerTilePosition);
+
+            if (towers.ContainsKey(tileKey))
+            {
+                towers.Remove(tileKey);
+            }
+
+            IncreaseCurrency(15);
+            selectedTower = null;
+        }
+    }
+
+    public void IncreaseCurrency(int amount)
+    {
+        currency += amount;
+        UpdateUI();
+    }
+
+    public bool SpendCurrency(int amount)
+    {
+        if (amount <= currency)
+        {
+            currency -= amount;
+            UpdateUI();
+            return true;
+        }
+        else
+        {
+            Debug.Log("Not enough money to purchase this item");
+            return false;
+        }
+    }
+
+    public GameObject GetLevelInstance()
+    {
+        return levelInstance;
+    }
+
+    public void UpdateUI()
+    {
+        if (currencyUI != null)
+        {
+            currencyUI.text = "Currency: " + currency;
+        }
+        else
+        {
+        }
+    }
+
+    private static Vector3Int GetTilePositionFromScreenPosition(Camera camera, Tilemap tilemap, Vector2 screenPosition)
+    {
+        Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
+
+        Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
 
         return result;
     }
@@ -113,74 +260,46 @@ public class LevelManager : MonoBehaviour
         return result;
     }
 
-    public void DecreasePlayerLives()
+    /// <summary>
+    /// Load the first level by default. This is for starting from the GameScene in the editor.
+    /// </summary>
+    private static GameObject InstantiateDefaultLevel()
     {
-        playerLives--;
+        GameObject level = LevelSelection.LoadLevel(1);
 
-        if (playerLives <= 0)
-        {
-            this.HUD.ShowGameOverScreen(playerLives, this.bestTry);
-        }
+        GameObject result = InstantiateLevel(level);
+
+        return result;
     }
 
-    public void PlaceTowerAtTile(GameObject towerPrefab, Vector3Int tilePosition)
+    /// <summary>
+    /// Sets up the camera to center on and show the entire gameplayArea of level.
+    /// </summary>
+    private static void FocusCameraOnGameplayArea(Camera camera, Bounds gameplayArea)
     {
-        if (!TilePositionHasTower(tilePosition) && currency >= 30)
+        Vector3 oldCameraPosition = camera.transform.position;
+        Vector3 newCameraPosition;
+
+        Vector3 gameplayAreaCenter = gameplayArea.center;
+
+        if (float.IsFinite(gameplayAreaCenter.x) &&
+            float.IsFinite(gameplayAreaCenter.x))
         {
-            Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
+            newCameraPosition.x = gameplayAreaCenter.x;
+            newCameraPosition.y = gameplayAreaCenter.y;
+            newCameraPosition.z = oldCameraPosition.z;
 
-            GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
+            float minCameraSizeH = gameplayArea.extents.y;
+            float minCameraSizeV = gameplayArea.extents.x / camera.aspect;
 
-            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
+            float minCameraSize = Mathf.Max(minCameraSizeH, minCameraSizeV);
 
-            SpendCurrency(30);
-
-            towers.Add(tileKey, towerObject);
-        }
-        else if (TilePositionHasTower(tilePosition))
-        {
-            Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
-            if (towers.TryGetValue(tileKey, out GameObject existingTower))
+            if (minCameraSize >= 0.1f && minCameraSize < 1000.0f)
             {
-                Destroy(existingTower);
-
-                towers.Remove(GetTileKeyFromTilePosition(tilePosition));
-                Vector3 instantiationPosition = tilePosition + towerPrefab.transform.position;
-
-                GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
-
-                SpendCurrency(30);
-
-                towers.Add(tileKey, towerObject);
+                camera.transform.position = newCameraPosition;
+                camera.orthographicSize = minCameraSize;
             }
         }
-        else
-        {
-            Debug.Log("not enough money to purchase the item");
-        }
-    }
-
-    public void SetLoadedLevel(GameObject loadedLevel)
-    {
-        levelInstance = loadedLevel;
-    }
-
-    public bool TilePositionHasTower(Vector3Int tilePosition)
-    {
-        Vector2Int tileKey = GetTileKeyFromTilePosition(tilePosition);
-
-        bool result = towers.ContainsKey(tileKey);
-
-        return result;
-    }
-
-    private static Vector3Int GetTilePositionFromScreenPosition(Camera camera, Tilemap tilemap, Vector2 screenPosition)
-    {
-        Vector3 mouseWorldPosition = camera.ScreenToWorldPoint(screenPosition);
-
-        Vector3Int result = tilemap.WorldToCell(mouseWorldPosition);
-
-        return result;
     }
 
     private void Awake()
@@ -230,39 +349,15 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void HideTowerMenu()
-    {
-        towerMenu.Hide();
-        Time.timeScale = 1;
-    }
-
     private void FixedUpdate()
     {
         HandleEnemySpawning(); // also calls WinMessage
     }
 
-    public void UpgradeTower()
+    private void HideTowerMenu()
     {
-        towerMenu.SetCurrentTower(selectedTower);
-        SpendCurrency(20);
-    }
-
-    public void SellPlacedTower()
-    {
-        if (selectedTower != null)
-        {
-            towerMenu.SellTower(selectedTower);
-            Vector3Int towerTilePosition = tilemap.WorldToCell(selectedTower.transform.position);
-            Vector2Int tileKey = GetTileKeyFromTilePosition(towerTilePosition);
-
-            if (towers.ContainsKey(tileKey))
-            {
-                towers.Remove(tileKey);
-            }
-
-            IncreaseCurrency(15);
-            selectedTower = null;
-        }
+        towerMenu.Hide();
+        Time.timeScale = 1;
     }
 
     private void HandleClickOnTile()
@@ -291,10 +386,6 @@ public class LevelManager : MonoBehaviour
             if (tile == this.grass)
             {
                 towerOptionsBar.ShowForTile(tilePosition, tileWorldPosition);
-            }
-            else if (tile == this.path)
-            {
-                PlaceTowerAtTile(this.blockade, tilePosition);
             }
         }
         else
@@ -336,7 +427,7 @@ public class LevelManager : MonoBehaviour
 
         if (enemySpawner.State == EnemySpawner.SpawnerState.Done) // win case
         {
-            this.HUD.ShowGameOverScreen(playerLives, bestTry);
+            this.hud.ShowGameOverScreen(playerLives, bestTry);
         }
     }
 
@@ -378,12 +469,7 @@ public class LevelManager : MonoBehaviour
         {
             BaseTower tower = towerObject.GetComponent<BaseTower>();
 
-            if (tower is Blockade)
-            {
-                Blockade blockade = (Blockade)tower;
-
-                blockade.Reset();
-            }
+            // TODO: Remove not needed
         }
     }
 
@@ -396,86 +482,7 @@ public class LevelManager : MonoBehaviour
         this.levelInfo = level.GetComponent<LevelInfo>();
         this.tilemap = level.GetComponentInChildren<Tilemap>();
         this.enemyPath = ExtractPathFromLevel(level);
-        this.playerLives = levelInfo.playerLives;
-    }
-
-    public void IncreaseCurrency(int amount)
-    {
-        currency += amount;
-        UpdateUI();
-    }
-
-    public bool SpendCurrency(int amount)
-    {
-        if (amount <= currency)
-        {
-            currency -= amount;
-            UpdateUI();
-            return true;
-        }
-        else
-        {
-            Debug.Log("Not enough money to purchase this item");
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// Load the first level by default. This is for starting from the GameScene in the editor.
-    /// </summary>
-    private static GameObject InstantiateDefaultLevel()
-    {
-        GameObject level = LevelSelection.LoadLevel(1);
-
-        GameObject result = InstantiateLevel(level);
-
-        return result;
-    }
-
-    /// <summary>
-    /// Sets up the camera to center on and show the entire gameplayArea of level.
-    /// </summary>
-    private static void FocusCameraOnGameplayArea(Camera camera, Bounds gameplayArea)
-    {
-        Vector3 oldCameraPosition = camera.transform.position;
-        Vector3 newCameraPosition;
-
-        Vector3 gameplayAreaCenter = gameplayArea.center;
-
-        if (float.IsFinite(gameplayAreaCenter.x) &&
-            float.IsFinite(gameplayAreaCenter.x))
-        {
-            newCameraPosition.x = gameplayAreaCenter.x;
-            newCameraPosition.y = gameplayAreaCenter.y;
-            newCameraPosition.z = oldCameraPosition.z;
-
-            float minCameraSizeH = gameplayArea.extents.y;
-            float minCameraSizeV = gameplayArea.extents.x / camera.aspect;
-
-            float minCameraSize = Mathf.Max(minCameraSizeH, minCameraSizeV);
-
-            if (minCameraSize >= 0.1f && minCameraSize < 1000.0f)
-            {
-                camera.transform.position = newCameraPosition;
-                camera.orthographicSize = minCameraSize;
-            }
-        }
-    }
-
-    public GameObject GetLevelInstance()
-    {
-        return levelInstance;
-    }
-
-    public void UpdateUI()
-    {
-        if (currencyUI != null)
-        {
-            currencyUI.text = "Currency: " + currency;
-        }
-        else
-        {
-        }
+        this.playerLives = levelInfo.PlayerLives;
     }
 
 #if UNITY_EDITOR
