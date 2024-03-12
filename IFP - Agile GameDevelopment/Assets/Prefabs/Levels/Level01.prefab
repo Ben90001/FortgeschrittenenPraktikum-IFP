@@ -1763,7 +1763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36a3febae7675f48ab92038e928d09e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLives: 10
+  PlayerLives: 10
   GameplayArea:
     m_Center: {x: 1.5, y: -1, z: 0}
     m_Extent: {x: 8.5, y: 4, z: 5}
