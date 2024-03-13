@@ -28,7 +28,7 @@ public class HUD : MonoBehaviour
     {
         if (currencyUI != null)
         {
-            currencyUI.text = "Currency: " + currency;
+            currencyUI.text = ""+currency;
         }
         else
         {
@@ -37,13 +37,14 @@ public class HUD : MonoBehaviour
 
         if (playerLivesUI != null)
         {
-            playerLivesUI.text = "Lives: " + playerLives;
+            playerLivesUI.text = ""+playerLives;
         }
         else
         {
             Debug.LogWarning("PlayerLives is null");
         }
     }
+
     public void ShowGameOverScreen(int playerLives, int bestTry)
     {
         Debug.Log("ShowGameOverScreen called");
