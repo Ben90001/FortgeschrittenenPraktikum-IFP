@@ -96,8 +96,6 @@ public class HUD : MonoBehaviour
         Debug.Log("OpenPauseMenue called");
         Time.timeScale = 0;
         PauseMenuScreen.SetActive(true);
-        //TODO: disable tower placement
-
     }
 
     private void ClosePauseMenu()
@@ -105,8 +103,6 @@ public class HUD : MonoBehaviour
         Debug.Log("ClosePauseMenue called");
         Time.timeScale = 1;
         PauseMenuScreen.SetActive(false);
-        //TODO: enable tower placement
-
     }
 
 }
