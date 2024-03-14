@@ -2,7 +2,6 @@ public class SniperTower : BaseTower
 {
     protected override void TowerUpgrade()
     {
-        // TODO: Add funtionality
     }
 
     protected override bool PerformAction()
