@@ -8,12 +8,14 @@ public class HUD : MonoBehaviour
 {
     public GameObject DefeatScreen;
     public GameObject WinScreen;
-
+    public GameObject PauseMenuScreen;
 
     [SerializeField]
     private TextMeshProUGUI currencyUI;
     [SerializeField]
     private TextMeshProUGUI playerLivesUI;
+
+    public bool GameIsPaused = false;
 
 
     void Start()
@@ -21,7 +23,7 @@ public class HUD : MonoBehaviour
     }
     void Update()
     {
-        //UpdateHUD called in LevelManager
+        //UpdateHUD called in LevelManager.Update()
     }
 
     public void UpdateHUD(int currency, int playerLives)
@@ -75,9 +77,36 @@ public class HUD : MonoBehaviour
         
     }
 
-
-    public void ShowPauseMenu()
+    public void TogglePauseMenu()
     {
-        Debug.Log("PauseMenue called");
+        if (GameIsPaused)
+        {
+            ClosePauseMenu();
+            GameIsPaused = false;
+        }
+        else
+        {
+            OpenPauseMenu();
+            GameIsPaused = true;
+        }
     }
+
+    private void OpenPauseMenu()
+    {
+        Debug.Log("OpenPauseMenue called");
+        Time.timeScale = 0;
+        PauseMenuScreen.SetActive(true);
+        //TODO: disable tower placement
+
+    }
+
+    private void ClosePauseMenu()
+    {
+        Debug.Log("ClosePauseMenue called");
+        Time.timeScale = 1;
+        PauseMenuScreen.SetActive(false);
+        //TODO: enable tower placement
+
+    }
+
 }
