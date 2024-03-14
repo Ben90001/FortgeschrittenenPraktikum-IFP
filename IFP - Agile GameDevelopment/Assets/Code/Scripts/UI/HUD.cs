@@ -74,4 +74,10 @@ public class HUD : MonoBehaviour
         }
         
     }
+
+
+    public void ShowPauseMenu()
+    {
+        Debug.Log("PauseMenue called");
+    }
 }
