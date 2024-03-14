@@ -492,6 +492,8 @@ GameObject:
   - component: {fileID: 6149418879694643157}
   - component: {fileID: 2411258423385638623}
   - component: {fileID: 8587730496793748370}
+  - component: {fileID: 2427705441271984433}
+  - component: {fileID: 2250564173793830656}
   m_Layer: 5
   m_Name: PopUpCanvas
   m_TagString: Untagged
@@ -594,6 +596,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9d6b469c4f24ea89d0dd99bf49330a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!222 &2427705441271984433
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6105775017026916986}
+  m_CullTransparentMesh: 1
+--- !u!114 &2250564173793830656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6105775017026916986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &7088137274889564633
 GameObject:
   m_ObjectHideFlags: 0
