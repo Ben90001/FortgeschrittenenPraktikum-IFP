@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BaseTower : MonoBehaviour
@@ -70,6 +71,25 @@ public abstract class BaseTower : MonoBehaviour
         }
 
         return bestTarget;
+    }
+
+    protected Enemy[] FindAllTargets(float radius)
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+
+        List<Enemy> targets = new List<Enemy>();
+
+        foreach (Collider2D collider in colliders)
+        {
+            Enemy target = collider.GetComponent<Enemy>();
+
+            if (target != null)
+            {
+                targets.Add(target);
+            }
+        }
+
+        return targets.ToArray();
     }
 
     protected void ShootBulletAtTarget(GameObject bulletPrefab, Enemy target)

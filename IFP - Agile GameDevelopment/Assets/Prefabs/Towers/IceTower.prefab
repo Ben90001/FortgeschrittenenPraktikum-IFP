@@ -346,9 +346,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6317042893662626498}
   - component: {fileID: 6767461917470108294}
-  - component: {fileID: 5765358422940600327}
-  - component: {fileID: 7526677395552289137}
   - component: {fileID: 8633962570282002236}
+  - component: {fileID: 617232870872671902}
+  - component: {fileID: 1516315692489773767}
   m_Layer: 0
   m_Name: IceTower
   m_TagString: IceTower
@@ -429,7 +429,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &5765358422940600327
+--- !u!114 &8633962570282002236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2470274480427488482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e26a1efcd7b6f40888a605c687a075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
+  secondsBetweenActions: 0.05
+  actionRadius: 2
+  bulletDamage: 0
+  bulletSpeed: 0
+  slowFactor: 0.5
+  slowTime: 0.075
+--- !u!58 &617232870872671902
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -463,8 +482,8 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.75
---- !u!50 &7526677395552289137
+  m_Radius: 2
+--- !u!50 &1516315692489773767
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -491,24 +510,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8633962570282002236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2470274480427488482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4e26a1efcd7b6f40888a605c687a075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
-  secondsBetweenActions: 0.1
-  actionRadius: 2
-  bulletDamage: 0
-  bulletSpeed: 0
-  SlowFactor: 0.2
 --- !u!1 &2719074032158779486
 GameObject:
   m_ObjectHideFlags: 0

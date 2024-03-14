@@ -68,7 +68,12 @@ PrefabInstance:
       propertyPath: SlowFactor
       value: 0.1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8633962570282002236, guid: 540cab74d8e66bf4584d648e52dc8443, type: 3}
+      propertyPath: slowFactor
+      value: 0.25
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7526677395552289137, guid: 540cab74d8e66bf4584d648e52dc8443, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

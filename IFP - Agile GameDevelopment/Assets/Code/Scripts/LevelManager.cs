@@ -161,6 +161,7 @@ public class LevelManager : MonoBehaviour
     public void IncreaseCurrency(int amount)
     {
         currency += amount;
+
         UpdateUI();
     }
 

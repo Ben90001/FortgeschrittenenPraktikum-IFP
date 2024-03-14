@@ -13,21 +13,21 @@ public struct EnemyPath
     {
         if (path != null && path.Length > 0)
         {
-            this.waypoints = new Vector2[path.Length];
+            waypoints = new Vector2[path.Length];
 
-            path.CopyTo(this.waypoints, 0);
+            path.CopyTo(waypoints, 0);
 
-            ApplyPerpendicularOffsetToPath(this.waypoints, perpendicularOffset);
+            ApplyPerpendicularOffsetToPath(waypoints, perpendicularOffset);
         }
         else
         {
-            this.waypoints = new Vector2[1];
+            waypoints = new Vector2[1];
         }
 
-        this.pathLength = CalculateTotalPathLength(this.waypoints);
-        this.remainingPathLength = this.pathLength;
+        pathLength = CalculateTotalPathLength(waypoints);
+        remainingPathLength = pathLength;
 
-        this.targetWaypoint = 0;
+        targetWaypoint = 0;
     }
 
     public float RemainingPathLength
@@ -107,7 +107,7 @@ public struct EnemyPath
 
                 float distance = Vector2.Distance(waypoint0, waypoint1);
 
-                this.remainingPathLength -= distance;
+                remainingPathLength -= distance;
             }
 
             ++targetWaypoint;
