@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 5797494728727911295}
   - component: {fileID: 2627846582275622869}
   m_Layer: 0
-  m_Name: BasicTowerPrefab
+  m_Name: BasicTower
   m_TagString: BasicTower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -316,9 +316,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee82e5ef9958f4f4fb2ee09bfab0a590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SecondsBetweenActions: 0.25
-  actionRadius: 0
-  BulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
+  secondsBetweenActions: 0.25
+  actionRadius: 2
+  bulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
+  bulletDamage: 1
+  bulletSpeed: 20
 --- !u!1 &8522721572896697972
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
-using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
@@ -30,6 +30,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI currencyUI;
+
     [SerializeField]
     private TowerOptionsBar towerOptionsBar;
 

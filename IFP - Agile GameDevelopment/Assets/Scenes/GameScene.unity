@@ -155,11 +155,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9915eda67f97a7c4f9f1c88026a84aff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpgradedBasicTower: {fileID: 6429463773198634609, guid: 33529a8475ad65046bd95061b392f8ba, type: 3}
-  UpgradedIceTower: {fileID: 1601444023521140906, guid: 03529ddf6ed4b9b46bdfe647afd72bff, type: 3}
-  UpgradedSniperTower: {fileID: 1355658271348086211, guid: 8b0dc07d579dc8e4a8ec954750398484, type: 3}
-  UpgradedBlockade: {fileID: 0}
   levelManager: {fileID: 966348540}
+  UpgradedBasicTower: {fileID: 8882354880715832227, guid: 81603e4ff99531549b37aadf43743d93, type: 3}
+  UpgradedIceTower: {fileID: 7093835851391559277, guid: 3d9d82f010d43184c97b6332364f9abd, type: 3}
+  UpgradedSniperTower: {fileID: 2989220090050079749, guid: 205d6da1424e74e4fa8cd5b7f3bdc81e, type: 3}
 --- !u!114 &30871226
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 2143187611214571444}
   - component: {fileID: -5509523887574184620}
   m_Layer: 0
-  m_Name: SniperTowerPrefab
+  m_Name: SniperTower
   m_TagString: SniperTower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -362,11 +362,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd0da46e41bc1e4f9f0253cd362199f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SecondsBetweenActions: 0.5
-  actionRadius: 100
-  BulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
-  Damage: 5
-  BulletSpeed: 40
+  bulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
+  secondsBetweenActions: 1
+  actionRadius: 30
+  bulletDamage: 5
+  bulletSpeed: 40
 --- !u!1 &2895753149894325197
 GameObject:
   m_ObjectHideFlags: 0

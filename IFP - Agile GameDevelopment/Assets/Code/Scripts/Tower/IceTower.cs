@@ -3,15 +3,19 @@ using UnityEngine;
 
 public class IceTower : BaseTower
 {
-    public float SlowFactor = 0.001f;
+    [SerializeField]
+    public float SlowFactor;
+
     private List<Enemy> slowedEnemies = new List<Enemy>();
 
     protected override void TowerUpgrade()
     {
+        // TODO: Add funtionality
     }
 
     protected override bool PerformAction()
     {
+#if false
         bool success = false;
 
         for (int i = slowedEnemies.Count - 1; i >= 0; i--)
@@ -33,12 +37,34 @@ public class IceTower : BaseTower
         }
 
         return success;
+#endif
+        return true;
     }
 
-    private void AttackIceTower(Enemy target)
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Enemy target = collision.GetComponent<Enemy>();
+
+        if (target != null)
+        {
+            FreezeTarget(target);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        Enemy target = collision.GetComponent<Enemy>();
+
+        if (target != null)
+        {
+            target.RemoveSlow();
+        }
+    }
+
+    private void FreezeTarget(Enemy target)
     {
         target.ApplySlow(SlowFactor);
 
-        slowedEnemies.Add(target);
+        // slowedEnemies.Add(target);
     }
 }

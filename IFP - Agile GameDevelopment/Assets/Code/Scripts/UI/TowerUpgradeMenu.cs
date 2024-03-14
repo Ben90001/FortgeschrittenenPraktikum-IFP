@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class TowerUpgradeMenu : MonoBehaviour
 {
+    [SerializeField]
+    private LevelManager levelManager;
+
     public GameObject UpgradedBasicTower;
     public GameObject UpgradedIceTower;
     public GameObject UpgradedSniperTower;
-    public GameObject UpgradedBlockade;
-    public LevelManager levelManager;
 
     private GameObject currentTower;
     private Vector3Int tilePosition;
@@ -37,8 +37,6 @@ public class TowerUpgradeMenu : MonoBehaviour
         }
     }
    
-    
-
     public void SetCurrentTower(GameObject tower)
     {
         
@@ -67,15 +65,6 @@ public class TowerUpgradeMenu : MonoBehaviour
                 gameObject.SetActive(false);
                 Time.timeScale = 1f;
             }
-            if (currentTower.CompareTag("Blockade"))
-            {
-                Debug.Log("Upgrading to UpgradedBlockade");
-                levelManager.PlaceTowerAtTile(UpgradedBlockade, this.tilePosition);
-                gameObject.SetActive(false);
-                Time.timeScale = 1f;
-            }
-
-
         }
         else
         {
@@ -83,15 +72,12 @@ public class TowerUpgradeMenu : MonoBehaviour
         }
     }
 
-   
-
-
     private GameObject GetUpgradedTowerPrefab(GameObject tower)
     {
         if (tower.CompareTag("BasicTower")) return UpgradedBasicTower;
         if (tower.CompareTag("IceTower")) return UpgradedIceTower;
         if (tower.CompareTag("SniperTower")) return UpgradedSniperTower;
-        if (tower.CompareTag("Blockade")) return UpgradedBlockade;
+
         return null;
     }
 

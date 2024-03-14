@@ -2,38 +2,38 @@ using UnityEngine;
 
 public abstract class BaseTower : MonoBehaviour
 {
-    public float SecondsBetweenActions;
+    [SerializeField]
+    protected GameObject bulletPrefab;
+
+    [SerializeField]
+    protected float secondsBetweenActions;
 
     [SerializeField]
     protected float actionRadius;
 
+    [SerializeField]
+    protected float bulletDamage;
+
+    [SerializeField]
+    protected float bulletSpeed;
+
     private float actionTimer;
-
-    // private int level;
-    // private List<int> upgradeCosts;
-    // private List<Sprite> levelLook;
-
-    // private float damage;
-    // private float nextActionTime;
-    // private Color bulletColor;
-    // private Transform bulletSpawnPosition;
 
     public void FixedUpdate()
     {
-        float oldActionTimer = actionTimer;
-
-        actionTimer -= Time.fixedDeltaTime;
-
-        if (actionTimer <= 0.0f)
+        if (secondsBetweenActions > 0.0f)
         {
-            if (PerformAction())
+            float newActionTimer = actionTimer - Time.fixedDeltaTime;
+
+            if (newActionTimer <= 0.0f)
             {
-                actionTimer = SecondsBetweenActions;
+                if (PerformAction())
+                {
+                    newActionTimer = secondsBetweenActions;
+                }
             }
-            else
-            {
-                actionTimer = oldActionTimer;
-            }
+
+            actionTimer = newActionTimer;
         }
     }
 
@@ -41,6 +41,11 @@ public abstract class BaseTower : MonoBehaviour
 
     protected abstract bool PerformAction();
 
+    /// <summary>
+    /// Finds the best target to shoot. The best target is the one closest to its goal.
+    /// </summary>
+    /// <param name="radius">The radius to search.</param>
+    /// <returns>The found target. Null if no target was found.</returns>
     protected Enemy FindBestTarget(float radius)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
@@ -67,14 +72,40 @@ public abstract class BaseTower : MonoBehaviour
         return bestTarget;
     }
 
+    protected void ShootBulletAtTarget(GameObject bulletPrefab, Enemy target)
+    {
+        GameObject bulletObject = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+
+        Bullet bullet = bulletObject.GetComponent<Bullet>();
+
+        bullet.Target = target;
+        bullet.Damage = bulletDamage;
+        bullet.Speed = bulletSpeed;
+    }
+
 #if UNITY_EDITOR
 
 #pragma warning disable SA1202
+#pragma warning disable SA1201
+
+    public float Test_SecondsBetweenActions
+    {
+        get { return secondsBetweenActions; }
+    }
 
     public float Test_GetActionTimer()
     {
         return actionTimer;
     }
 
+    public bool Test_PerformAction()
+    {
+        return PerformAction();
+    }
+
+    public Enemy Test_FindBestTarget()
+    {
+        return FindBestTarget(actionRadius);
+    }
 #endif
 }
