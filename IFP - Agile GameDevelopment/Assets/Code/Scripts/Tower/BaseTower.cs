@@ -78,9 +78,7 @@ public abstract class BaseTower : MonoBehaviour
 
         Bullet bullet = bulletObject.GetComponent<Bullet>();
 
-        bullet.Target = target;
-        bullet.Damage = bulletDamage;
-        bullet.Speed = bulletSpeed;
+        bullet.Initialize(target, bulletSpeed, bulletDamage);
     }
 
 #if UNITY_EDITOR
