@@ -351,8 +351,13 @@ public class LevelManager : MonoBehaviour
 
     private void HideTowerMenu()
     {
+        //TODO: paused game until first tower is placed
         towerMenu.Hide();
-        Time.timeScale = 1;
+        if (!hud.GameIsPaused)
+        {
+            Time.timeScale = 1;
+        }
+        
     }
 
     private void HandleClickOnTile()
