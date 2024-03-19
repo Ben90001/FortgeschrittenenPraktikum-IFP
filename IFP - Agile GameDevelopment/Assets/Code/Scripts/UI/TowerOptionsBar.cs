@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class TowerOptionsBar : MonoBehaviour
 {
-    public LevelManager levelManager;
+    [SerializeField]
+    private LevelManager levelManager;
 
-    public Vector3Int tilePosition;
+    private Vector3Int tilePosition;
 
     public void ShowForTile(Vector3Int tilePosition, Vector3 tileWorldPosition)
     {

@@ -3,6 +3,9 @@ using UnityEngine;
 public class TowerUpgradeMenu : MonoBehaviour
 {
     [SerializeField]
+    private LevelManager levelManager;
+
+    [SerializeField]
     private GameObject upgradedBasicTower;
 
     [SerializeField]
@@ -10,9 +13,6 @@ public class TowerUpgradeMenu : MonoBehaviour
 
     [SerializeField] 
     private GameObject upgradedSniperTower;
-
-    [SerializeField]
-    private LevelManager levelManager;
 
     private GameObject currentTower;
     private Vector3Int tilePosition;
