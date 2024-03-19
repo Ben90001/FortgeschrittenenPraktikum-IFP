@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static Codice.CM.Common.CmCallContext;
 
 public class HUD : MonoBehaviour
 {
@@ -16,15 +13,6 @@ public class HUD : MonoBehaviour
     private TextMeshProUGUI playerLivesUI;
 
     public bool GameIsPaused = false;
-
-
-    void Start()
-    {
-    }
-    void Update()
-    {
-        //UpdateHUD called in LevelManager.Update()
-    }
 
     public void UpdateHUD(int currency, int playerLives)
     {
@@ -50,12 +38,15 @@ public class HUD : MonoBehaviour
     public void ShowGameOverScreen(int playerLives, int bestTry)
     {
         Debug.Log("ShowGameOverScreen called");
+
         Time.timeScale = 0;
+
         if (playerLives <= 0)
         {
             if (DefeatScreen != null)
             {
-                //TODO: update bestTry in PlayerInfo
+                //TODO: Update bestTry in PlayerInfo
+
                 DefeatScreen.SetActive(true);
             }
             else
@@ -82,11 +73,13 @@ public class HUD : MonoBehaviour
         if (GameIsPaused)
         {
             ClosePauseMenu();
+
             GameIsPaused = false;
         }
         else
         {
             OpenPauseMenu();
+
             GameIsPaused = true;
         }
     }
@@ -94,15 +87,18 @@ public class HUD : MonoBehaviour
     private void OpenPauseMenu()
     {
         Debug.Log("OpenPauseMenue called");
+
         Time.timeScale = 0;
+
         PauseMenuScreen.SetActive(true);
     }
 
     private void ClosePauseMenu()
     {
         Debug.Log("ClosePauseMenue called");
+
         Time.timeScale = 1;
+
         PauseMenuScreen.SetActive(false);
     }
-
 }
