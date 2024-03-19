@@ -2,25 +2,30 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float Speed;
-    public float Damage = 1.0f;
+    private Enemy target;
+    private float speed;
+    private float damage;
 
-    [HideInInspector]
-    public Enemy Target;
+    public void Initialize(Enemy target, float speed, float damage)
+    {
+        this.target = target;
+        this.speed = speed;
+        this.damage = damage;
+    }
 
     public void FixedUpdate()
     {
         // TODO: How should bullets react when the target is destroyed before it could be reached?
         
-        if (Target != null && Target.gameObject != null)
+        if (target != null && target.gameObject != null)
         {
-            Vector3 targetPosition = Target.transform.position;
+            Vector3 targetPosition = target.transform.position;
             Vector3 currentPosition = transform.position;
 
             Vector3 direction = targetPosition - currentPosition;
 
             float distanceToTarget = direction.magnitude;
-            float distanceToTravel = Speed * Time.fixedDeltaTime;
+            float distanceToTravel = speed * Time.fixedDeltaTime;
 
             if (distanceToTarget > distanceToTravel)
             {
@@ -28,9 +33,7 @@ public class Bullet : MonoBehaviour
             }
             else
             {
-                // TODO: Add damage stats
-
-                Target.ApplyDamage(Damage);
+                target.ApplyDamage(damage);
 
                 Destroy(gameObject);
             }

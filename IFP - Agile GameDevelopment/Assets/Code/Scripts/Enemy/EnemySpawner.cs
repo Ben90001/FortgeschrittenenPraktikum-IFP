@@ -46,9 +46,9 @@ public struct EnemySpawner
     {
         bool spawn = false;
 
-        this.timer += timeStep;
+        timer += timeStep;
 
-        switch (this.state)
+        switch (state)
         {
             case SpawnerState.Initialized:
                 break;
@@ -74,7 +74,7 @@ public struct EnemySpawner
     {
         bool result = false;
 
-        if (this.state == SpawnerState.Spawning && this.remainingEnemyCount <= 0)
+        if (state == SpawnerState.Spawning && remainingEnemyCount <= 0)
         {
             result = true;
         }
@@ -107,9 +107,9 @@ public struct EnemySpawner
     {
         Wave result = default;
 
-        if (this.waves != null && this.currentWaveIndex < this.waves.Length)
+        if (waves != null && currentWaveIndex < waves.Length)
         {
-            result = this.waves[this.currentWaveIndex];
+            result = waves[currentWaveIndex];
         }
 
         return result;
@@ -119,7 +119,7 @@ public struct EnemySpawner
     {
         bool result = false;
 
-        if (this.waves != null && this.currentWaveIndex < this.waves.Length)
+        if (waves != null && currentWaveIndex < waves.Length)
         {
             result = true;
         }
@@ -137,13 +137,13 @@ public struct EnemySpawner
         {
             Wave wave = GetCurrentWave();
 
-            if (this.remainingEnemyCount > 0 && this.timer > wave.SecondsBetweenSpawns)
+            if (remainingEnemyCount > 0 && timer > wave.SecondsBetweenSpawns)
             {
                 spawn = true;
 
-                this.timer -= wave.SecondsBetweenSpawns;
+                timer -= wave.SecondsBetweenSpawns;
 
-                --this.remainingEnemyCount;
+                --remainingEnemyCount;
             }
         }
 
@@ -152,7 +152,7 @@ public struct EnemySpawner
 
     private void HandleCooldownBetweenWaves()
     {
-        if (this.timer > SecondsBetweenWaves)
+        if (timer > SecondsBetweenWaves)
         {
             StartSpawningCurrentWave();
         }
@@ -160,15 +160,15 @@ public struct EnemySpawner
 
     private void LoadNextWave()
     {
-        ++this.currentWaveIndex;
+        ++currentWaveIndex;
 
-        this.timer = 0;
-        this.state = SpawnerState.BetweenWaves;
+        timer = 0;
+        state = SpawnerState.BetweenWaves;
     }
 
     private void StartSpawningCurrentWave()
     {
-        this.timer = 0;
+        timer = 0;
 
         bool hasCurrentWave = HasCurrentWave();
 
@@ -176,12 +176,12 @@ public struct EnemySpawner
         {
             Wave wave = GetCurrentWave();
 
-            this.state = SpawnerState.Spawning;
-            this.remainingEnemyCount = wave.EnemyCount;
+            state = SpawnerState.Spawning;
+            remainingEnemyCount = wave.EnemyCount;
         }
         else
         {
-            this.state = SpawnerState.Done;
+            state = SpawnerState.Done;
         }
     }
 }

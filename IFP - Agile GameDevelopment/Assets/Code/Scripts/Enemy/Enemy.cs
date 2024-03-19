@@ -12,13 +12,11 @@ public class Enemy : MonoBehaviour
 
     private EnemyPath path;
 
-    private float health;
-
     private new Rigidbody2D rigidbody;
 
-    private bool isSlowed = false;
+    private float health;
 
-    private float originalMovementSpeed;
+    private float slowFactor;
 
     /// <summary>
     /// Initializes the enemy.
@@ -32,6 +30,7 @@ public class Enemy : MonoBehaviour
         this.levelManager = levelManager;
         this.health = health;
         this.rigidbody = GetComponent<Rigidbody2D>();
+        this.slowFactor = 1.0f;
 
         InitializePath(waypoints, offset);
 
@@ -56,35 +55,31 @@ public class Enemy : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// Apply specified amount of damage to self. Destroys self if health falls below 0.
+    /// </summary>
+    /// <param name="amount">Amount of damage.</param>
     public void ApplyDamage(float amount)
     {
         health -= amount;
 
         if (health <= 0.0f)
         {
-            // TODO: Handle destroyed enemy
-            // TODO: Handel Currency for Kill
             levelManager.IncreaseCurrency(currencyWorth);
+
             Destroy(gameObject);
         }
     }
 
-    public void ApplySlow(float factor)
+    /// <summary>
+    /// Apply slow effect to self.
+    /// </summary>
+    /// <param name="slowFactor">The slow factor to apply.</param>
+    public void ApplySlow(float slowFactor)
     {
-        if (!isSlowed)
+        if (slowFactor < this.slowFactor)
         {
-            isSlowed = true;
-            originalMovementSpeed = movementSpeed;
-            movementSpeed *= factor;
-        }
-    }
-
-    public void RemoveSlow()
-    {
-        if (isSlowed)
-        {
-            isSlowed = false;
-            movementSpeed = originalMovementSpeed;
+            this.slowFactor = slowFactor;
         }
     }
 
@@ -140,13 +135,20 @@ public class Enemy : MonoBehaviour
 
             Destroy(gameObject);
         }
+
+        slowFactor = 1.0f;
+    }
+
+    private float GetCurrentMovementSpeed()
+    {
+        return movementSpeed * slowFactor;
     }
 
     private bool FollowPath()
     {
         bool hasReachedEnd = false;
 
-        float distanceToTravel = Time.fixedDeltaTime * this.movementSpeed;
+        float distanceToTravel = Time.fixedDeltaTime * GetCurrentMovementSpeed();
 
         if (distanceToTravel > 0.0f)
         {
@@ -158,7 +160,7 @@ public class Enemy : MonoBehaviour
 
     private void InitializePath(Vector2[] waypoints, float offset)
     {
-        this.path = new EnemyPath(waypoints, offset);
+        path = new EnemyPath(waypoints, offset);
     }
 
     private void InitializePositionFromPath(EnemyPath path)

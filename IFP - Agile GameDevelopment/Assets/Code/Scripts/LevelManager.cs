@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
-using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
@@ -304,7 +304,6 @@ public class LevelManager : MonoBehaviour
             {
                 if (towerMenu.gameObject.activeSelf)
                 {
-                    // Verbergen des TowerMenu, wenn es aktiv ist und au�erhalb geklickt wird
                     HideTowerMenu();
                 }
                 else if (!towerOptionsBar.gameObject.activeSelf)

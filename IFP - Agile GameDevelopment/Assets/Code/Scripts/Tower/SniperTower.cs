@@ -1,14 +1,5 @@
-using UnityEngine;
-
 public class SniperTower : BaseTower
 {
-    public GameObject BulletPrefab;
-
-    public float Damage;
-    public float BulletSpeed;
-
-    private Enemy target;
-
     protected override void TowerUpgrade()
     {
     }
@@ -21,12 +12,7 @@ public class SniperTower : BaseTower
 
         if (target != null)
         {
-            GameObject bulletObject = Instantiate(BulletPrefab, transform.position, Quaternion.identity);
-
-            Bullet bullet = bulletObject.GetComponent<Bullet>();
-            bullet.Damage = this.Damage;
-            bullet.Speed = this.BulletSpeed;
-            bullet.Target = target;
+            ShootBulletAtTarget(bulletPrefab, target);
 
             success = true;
         }
