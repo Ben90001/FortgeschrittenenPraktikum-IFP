@@ -8,4 +8,3 @@ public class LoadMenuScene : MonoBehaviour
         SceneManager.LoadScene("MenuScene");
     }
 }
-
