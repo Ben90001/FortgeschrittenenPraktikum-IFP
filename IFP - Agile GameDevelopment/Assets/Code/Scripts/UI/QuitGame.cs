@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SampleScript : MonoBehaviour
+public class QuitGame : MonoBehaviour
 {
     public void Exit()
     {
