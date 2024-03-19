@@ -156,9 +156,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelManager: {fileID: 966348540}
-  UpgradedBasicTower: {fileID: 8882354880715832227, guid: 81603e4ff99531549b37aadf43743d93, type: 3}
-  UpgradedIceTower: {fileID: 7093835851391559277, guid: 3d9d82f010d43184c97b6332364f9abd, type: 3}
-  UpgradedSniperTower: {fileID: 2989220090050079749, guid: 205d6da1424e74e4fa8cd5b7f3bdc81e, type: 3}
+  upgradedBasicTower: {fileID: 8882354880715832227, guid: 81603e4ff99531549b37aadf43743d93, type: 3}
+  upgradedIceTower: {fileID: 7093835851391559277, guid: 3d9d82f010d43184c97b6332364f9abd, type: 3}
+  upgradedSniperTower: {fileID: 2989220090050079749, guid: 205d6da1424e74e4fa8cd5b7f3bdc81e, type: 3}
 --- !u!114 &30871226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1042,9 +1042,9 @@ MonoBehaviour:
   DefeatScreen: {fileID: 1660850102}
   WinScreen: {fileID: 1657771373}
   PauseMenuScreen: {fileID: 1412990162}
+  GameIsPaused: 0
   currencyUI: {fileID: 53253908}
   playerLivesUI: {fileID: 2117009742}
-  GameIsPaused: 0
 --- !u!1 &759901968
 GameObject:
   m_ObjectHideFlags: 0
@@ -3922,7 +3922,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelManager: {fileID: 966348540}
-  tilePosition: {x: 0, y: 0, z: 0}
 --- !u!114 &7111903290474390730
 MonoBehaviour:
   m_ObjectHideFlags: 0
