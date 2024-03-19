@@ -7,18 +7,19 @@ public class HUD : MonoBehaviour
     public GameObject WinScreen;
     public GameObject PauseMenuScreen;
 
+    public bool GameIsPaused = false;
+
     [SerializeField]
     private TextMeshProUGUI currencyUI;
+
     [SerializeField]
     private TextMeshProUGUI playerLivesUI;
-
-    public bool GameIsPaused = false;
 
     public void UpdateHUD(int currency, int playerLives)
     {
         if (currencyUI != null)
         {
-            currencyUI.text = ""+currency;
+            currencyUI.text = "" + currency;
         }
         else
         {
@@ -27,7 +28,7 @@ public class HUD : MonoBehaviour
 
         if (playerLivesUI != null)
         {
-            playerLivesUI.text = ""+playerLives;
+            playerLivesUI.text = "" + playerLives;
         }
         else
         {
@@ -45,7 +46,7 @@ public class HUD : MonoBehaviour
         {
             if (DefeatScreen != null)
             {
-                //TODO: Update bestTry in PlayerInfo
+                // TODO: Update bestTry in PlayerInfo
 
                 DefeatScreen.SetActive(true);
             }
@@ -56,7 +57,7 @@ public class HUD : MonoBehaviour
         }
         else
         {
-            if(WinScreen != null)
+            if (WinScreen != null)
             {
                 WinScreen.SetActive(true);
             }
@@ -65,7 +66,6 @@ public class HUD : MonoBehaviour
                 Debug.LogWarning("WinScreen is Null!");
             }
         }
-        
     }
 
     public void TogglePauseMenu()

@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class TowerUpgradeMenu : MonoBehaviour
 {
-    [SerializeField]
-    private LevelManager levelManager;
-
     public GameObject UpgradedBasicTower;
     public GameObject UpgradedIceTower;
     public GameObject UpgradedSniperTower;
+
+    [SerializeField]
+    private LevelManager levelManager;
 
     private GameObject currentTower;
     private Vector3Int tilePosition;
@@ -33,17 +33,17 @@ public class TowerUpgradeMenu : MonoBehaviour
                 Instantiate(upgradedTowerPrefab, tilePosition, Quaternion.identity);
                 Hide();
             }
-            
         }
     }
    
     public void SetCurrentTower(GameObject tower)
     {
-        
         currentTower = tower;
+        
         if (currentTower != null)
         {
             Debug.Log("Ausgewählter Turm: " + currentTower.name);
+            
             if (currentTower.CompareTag("BasicTower"))
             {
                 Debug.Log("Upgrading to UpgradedBasicTower");
@@ -51,6 +51,7 @@ public class TowerUpgradeMenu : MonoBehaviour
                 gameObject.SetActive(false);
                 Time.timeScale = 1f;
             }
+            
             if (currentTower.CompareTag("SniperTower"))
             {
                 Debug.Log("Upgrading to UpgradedSniperTower");
@@ -58,6 +59,7 @@ public class TowerUpgradeMenu : MonoBehaviour
                 gameObject.SetActive(false);
                 Time.timeScale = 1f;
             }
+            
             if (currentTower.CompareTag("IceTower"))
             {
                 Debug.Log("Upgrading to UpgradedIceTower");
@@ -70,15 +72,6 @@ public class TowerUpgradeMenu : MonoBehaviour
         {
             Debug.LogError("SetCurrentTower wurde mit einem null-GameObject aufgerufen.");
         }
-    }
-
-    private GameObject GetUpgradedTowerPrefab(GameObject tower)
-    {
-        if (tower.CompareTag("BasicTower")) return UpgradedBasicTower;
-        if (tower.CompareTag("IceTower")) return UpgradedIceTower;
-        if (tower.CompareTag("SniperTower")) return UpgradedSniperTower;
-
-        return null;
     }
 
     public void SellTower(GameObject selectedtower)
@@ -95,5 +88,25 @@ public class TowerUpgradeMenu : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    private GameObject GetUpgradedTowerPrefab(GameObject tower)
+    {
+        if (tower.CompareTag("BasicTower"))
+        {
+            return UpgradedBasicTower;
+        }
+
+        if (tower.CompareTag("IceTower")) 
+        {
+            return UpgradedIceTower;
+        }
+
+        if (tower.CompareTag("SniperTower"))
+        {
+            return UpgradedSniperTower;
+        }
+
+        return null;
     }
 }
