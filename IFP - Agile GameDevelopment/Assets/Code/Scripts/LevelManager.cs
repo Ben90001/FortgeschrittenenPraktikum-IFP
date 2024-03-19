@@ -322,7 +322,6 @@ public class LevelManager : MonoBehaviour
             {
                 if (towerMenu.gameObject.activeSelf)
                 {
-                    // Verbergen des TowerMenu, wenn es aktiv ist und au�erhalb geklickt wird
                     HideTowerMenu();
                 }
                 else if (!towerOptionsBar.gameObject.activeSelf)
