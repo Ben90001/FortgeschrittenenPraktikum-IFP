@@ -2,9 +2,14 @@ using UnityEngine;
 
 public class TowerUpgradeMenu : MonoBehaviour
 {
-    public GameObject UpgradedBasicTower;
-    public GameObject UpgradedIceTower;
-    public GameObject UpgradedSniperTower;
+    [SerializeField]
+    private GameObject upgradedBasicTower;
+
+    [SerializeField]
+    private GameObject upgradedIceTower;
+
+    [SerializeField] 
+    private GameObject upgradedSniperTower;
 
     [SerializeField]
     private LevelManager levelManager;
@@ -47,7 +52,7 @@ public class TowerUpgradeMenu : MonoBehaviour
             if (currentTower.CompareTag("BasicTower"))
             {
                 Debug.Log("Upgrading to UpgradedBasicTower");
-                levelManager.PlaceTowerAtTile(UpgradedBasicTower, this.tilePosition);
+                levelManager.PlaceTowerAtTile(upgradedBasicTower, this.tilePosition);
                 gameObject.SetActive(false);
                 Time.timeScale = 1f;
             }
@@ -55,7 +60,7 @@ public class TowerUpgradeMenu : MonoBehaviour
             if (currentTower.CompareTag("SniperTower"))
             {
                 Debug.Log("Upgrading to UpgradedSniperTower");
-                levelManager.PlaceTowerAtTile(UpgradedSniperTower, this.tilePosition);
+                levelManager.PlaceTowerAtTile(upgradedSniperTower, this.tilePosition);
                 gameObject.SetActive(false);
                 Time.timeScale = 1f;
             }
@@ -63,7 +68,7 @@ public class TowerUpgradeMenu : MonoBehaviour
             if (currentTower.CompareTag("IceTower"))
             {
                 Debug.Log("Upgrading to UpgradedIceTower");
-                levelManager.PlaceTowerAtTile(UpgradedIceTower, this.tilePosition);
+                levelManager.PlaceTowerAtTile(upgradedIceTower, this.tilePosition);
                 gameObject.SetActive(false);
                 Time.timeScale = 1f;
             }
@@ -94,17 +99,17 @@ public class TowerUpgradeMenu : MonoBehaviour
     {
         if (tower.CompareTag("BasicTower"))
         {
-            return UpgradedBasicTower;
+            return upgradedBasicTower;
         }
 
         if (tower.CompareTag("IceTower")) 
         {
-            return UpgradedIceTower;
+            return upgradedIceTower;
         }
 
         if (tower.CompareTag("SniperTower"))
         {
-            return UpgradedSniperTower;
+            return upgradedSniperTower;
         }
 
         return null;
