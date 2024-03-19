@@ -33,8 +33,6 @@ public class Bullet : MonoBehaviour
             }
             else
             {
-                // TODO: Add damage stats
-
                 target.ApplyDamage(damage);
 
                 Destroy(gameObject);

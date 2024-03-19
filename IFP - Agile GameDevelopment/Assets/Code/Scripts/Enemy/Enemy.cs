@@ -16,7 +16,6 @@ public class Enemy : MonoBehaviour
 
     private float health;
 
-    private float slowTimer;
     private float slowFactor;
 
     /// <summary>
@@ -31,7 +30,6 @@ public class Enemy : MonoBehaviour
         this.levelManager = levelManager;
         this.health = health;
         this.rigidbody = GetComponent<Rigidbody2D>();
-        this.slowTimer = 0;
         this.slowFactor = 1.0f;
 
         InitializePath(waypoints, offset);
