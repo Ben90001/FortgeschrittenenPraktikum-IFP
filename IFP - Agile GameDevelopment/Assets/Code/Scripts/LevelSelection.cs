@@ -1,3 +1,4 @@
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Assertions;
@@ -6,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelection : MonoBehaviour
 {
+    public static int LastLevelID;
+
     public static GameObject LoadedLevel;
 
     public static string GetLevelKey(int levelID)
@@ -53,14 +56,17 @@ public class LevelSelection : MonoBehaviour
     public void LoadNextLevel()
     {
         int oldLevelID = GetCurrentLevelID();
-        LoadLevelAndSwitchScene(oldLevelID + 1);
 
-        // TODO: what if there is no higher level? (last level)
+        if (oldLevelID < LastLevelID)
+        {
+            LoadLevelAndSwitchScene(oldLevelID + 1);
+        }
     }
 
     public void RestartLevel()
     {
         int levelID = GetCurrentLevelID();
+
         LoadLevelAndSwitchScene(levelID);
     }
 
