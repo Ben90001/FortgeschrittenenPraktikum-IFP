@@ -71,11 +71,6 @@ public class LevelManager : MonoBehaviour
         return result;
     }
 
-    public void SetLoadedLevel(GameObject loadedLevel)
-    {
-        levelInstance = loadedLevel;
-    }
-
     /// <summary>
     /// Decrease the player lives by one.
     /// </summary>
