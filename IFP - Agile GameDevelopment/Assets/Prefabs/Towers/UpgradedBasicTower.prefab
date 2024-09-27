@@ -407,5 +407,5 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
   secondsBetweenActions: 0.125
   actionRadius: 2.5
-  bulletDamage: 1
+  bulletDamage: 4
   bulletSpeed: 20

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelection : MonoBehaviour
 {
-    public static int LastLevelID;
+    public static int LastLevelID = 8;
 
     public static GameObject LoadedLevel;
 
@@ -75,7 +75,7 @@ public class LevelSelection : MonoBehaviour
         Assert.IsNotNull(LoadedLevel, "LoadedLevel is Null");
 
         string levelName = LoadedLevel.name;
-        int levelID = int.Parse(levelName.Substring(5, 2));
+        int levelID = int.Parse(levelName.Substring(5, 1));
 
         Debug.Log("Loaded Level has ID: " + levelID);
 

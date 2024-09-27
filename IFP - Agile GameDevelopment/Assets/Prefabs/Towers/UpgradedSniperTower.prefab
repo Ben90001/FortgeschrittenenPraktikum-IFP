@@ -189,7 +189,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1672126115985436176, guid: 622b0c68763176b4097982c53cc465f0, type: 3}
   secondsBetweenActions: 1
   actionRadius: 30
-  bulletDamage: 10
+  bulletDamage: 15
   bulletSpeed: 40
 --- !u!1 &4855374556741191394
 GameObject:
