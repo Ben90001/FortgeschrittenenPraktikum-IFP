@@ -115,8 +115,6 @@ public class LevelManager : MonoBehaviour
 
                 GameObject towerObject = Instantiate(towerPrefab, instantiationPosition, Quaternion.identity);
 
-                SpendCurrency(30);
-
                 towers.Add(tileKey, towerObject);
             }
         }
@@ -128,8 +126,10 @@ public class LevelManager : MonoBehaviour
 
     public void UpgradeTower()
     {
-        towerMenu.SetCurrentTower(selectedTower);
-        SpendCurrency(20);
+        if (SpendCurrency(50))
+        {
+            towerMenu.SetCurrentTower(selectedTower);
+        }
     }
 
     public void SellPlacedTower()

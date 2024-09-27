@@ -36,9 +36,10 @@ public class TowerUpgradeMenu : MonoBehaviour
             {
                 Destroy(currentTower);
                 Instantiate(upgradedTowerPrefab, tilePosition, Quaternion.identity);
-                Hide();
             }
         }
+
+        Hide();
     }
    
     public void SetCurrentTower(GameObject tower)
@@ -85,9 +86,11 @@ public class TowerUpgradeMenu : MonoBehaviour
         if (currentTower != null)
         {
             Destroy(currentTower);
-            Hide();
+            
             Time.timeScale = 1f;
         }
+
+        Hide();
     }
 
     public void Hide()
