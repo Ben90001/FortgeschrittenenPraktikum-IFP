@@ -61,6 +61,10 @@ public class LevelSelection : MonoBehaviour
         {
             LoadLevelAndSwitchScene(oldLevelID + 1);
         }
+        else
+        {
+            SwitchToMainMenu();
+        }
     }
 
     public void RestartLevel()
@@ -68,6 +72,11 @@ public class LevelSelection : MonoBehaviour
         int levelID = GetCurrentLevelID();
 
         LoadLevelAndSwitchScene(levelID);
+    }
+
+    private void SwitchToMainMenu()
+    {
+        SceneManager.LoadScene("MenuScene");
     }
 
     private int GetCurrentLevelID()
