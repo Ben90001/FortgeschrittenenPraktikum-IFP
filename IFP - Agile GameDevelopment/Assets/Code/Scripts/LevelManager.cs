@@ -126,9 +126,12 @@ public class LevelManager : MonoBehaviour
 
     public void UpgradeTower()
     {
-        if (SpendCurrency(50))
+        if (towerMenu.IsBasicTower(selectedTower))
         {
-            towerMenu.SetCurrentTower(selectedTower);
+            if (SpendCurrency(50))
+            {
+                towerMenu.SetCurrentTower(selectedTower);
+            }
         }
     }
 

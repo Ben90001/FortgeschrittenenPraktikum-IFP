@@ -1,3 +1,4 @@
+using GluonGui.Dialog;
 using UnityEngine;
 
 public class TowerUpgradeMenu : MonoBehaviour
@@ -42,6 +43,31 @@ public class TowerUpgradeMenu : MonoBehaviour
         Hide();
     }
    
+    public bool IsBasicTower(GameObject tower)
+    {
+        bool result = false;
+
+        if (tower != null)
+        {
+            if (tower.CompareTag("BasicTower"))
+            {
+                result = true;
+            }
+
+            if (tower.CompareTag("SniperTower"))
+            {
+                result = true;
+            }
+
+            if (tower.CompareTag("IceTower"))
+            {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
     public void SetCurrentTower(GameObject tower)
     {
         currentTower = tower;
