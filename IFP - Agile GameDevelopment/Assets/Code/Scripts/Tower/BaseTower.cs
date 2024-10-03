@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The base blass each tower inherits. 
+/// </summary>
 public abstract class BaseTower : MonoBehaviour
 {
     [SerializeField]
@@ -40,10 +43,14 @@ public abstract class BaseTower : MonoBehaviour
 
     protected abstract void TowerUpgrade();
 
+    /// <summary>
+    /// To be inplemented by children. Called once every action intervall.
+    /// </summary>
+    /// <returns></returns>
     protected abstract bool PerformAction();
 
     /// <summary>
-    /// Finds the best target to shoot. The best target is the one closest to its goal.
+    /// Finds the best target to shoot. The best target is the one closest to its path end.
     /// </summary>
     /// <param name="radius">The radius to search.</param>
     /// <returns>The found target. Null if no target was found.</returns>
@@ -73,6 +80,11 @@ public abstract class BaseTower : MonoBehaviour
         return bestTarget;
     }
 
+    /// <summary>
+    /// Gets all targets within the circular area defined by radius centered at tower.
+    /// </summary>
+    /// <param name="radius">The radius to use.</param>
+    /// <returns>List of enemies in area.</returns>
     protected Enemy[] FindAllTargets(float radius)
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
@@ -92,6 +104,11 @@ public abstract class BaseTower : MonoBehaviour
         return targets.ToArray();
     }
 
+    /// <summary>
+    /// Instantiates a bullet object to target the Enemy target.
+    /// </summary>
+    /// <param name="bulletPrefab">The bullet prefab to instantiate.</param>
+    /// <param name="target">The enemy to target.</param>
     protected void ShootBulletAtTarget(GameObject bulletPrefab, Enemy target)
     {
         GameObject bulletObject = Instantiate(bulletPrefab, transform.position, Quaternion.identity);

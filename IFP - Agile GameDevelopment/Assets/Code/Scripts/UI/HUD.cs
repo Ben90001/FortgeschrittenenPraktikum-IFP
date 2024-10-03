@@ -1,6 +1,9 @@
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Handles the in game HUD.
+/// </summary>
 public class HUD : MonoBehaviour
 {
     public GameObject DefeatScreen;
@@ -15,6 +18,11 @@ public class HUD : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI playerLivesUI;
 
+    /// <summary>
+    /// Update the HUD with new player information.
+    /// </summary>
+    /// <param name="currency">The player currency to display.</param>
+    /// <param name="playerLives">The player lives to display.</param>
     public void UpdateHUD(int currency, int playerLives)
     {
         if (currencyUI != null)
@@ -35,7 +43,12 @@ public class HUD : MonoBehaviour
             Debug.LogWarning("PlayerLives is null");
         }
     }
-
+    
+    /// <summary>
+    /// Display the Game Over screen.
+    /// </summary>
+    /// <param name="playerLives">The current player lives.</param>
+    /// <param name="bestTry">The players score.</param>
     public void ShowGameOverScreen(int playerLives, int bestTry)
     {
         Debug.Log("ShowGameOverScreen called");
@@ -68,6 +81,9 @@ public class HUD : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Toggle the pause game menu.
+    /// </summary>
     public void TogglePauseMenu()
     {
         if (GameIsPaused)

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Bullet script that is shot by towers at enemies.
+/// </summary>
 public class Bullet : MonoBehaviour
 {
     private Enemy target;

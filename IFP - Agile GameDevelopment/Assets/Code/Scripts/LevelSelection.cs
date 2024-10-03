@@ -1,16 +1,29 @@
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Assertions;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Static management of selected level to transfer information between scenes.
+/// </summary>
 public class LevelSelection : MonoBehaviour
 {
-    public static int LastLevelID = 8;
+    /// <summary>
+    /// The last level that exists.
+    /// </summary>
+    public static const int LastLevelID = 8;
 
+    /// <summary>
+    /// The currently loaded level.
+    /// </summary>
     public static GameObject LoadedLevel;
 
+    /// <summary>
+    /// Generates the level key from its ID.
+    /// </summary>
+    /// <param name="levelID">The level ID to load.</param>
+    /// <returns>The level key.</returns>
     public static string GetLevelKey(int levelID)
     {
         string result = "Assets/Prefabs/Levels/Level" + levelID.ToString() + ".prefab";
@@ -18,6 +31,11 @@ public class LevelSelection : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// Loads the addressable GameObject identified by key directly.
+    /// </summary>
+    /// <param name="key">The key to the GameObject</param>
+    /// <returns>The loaded GameObject</returns>
     public static GameObject LoadGameObject(string key)
     {
         AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(key);
@@ -27,6 +45,11 @@ public class LevelSelection : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// Loads the level identified by ID
+    /// </summary>
+    /// <param name="levelID">The level ID to load.</param>
+    /// <returns>The loaded level GameObject</returns>
     public static GameObject LoadLevel(int levelID)
     {
         string levelKey = GetLevelKey(levelID);
@@ -36,6 +59,10 @@ public class LevelSelection : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// Loads the level with ID and switches the level scene.
+    /// </summary>
+    /// <param name="levelID">The level ID to load.</param>
     public void LoadLevelAndSwitchScene(int levelID)
     {
         GameObject level = LoadLevel(levelID);
@@ -53,6 +80,9 @@ public class LevelSelection : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Loads the next level.
+    /// </summary>
     public void LoadNextLevel()
     {
         int oldLevelID = GetCurrentLevelID();
@@ -67,6 +97,9 @@ public class LevelSelection : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Restarts the current level.
+    /// </summary>
     public void RestartLevel()
     {
         int levelID = GetCurrentLevelID();

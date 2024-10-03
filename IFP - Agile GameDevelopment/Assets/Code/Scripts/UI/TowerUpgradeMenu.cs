@@ -1,6 +1,8 @@
-using GluonGui.Dialog;
 using UnityEngine;
 
+/// <summary>
+/// Menu to upgrade and sell towers.
+/// </summary>
 public class TowerUpgradeMenu : MonoBehaviour
 {
     [SerializeField]
@@ -18,6 +20,11 @@ public class TowerUpgradeMenu : MonoBehaviour
     private GameObject currentTower;
     private Vector3Int tilePosition;
 
+    /// <summary>
+    /// Show UI for selected tile. Also stores the selected tile for later.
+    /// </summary>
+    /// <param name="tilePosition">The tile position in grid.</param>
+    /// <param name="tileWorldPosition">The tile position in world.</param>
     public void ShowTowerTile(Vector3Int tilePosition, Vector3 tileWorldPosition)
     {
         this.tilePosition = tilePosition;
@@ -28,6 +35,9 @@ public class TowerUpgradeMenu : MonoBehaviour
         Time.timeScale = 0.0f;
     }
 
+    /// <summary>
+    /// Upgrade the tower at selected tile.
+    /// </summary>
     public void UpgradeTower()
     {
         if (currentTower != null)
@@ -43,6 +53,11 @@ public class TowerUpgradeMenu : MonoBehaviour
         Hide();
     }
    
+    /// <summary>
+    /// Checks if the tower is basic and can be upgraded.
+    /// </summary>
+    /// <param name="tower">The tower object to check.</param>
+    /// <returns>True if the tower is basic</returns>
     public bool IsBasicTower(GameObject tower)
     {
         bool result = false;
@@ -68,6 +83,10 @@ public class TowerUpgradeMenu : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// Selects the tower to be worked with in later calls.
+    /// </summary>
+    /// <param name="tower">The tower object to set.</param>
     public void SetCurrentTower(GameObject tower)
     {
         currentTower = tower;
@@ -106,6 +125,10 @@ public class TowerUpgradeMenu : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sells the selected tower.
+    /// </summary>
+    /// <param name="selectedtower">the tower to sell.</param>
     public void SellTower(GameObject selectedtower)
     {
         currentTower = selectedtower;
@@ -119,6 +142,9 @@ public class TowerUpgradeMenu : MonoBehaviour
         Hide();
     }
 
+    /// <summary>
+    /// Hides the current UI.
+    /// </summary>
     public void Hide()
     {
         gameObject.SetActive(false);

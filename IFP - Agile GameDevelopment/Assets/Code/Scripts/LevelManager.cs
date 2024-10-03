@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
@@ -124,6 +123,9 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Upgrade the previously selected tower.
+    /// </summary>
     public void UpgradeTower()
     {
         if (towerMenu.IsBasicTower(selectedTower))
@@ -135,6 +137,9 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sells the previously selected tower.
+    /// </summary>
     public void SellPlacedTower()
     {
         if (selectedTower != null)
@@ -153,11 +158,20 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Add amount to current player currency.
+    /// </summary>
+    /// <param name="amount">The amount to add.</param>
     public void IncreaseCurrency(int amount)
     {
         currency += amount;
     }
 
+    /// <summary>
+    /// Decrease the current player currency by amount.
+    /// </summary>
+    /// <param name="amount">The amount to decrease the player currency by.</param>
+    /// <returns>True if the player had enough currency to decrease by.</returns>
     public bool SpendCurrency(int amount)
     {
         if (amount <= currency)
@@ -172,6 +186,10 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the current instantiated level prefab.
+    /// </summary>
+    /// <returns></returns>
     public GameObject GetLevelInstance()
     {
         return levelInstance;

@@ -1,3 +1,6 @@
+/// <summary>
+/// Holds all relevant data to handle enemy spawning at a single spawn point.
+/// </summary>
 public struct EnemySpawner
 {
     private static readonly float SecondsBetweenWaves = 5.0f;
@@ -42,6 +45,11 @@ public struct EnemySpawner
         get { return currentWaveIndex; } 
     }
 
+    /// <summary>
+    /// Advance this spawners time.
+    /// </summary>
+    /// <param name="timeStep">Time to advance this spawners time by.</param>
+    /// <returns>True if the spawn should spawn an enemy.</returns>
     public bool Tick(float timeStep)
     {
         bool spawn = false;
@@ -65,11 +73,18 @@ public struct EnemySpawner
         return spawn;
     }
 
+    /// <summary>
+    /// Tells the spawner to start spawning enemies.
+    /// </summary>
     public void BeginSpawning()
     {
         StartSpawningCurrentWave();
     }
 
+    /// <summary>
+    /// Wait until all enemies are killed to advance to the next wave.
+    /// </summary>
+    /// <returns>True if the end of current wave condition is met.</returns>
     public bool WaitingForEndOfCurrentWave()
     {
         bool result = false;
@@ -82,11 +97,18 @@ public struct EnemySpawner
         return result;
     }
 
+    /// <summary>
+    /// Advance state to next wave.
+    /// </summary>
     public void CurrentWaveIsOver()
     {
         LoadNextWave();
     }
 
+    /// <summary>
+    /// Get this enemies random perpendicular offset.
+    /// </summary>
+    /// <returns>The calculated offset.</returns>
     public float GetNextEnemySpawnPositionOffset()
     {
         float result = (float)random.NextRange(-SpawnOffsetRange, SpawnOffsetRange);
@@ -94,6 +116,10 @@ public struct EnemySpawner
         return result;
     }
 
+    /// <summary>
+    /// Get the next enemy that should be spawned health.
+    /// </summary>
+    /// <returns>The next enemy health.</returns>
     public int GetNextEnemyHealth()
     {
         Wave wave = GetCurrentWave();
