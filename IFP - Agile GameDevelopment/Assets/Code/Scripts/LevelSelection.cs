@@ -12,7 +12,7 @@ public class LevelSelection : MonoBehaviour
     /// <summary>
     /// The last level that exists.
     /// </summary>
-    public static const int LastLevelID = 8;
+    public const int LastLevelID = 8;
 
     /// <summary>
     /// The currently loaded level.
