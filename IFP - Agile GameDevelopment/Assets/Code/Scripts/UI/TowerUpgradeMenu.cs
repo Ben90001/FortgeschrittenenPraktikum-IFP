@@ -93,7 +93,7 @@ public class TowerUpgradeMenu : MonoBehaviour
         
         if (currentTower != null)
         {
-            Debug.Log("Ausgewählter Turm: " + currentTower.name);
+            Debug.Log("Selected Tower: " + currentTower.name);
             
             if (currentTower.CompareTag("BasicTower"))
             {
@@ -121,7 +121,7 @@ public class TowerUpgradeMenu : MonoBehaviour
         }
         else
         {
-            Debug.LogError("SetCurrentTower wurde mit einem null-GameObject aufgerufen.");
+            Debug.LogError("SetCurrentTower called with null gameobject");
         }
     }
 
