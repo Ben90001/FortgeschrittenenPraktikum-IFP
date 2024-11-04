@@ -392,7 +392,7 @@ public class LevelManager : MonoBehaviour
         {
             TileBase tile = tilemap.GetTile(tilePosition);
 
-            if (tile == this.grass)
+            if (tile.name == this.grass.name)
             {
                 Vector3 tileWorldPosition = tilemap.GetCellCenterWorld(tilePosition);
 
